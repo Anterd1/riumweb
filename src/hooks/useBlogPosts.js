@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 
 export const useBlogPosts = (category = null) => {
   const [posts, setPosts] = useState([])
@@ -8,6 +8,15 @@ export const useBlogPosts = (category = null) => {
 
   useEffect(() => {
     const fetchPosts = async () => {
+      // Si Supabase no está configurado, no intentar cargar posts
+      if (!isSupabaseConfigured) {
+        console.warn('Supabase not configured. Blog posts will not be loaded.')
+        setPosts([])
+        setLoading(false)
+        setError('Supabase no está configurado')
+        return
+      }
+
       try {
         setLoading(true)
         setError(null)
@@ -30,6 +39,8 @@ export const useBlogPosts = (category = null) => {
       } catch (err) {
         console.error('Error fetching blog posts:', err)
         setError(err.message)
+        // No romper la app, solo mostrar posts vacíos
+        setPosts([])
       } finally {
         setLoading(false)
       }
