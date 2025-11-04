@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Save, ArrowLeft, Eye } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
+import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -14,6 +15,7 @@ const PostEditor = () => {
   const isEdit = !!id
   const navigate = useNavigate()
   const { toast } = useToast()
+  const { user } = useAuth()
   
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -29,10 +31,10 @@ const PostEditor = () => {
   })
 
   useEffect(() => {
-    if (isEdit) {
+    if (isEdit && user) {
       fetchPost()
     }
-  }, [id])
+  }, [id, user])
 
   const fetchPost = async () => {
     try {
@@ -43,6 +45,17 @@ const PostEditor = () => {
         .single()
 
       if (error) throw error
+
+      // Verificar que el usuario es el propietario del artículo
+      if (data.user_id && user && data.user_id !== user.id) {
+        toast({
+          title: 'Acceso denegado',
+          description: 'Solo puedes editar tus propios artículos',
+          variant: 'destructive',
+        })
+        navigate('/admin')
+        return
+      }
 
       setFormData({
         title: data.title || '',
@@ -68,6 +81,16 @@ const PostEditor = () => {
     e.preventDefault()
     setLoading(true)
 
+    if (!user) {
+      toast({
+        title: 'Error',
+        description: 'Debes estar autenticado para crear artículos',
+        variant: 'destructive',
+      })
+      setLoading(false)
+      return
+    }
+
     try {
       // Parse tags
       const tagsArray = formData.tags
@@ -85,6 +108,7 @@ const PostEditor = () => {
         tags: tagsArray,
         read_time: formData.read_time,
         published: formData.published,
+        user_id: user.id, // Asignar automáticamente al usuario actual
       }
 
       let error
@@ -131,7 +155,7 @@ const PostEditor = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-[#0C0D0D] text-white pt-24 pb-20">
+    <div className="admin-page min-h-screen bg-[#0C0D0D] text-white pt-24 pb-20">
       <SEO
         title={isEdit ? 'Editar Artículo - Admin' : 'Nuevo Artículo - Admin'}
         description="Editor de artículos del blog"

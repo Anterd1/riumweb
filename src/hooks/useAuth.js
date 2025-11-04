@@ -36,11 +36,36 @@ export const useAuth = () => {
   }, [])
 
   const signIn = async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-    return { data, error }
+    if (!isSupabaseConfigured) {
+      return { 
+        data: null, 
+        error: { message: 'Supabase no está configurado. Verifica las variables de entorno.' } 
+      }
+    }
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+      
+      if (error) {
+        console.error('Error en signIn:', error)
+        return { data: null, error }
+      }
+      
+      // Actualizar el estado inmediatamente después del login exitoso
+      if (data.session) {
+        setSession(data.session)
+        setUser(data.session.user)
+        setLoading(false)
+      }
+      
+      return { data, error: null }
+    } catch (err) {
+      console.error('Excepción en signIn:', err)
+      return { data: null, error: err }
+    }
   }
 
   const signOut = async () => {

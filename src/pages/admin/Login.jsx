@@ -19,26 +19,52 @@ const Login = () => {
     e.preventDefault()
     setLoading(true)
 
-    const { error } = await signIn(email, password)
+    try {
+      const { data, error } = await signIn(email, password)
 
-    if (error) {
+      if (error) {
+        console.error('Error de login:', error)
+        toast({
+          title: 'Error de autenticación',
+          description: error.message || 'No se pudo iniciar sesión. Verifica tus credenciales.',
+          variant: 'destructive',
+        })
+        setLoading(false)
+        return
+      }
+
+      // Si el login fue exitoso
+      if (data && data.session) {
+        toast({
+          title: '¡Bienvenido!',
+          description: 'Has iniciado sesión correctamente',
+        })
+        
+        // Esperar un momento para que el estado se actualice
+        setTimeout(() => {
+          navigate('/admin', { replace: true })
+        }, 300)
+      } else {
+        toast({
+          title: 'Error',
+          description: 'No se recibió respuesta del servidor',
+          variant: 'destructive',
+        })
+        setLoading(false)
+      }
+    } catch (err) {
+      console.error('Excepción en handleSubmit:', err)
       toast({
-        title: 'Error de autenticación',
-        description: error.message,
+        title: 'Error inesperado',
+        description: 'Ocurrió un error al intentar iniciar sesión',
         variant: 'destructive',
       })
       setLoading(false)
-    } else {
-      toast({
-        title: '¡Bienvenido!',
-        description: 'Has iniciado sesión correctamente',
-      })
-      navigate('/admin')
     }
   }
 
   return (
-    <div className="min-h-screen bg-[#0C0D0D] flex items-center justify-center p-6">
+    <div className="admin-page min-h-screen bg-[#0C0D0D] flex items-center justify-center p-6">
       <SEO
         title="Iniciar Sesión - Admin"
         description="Panel de administración de rium"

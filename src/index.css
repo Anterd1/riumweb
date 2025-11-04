@@ -66,3 +66,31 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* Mostrar cursor normal en páginas de admin */
+.admin-page,
+.admin-page * {
+  cursor: auto !important;
+}
+
+.admin-page a,
+.admin-page button,
+.admin-page input,
+.admin-page textarea,
+.admin-page select {
+  cursor: pointer !important;
+}
+
+.admin-page input[type="text"],
+.admin-page input[type="email"],
+.admin-page input[type="password"],
+.admin-page input[type="number"],
+.admin-page textarea {
+  cursor: text !important;
+}
+
+.admin-page button:disabled,
+.admin-page input:disabled,
+.admin-page textarea:disabled {
+  cursor: not-allowed !important;
+}
