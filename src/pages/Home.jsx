@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import SEO from '@/components/SEO';
 import Hero from '@/components/Hero';
 import TrustedClients from '@/components/TrustedClients';
 import Services from '@/components/Services';
@@ -13,10 +13,12 @@ import SectionAnimator from '@/components/SectionAnimator';
 const Home = () => {
   return (
     <>
-      <Helmet>
-        <title>Creative Agency - Transform Your Brand</title>
-        <meta name="description" content="Award-winning marketing agency specializing in digital marketing, brand strategy, and creative solutions that drive results." />
-      </Helmet>
+      <SEO
+        title="Inicio"
+        description="Agencia de diseño UI/UX en Latinoamérica especializada en marketing digital, estrategia de marca y soluciones creativas que generan resultados. Transforma tu marca con nosotros."
+        keywords="diseño UI/UX, agencia creativa, marketing digital, diseño web, branding, desarrollo web, Latinoamérica, agencia de diseño"
+        url="https://rium.com/"
+      />
       <Hero />
       <SectionAnimator><TrustedClients /></SectionAnimator>
       <SectionAnimator><Services /></SectionAnimator>

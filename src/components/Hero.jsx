@@ -45,8 +45,7 @@ const Hero = () => {
             transition={{ duration: 0.8 }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-accent-purple/10 border border-accent-purple/20 rounded-full mb-8"
           >
-            <Sparkles className="w-4 h-4 text-accent-purple" />
-            <span className="text-sm text-blue-300 uppercase">Award-Winning Creative Agency</span>
+            <span className="text-sm text-blue-300 uppercase">Si puedes imaginarlo, podemos crearlo</span>
           </motion.div>
 
           <motion.h1
@@ -55,7 +54,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight text-white uppercase"
           >
-            Agencia de Diseño UI/UX en 
+            Somos la agencia de Diseño UI/UX en 
             <span className="block text-accent-purple">Latinoamerica</span>
           </motion.h1>
 
@@ -79,7 +78,7 @@ const Hero = () => {
               size="lg"
               className="bg-accent-purple hover:bg-accent-purple/90 text-white font-bold px-8 py-6 text-lg rounded-full group"
             >
-              Let's Talk
+              Hablemos
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button
@@ -88,7 +87,7 @@ const Hero = () => {
               variant="outline"
               className="border-2 border-accent-purple/40 hover:bg-accent-purple/10 text-white px-8 py-6 text-lg rounded-full"
             >
-              View Our Work
+              Ver Nuestro Trabajo
             </Button>
           </motion.div>
         </div>

@@ -3,23 +3,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react'; // Changed import from ArrowRight, ArrowDownRight to Plus
 
 const services = [{
-  title: 'Digital Marketing',
-  description: 'Data-driven campaigns that amplify your reach and maximize ROI across all digital channels.'
+  title: 'Marketing Digital',
+  description: 'Campañas basadas en datos que amplifican tu alcance y maximizan el ROI en todos los canales digitales.'
 }, {
-  title: 'Brand Strategy',
-  description: 'Comprehensive brand positioning and strategy that resonates with your target audience.'
+  title: 'Estrategia de Marca',
+  description: 'Posicionamiento y estrategia de marca integral que resuena con tu audiencia objetivo.'
 }, {
-  title: 'Social Media Management',
-  description: 'Engaging content and community management that builds authentic connections.'
+  title: 'Gestión de Redes Sociales',
+  description: 'Contenido atractivo y gestión de comunidad que construye conexiones auténticas.'
 }, {
   title: 'SEO/SEM',
-  description: 'Strategic optimization and paid search campaigns that drive qualified traffic.'
+  description: 'Optimización estratégica y campañas de búsqueda pagada que generan tráfico calificado.'
 }, {
-  title: 'Content Creation',
-  description: 'Compelling storytelling through video, photography, and written content.'
+  title: 'Creación de Contenido',
+  description: 'Narrativa convincente a través de video, fotografía y contenido escrito.'
 }, {
-  title: 'Web Design',
-  description: 'Beautiful, user-centric websites that convert visitors into customers.'
+  title: 'Diseño Web',
+  description: 'Sitios web hermosos y centrados en el usuario que convierten visitantes en clientes.'
 }];
 
 const Services = () => {
@@ -36,13 +36,13 @@ const Services = () => {
       <div className="container mx-auto px-6 relative z-10">
         <div className="mb-16">
           <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight text-white uppercase">
-            OUR <span className="text-accent-purple">SERVICES</span>
+            Nuestros <span className="text-accent-purple">Servicios</span>
           </h2>
-          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mt-4">Explore the world through the lens of our visual capabilities, and find what you love.</p>
+          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mt-4">Explora el mundo a través de nuestras capacidades visuales y encuentra lo que amas.</p>
           <div className="flex flex-wrap gap-3 mt-8">
             {filterTags.map(tag => (
               <button key={tag} className="px-5 py-2 border border-gray-600 rounded-full text-gray-400 cursor-default uppercase">
-                {tag}
+                {tag === 'Design' ? 'Diseño' : tag === 'Development' ? 'Desarrollo' : tag === 'Digital Marketing' ? 'Marketing Digital' : tag === 'SEO' ? 'SEO' : tag}
               </button>
             ))}
           </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Helmet } from 'react-helmet';
+import SEO from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -32,10 +32,12 @@ const Contact = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Contact Us - Creative Agency</title>
-        <meta name="description" content="Get in touch with our creative agency. We'd love to hear from you and discuss how we can help transform your brand." />
-      </Helmet>
+      <SEO
+        title="Contacto"
+        description="Ponte en contacto con nuestra agencia creativa. Nos encantaría escucharte y discutir cómo podemos ayudar a transformar tu marca. Contáctanos hoy."
+        keywords="contacto agencia creativa, consulta diseño, contacto marketing digital, agencia diseño UI/UX"
+        url="https://rium.com/contact"
+      />
       
       <motion.div
         initial={{ opacity: 0 }}

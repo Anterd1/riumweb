@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import SEO from '@/components/SEO';
 import { motion } from 'framer-motion';
 import Stats from '@/components/Stats';
 import SectionAnimator from '@/components/SectionAnimator';
@@ -190,10 +190,13 @@ const Project = () => {
   }, [projectId]);
 
   return <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition} className="bg-[#0C0D0D] text-white">
-      <Helmet>
-        <title>{project.title} - Project Showcase</title>
-        <meta name="description" content={`Details of the ${project.title} project, showcasing our creative solutions and results.`} />
-      </Helmet>
+      <SEO
+        title={project.title}
+        description={project.description}
+        keywords={`${project.title}, diseño UI/UX, proyecto ${project.category.toLowerCase()}, portafolio agencia creativa`}
+        url={`https://rium.com/project/${projectId}`}
+        type="article"
+      />
 
       <main>
         {/* Top Section */}
