@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight, Tag, Loader2 } from 'lucide-react';
 import SEO from '@/components/SEO';
@@ -117,13 +118,17 @@ const Blog = () => {
                   {posts.map((post, index) => {
                     const postTags = parseTags(post.tags);
                     return (
-                <motion.article
+                <Link
                   key={post.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-[#1E1E2A] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-accent-purple/10 transition-all duration-300 group cursor-pointer"
+                  to={`/blog/${post.id}`}
+                  className="block"
                 >
+                  <motion.article
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="bg-[#1E1E2A] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-accent-purple/10 transition-all duration-300 group cursor-pointer h-full"
+                  >
                   {/* Image */}
                   <div className="relative h-48 overflow-hidden">
                     <img
@@ -183,18 +188,16 @@ const Blog = () => {
                     </div>
 
                     {/* Read More */}
-                    <Button
-                      variant="ghost"
-                      className="w-full text-accent-purple hover:text-white hover:bg-accent-purple/10 rounded-full group/btn"
-                    >
+                    <div className="w-full text-accent-purple hover:text-white hover:bg-accent-purple/10 rounded-full group/btn flex items-center justify-center py-2 px-4 transition-colors">
                       Leer más
                       <ArrowRight 
                         size={16} 
                         className="ml-2 group-hover/btn:translate-x-1 transition-transform" 
                       />
-                    </Button>
+                    </div>
                   </div>
                 </motion.article>
+                </Link>
                     );
                   })}
                 </div>
