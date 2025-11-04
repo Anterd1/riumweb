@@ -17,7 +17,7 @@ const Home = () => {
         title="Inicio"
         description="Agencia de diseño UI/UX en Latinoamérica especializada en diseño de interfaces, auditorías UX, investigación de mercado, arquitectura de información, wireframes, pruebas de usabilidad, user personas, journey mapping, card sorting, pruebas A/B y más servicios de experiencia de usuario."
         keywords="diseño UI/UX, agencia creativa, marketing digital, diseño web, branding, desarrollo web, Latinoamérica, agencia de diseño, consultoría UX, consultoría experiencia de usuario, auditoría UX, auditoría experiencia de usuario, evaluaciones heurísticas, evaluación heurística UX, investigación de mercado, arquitectura de información, wireframes, diseño de interfaces, pruebas de usabilidad, user personas, journey mapping, card sorting, pruebas A/B, focus groups, análisis de competidores, benchmark, diseño responsivo, aplicaciones móviles, accesibilidad web, sistemas de diseño, UX writing, pruebas remotas moderadas, pruebas remotas no moderadas, auditorías de accesibilidad, análisis técnico UX, análisis de rendimiento, análisis de embudo de ventas, entrevistas de usuarios, encuestas usuarios, cuestionarios, análisis de tendencias"
-        url="https://rium.com/"
+        url="https://rium.com.mx/"
       />
       <Hero />
       <SectionAnimator><TrustedClients /></SectionAnimator>

@@ -194,7 +194,7 @@ const Project = () => {
         title={project.title}
         description={project.description}
         keywords={`${project.title}, diseño UI/UX, proyecto ${project.category.toLowerCase()}, portafolio agencia creativa`}
-        url={`https://rium.com/project/${projectId}`}
+        url={`https://rium.com.mx/project/${projectId}`}
         type="article"
       />
 

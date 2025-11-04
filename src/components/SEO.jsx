@@ -12,16 +12,16 @@ const SEO = ({
   siteName = 'rium - Agencia Creativa',
 }) => {
   const location = useLocation();
-  const currentUrl = url || `https://rium.com${location.pathname}`;
-  const fullImageUrl = image.startsWith('http') ? image : `https://rium.com${image}`;
+  const currentUrl = url || `https://rium.com.mx${location.pathname}`;
+  const fullImageUrl = image.startsWith('http') ? image : `https://rium.com.mx${image}`;
 
   // Structured Data (JSON-LD) - Organization
   const organizationData = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: siteName,
-    url: 'https://rium.com',
-    logo: 'https://rium.com/images/HERO.png',
+    url: 'https://rium.com.mx',
+    logo: 'https://rium.com.mx/images/HERO.png',
     description: 'Agencia de diseño UI/UX en Latinoamérica especializada en diseño de interfaces, auditorías UX, investigación de mercado, arquitectura de información, wireframes, pruebas de usabilidad, user personas, journey mapping, card sorting, pruebas A/B, focus groups, análisis de competidores y más servicios de experiencia de usuario.',
     sameAs: [
       'https://github.com',
@@ -48,7 +48,7 @@ const SEO = ({
     isPartOf: {
       '@type': 'WebSite',
       name: siteName,
-      url: 'https://rium.com',
+      url: 'https://rium.com.mx',
     },
   };
 
@@ -60,7 +60,7 @@ const SEO = ({
     provider: {
       '@type': 'Organization',
       name: siteName,
-      url: 'https://rium.com',
+      url: 'https://rium.com.mx',
     },
     areaServed: 'Latinoamérica',
     description: 'Servicios de diseño UI/UX, auditorías UX, investigación de mercado, arquitectura de información, wireframes, pruebas de usabilidad, user personas, journey mapping y más.',

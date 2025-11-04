@@ -19,10 +19,11 @@ const Header = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '/', id: 'home' },
-    { name: 'Services', href: '/#services', id: 'services' },
-    { name: 'Portfolio', href: '/#portfolio', id: 'portfolio' },
-    { name: 'About', href: '/#about', id: 'about' },
+    { name: 'Inicio', href: '/', id: 'home' },
+    { name: 'Servicios', href: '/#services', id: 'services' },
+    { name: 'Portafolio', href: '/#portfolio', id: 'portfolio' },
+    { name: 'Acerca', href: '/#about', id: 'about' },
+    { name: 'Blog', href: '/blog', id: 'blog' },
   ];
 
   const handleNavClick = (e, href) => {
@@ -88,7 +89,7 @@ const Header = () => {
               size="sm"
               className="bg-accent-purple hover:bg-accent-purple/90 text-white rounded-full px-6"
             >
-              Contact
+              Contacto
             </Button>
           </div>
 
@@ -133,7 +134,7 @@ const Header = () => {
                   }}
                   className="w-full bg-accent-purple hover:bg-accent-purple/90 text-white rounded-full"
                 >
-                  Contact
+                  Contacto
                 </Button>
               </div>
             </motion.div>

@@ -36,7 +36,7 @@ const Contact = () => {
         title="Contacto"
         description="Ponte en contacto con nuestra agencia creativa especializada en diseño UI/UX, auditorías UX, investigación de mercado, arquitectura de información, wireframes, pruebas de usabilidad y más servicios de experiencia de usuario."
         keywords="contacto agencia creativa, consulta diseño, contacto marketing digital, agencia diseño UI/UX, consultoría UX, experiencia de usuario, auditoría UX, evaluaciones heurísticas, contacto diseño interfaces, contacto auditoría UX, contacto investigación mercado, cotización diseño UI/UX, presupuesto UX"
-        url="https://rium.com/contact"
+        url="https://rium.com.mx/contact"
       />
       
       <motion.div

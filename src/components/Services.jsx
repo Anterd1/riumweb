@@ -50,9 +50,6 @@ const services = [{
   title: 'SEO/SEM',
   description: 'Optimización estratégica y campañas de búsqueda pagada que generan tráfico calificado.'
 }, {
-  title: 'Creación de Contenido',
-  description: 'Narrativa convincente a través de video, fotografía y contenido escrito.'
-}, {
   title: 'Diseño Web',
   description: 'Sitios web hermosos y centrados en el usuario que convierten visitantes en clientes.'
 }];
