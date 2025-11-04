@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Save, ArrowLeft, Eye } from 'lucide-react'
+import { Save, ArrowLeft, Eye, Upload, X, Loader2 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
@@ -16,8 +16,11 @@ const PostEditor = () => {
   const navigate = useNavigate()
   const { toast } = useToast()
   const { user } = useAuth()
+  const fileInputRef = useRef(null)
   
   const [loading, setLoading] = useState(false)
+  const [uploadingImage, setUploadingImage] = useState(false)
+  const [imagePreview, setImagePreview] = useState(null)
   const [formData, setFormData] = useState({
     title: '',
     excerpt: '',
@@ -68,12 +71,103 @@ const PostEditor = () => {
         read_time: data.read_time || '5 min',
         published: data.published || false,
       })
+      // Establecer preview si hay imagen
+      if (data.image) {
+        setImagePreview(data.image)
+      }
     } catch (error) {
       toast({
         title: 'Error',
         description: error.message,
         variant: 'destructive',
       })
+    }
+  }
+
+  const handleImageUpload = async (event) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    // Validar tipo de archivo
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: 'Error',
+        description: 'Por favor selecciona un archivo de imagen válido',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    // Validar tamaño (máximo 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: 'Error',
+        description: 'La imagen es demasiado grande. Máximo 5MB',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    if (!user) {
+      toast({
+        title: 'Error',
+        description: 'Debes estar autenticado para subir imágenes',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    setUploadingImage(true)
+
+    try {
+      // Crear nombre único para el archivo
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${user.id}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`
+      
+      // Subir imagen a Supabase Storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('blog-images')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: false
+        })
+
+      if (uploadError) throw uploadError
+
+      // Obtener URL pública de la imagen
+      const { data: { publicUrl } } = supabase.storage
+        .from('blog-images')
+        .getPublicUrl(fileName)
+
+      // Actualizar estado del formulario con la nueva URL
+      setFormData({ ...formData, image: publicUrl })
+      setImagePreview(publicUrl)
+
+      toast({
+        title: 'Imagen subida',
+        description: 'La imagen se ha subido correctamente',
+      })
+    } catch (error) {
+      console.error('Error uploading image:', error)
+      toast({
+        title: 'Error al subir imagen',
+        description: error.message || 'No se pudo subir la imagen',
+        variant: 'destructive',
+      })
+    } finally {
+      setUploadingImage(false)
+      // Limpiar el input file
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
+    }
+  }
+
+  const handleRemoveImage = () => {
+    setFormData({ ...formData, image: '' })
+    setImagePreview(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
     }
   }
 
@@ -258,17 +352,78 @@ const PostEditor = () => {
               </select>
             </div>
 
-            {/* Image URL */}
+            {/* Image Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                URL de Imagen
+                Imagen del Artículo
               </label>
-              <Input
-                value={formData.image}
-                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                placeholder="https://images.unsplash.com/..."
-                className="bg-[#0C0D0D] border-white/10 text-white"
-              />
+              
+              {/* Preview de imagen */}
+              {imagePreview && (
+                <div className="relative mb-4 rounded-lg overflow-hidden border border-white/10">
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="w-full h-64 object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleRemoveImage}
+                    className="absolute top-2 right-2 bg-red-500/80 hover:bg-red-500 text-white p-2 rounded-full transition-colors"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              )}
+
+              {/* Input para subir archivo */}
+              <div className="space-y-2">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                  id="image-upload"
+                  disabled={uploadingImage}
+                />
+                <label
+                  htmlFor="image-upload"
+                  className={`flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+                    uploadingImage
+                      ? 'border-gray-500 cursor-not-allowed'
+                      : 'border-white/20 hover:border-accent-purple/50'
+                  }`}
+                >
+                  {uploadingImage ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin text-accent-purple" />
+                      <span className="text-gray-400">Subiendo imagen...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="h-5 w-5 text-gray-400" />
+                      <span className="text-gray-400">
+                        {imagePreview ? 'Cambiar imagen' : 'Subir imagen desde tu dispositivo'}
+                      </span>
+                    </>
+                  )}
+                </label>
+              </div>
+
+              {/* Input para URL manual (opcional) */}
+              <div className="mt-4">
+                <p className="text-xs text-gray-500 mb-2">O ingresa una URL manualmente:</p>
+                <Input
+                  value={formData.image}
+                  onChange={(e) => {
+                    setFormData({ ...formData, image: e.target.value })
+                    setImagePreview(e.target.value || null)
+                  }}
+                  placeholder="https://images.unsplash.com/..."
+                  className="bg-[#0C0D0D] border-white/10 text-white"
+                />
+              </div>
             </div>
 
             {/* Tags */}

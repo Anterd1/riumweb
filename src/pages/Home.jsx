@@ -7,6 +7,7 @@ import About from '@/components/About';
 import Portfolio from '@/components/Portfolio';
 import Testimonials from '@/components/Testimonials';
 import Stats from '@/components/Stats';
+import SectionBlog from '@/components/SectionBlog';
 import CTA from '@/components/CTA';
 import SectionAnimator from '@/components/SectionAnimator';
 
@@ -26,6 +27,7 @@ const Home = () => {
       <SectionAnimator><Portfolio /></SectionAnimator>
       <SectionAnimator><Testimonials /></SectionAnimator>
       <SectionAnimator><Stats /></SectionAnimator>
+      <SectionBlog />
       <SectionAnimator><CTA /></SectionAnimator>
     </>
   );
