@@ -73,12 +73,12 @@ const Stats = ({ customStats }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             <div>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase">
-                OUR <span className="text-accent-purple">RESULTS</span>
+                NUESTROS <span className="text-accent-purple">RESULTADOS</span>
               </h2>
             </div>
             <div className="flex items-end">
               <p className="text-lg text-gray-400 max-w-md">
-                Tangible results, not empty claims — we build efficient AI tools that scale, optimize, and save valuable hours.
+                Resultados tangibles, no promesas vacías — construimos herramientas eficientes que escalan, optimizan y ahorran horas valiosas.
               </p>
             </div>
           </div>
@@ -87,7 +87,7 @@ const Stats = ({ customStats }) => {
         {isProjectPage && (
             <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase">
-                    Project <span className="text-accent-purple">Impact</span>
+                    Impacto del <span className="text-accent-purple">Proyecto</span>
                 </h2>
             </div>
         )}

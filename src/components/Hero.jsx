@@ -8,10 +8,6 @@ import AnimatedHeroBackground from '@/components/AnimatedHeroBackground';
 const Hero = () => {
   const navigate = useNavigate();
   
-  // URL de la imagen de fondo - Coloca tu imagen en public/images/hero-bg.jpg
-  // O usa una URL externa si prefieres
-  const heroBackgroundImage = '/images/HERO.png';
-  
   const handleCTAClick = () => {
     navigate('/contact');
   };
@@ -25,13 +21,16 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: heroBackgroundImage ? `url(${heroBackgroundImage})` : 'none',
-        }}
-      />
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src="/video/videocover.mp4" type="video/mp4" />
+      </video>
       {/* Overlay para mejor legibilidad del texto */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/80"></div>
       {/* Animated Background Elements */}

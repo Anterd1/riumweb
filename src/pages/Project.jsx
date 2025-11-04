@@ -240,11 +240,11 @@ const Project = () => {
             <section className="py-16">
                 <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-start">
                     <div>
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6">The Challenge</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-6">El Desafío</h2>
                         <p className="text-lg text-gray-400">{project.challenge}</p>
                     </div>
                      <div>
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6">The Solution</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-6">La Solución</h2>
                         <p className="text-lg text-gray-400">{project.solution}</p>
                     </div>
                 </div>
@@ -267,11 +267,11 @@ const Project = () => {
         <SectionAnimator>
             <section className="py-24 text-center">
                 <div className="container mx-auto px-6">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Work Together?</h2>
-                    <p className="text-lg text-gray-400 mb-8">Let's discuss your next big idea and how we can bring it to life.</p>
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4">¿Listo para Trabajar Juntos?</h2>
+                    <p className="text-lg text-gray-400 mb-8">Hablemos sobre tu próxima gran idea y cómo podemos hacerla realidad.</p>
                      <Button asChild size="lg" className="bg-accent-purple text-white hover:bg-accent-purple/90 group rounded-full text-lg py-7 px-10">
                         <Link to="/contact">
-                            Let's Talk <ArrowRight className="ml-2 h-5 w-5 transform transition-transform duration-300 group-hover:translate-x-1" />
+                            Hablemos <ArrowRight className="ml-2 h-5 w-5 transform transition-transform duration-300 group-hover:translate-x-1" />
                         </Link>
                     </Button>
                 </div>

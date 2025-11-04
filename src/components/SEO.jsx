@@ -22,7 +22,7 @@ const SEO = ({
     name: siteName,
     url: 'https://rium.com',
     logo: 'https://rium.com/images/HERO.png',
-    description: 'Agencia de diseño UI/UX en Latinoamérica especializada en marketing digital, estrategia de marca y soluciones creativas.',
+    description: 'Agencia de diseño UI/UX en Latinoamérica especializada en diseño de interfaces, auditorías UX, investigación de mercado, arquitectura de información, wireframes, pruebas de usabilidad, user personas, journey mapping, card sorting, pruebas A/B, focus groups, análisis de competidores y más servicios de experiencia de usuario.',
     sameAs: [
       'https://github.com',
       'https://twitter.com',
@@ -51,6 +51,43 @@ const SEO = ({
       url: 'https://rium.com',
     },
   };
+
+  // Structured Data for Services (if on homepage)
+  const servicesData = location.pathname === '/' ? {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: 'Diseño UI/UX y Experiencia de Usuario',
+    provider: {
+      '@type': 'Organization',
+      name: siteName,
+      url: 'https://rium.com',
+    },
+    areaServed: 'Latinoamérica',
+    description: 'Servicios de diseño UI/UX, auditorías UX, investigación de mercado, arquitectura de información, wireframes, pruebas de usabilidad, user personas, journey mapping y más.',
+    offers: {
+      '@type': 'Offer',
+      itemOffered: [
+        'Diseño UI/UX',
+        'Auditorías UX',
+        'Investigación de mercado',
+        'Arquitectura de información',
+        'Wireframes',
+        'Pruebas de usabilidad',
+        'User Personas',
+        'Journey Mapping',
+        'Card Sorting',
+        'Pruebas A/B',
+        'Focus Groups',
+        'Análisis de competidores',
+        'Diseño responsivo',
+        'Aplicaciones móviles',
+        'Accesibilidad web',
+        'Sistemas de diseño',
+        'UX Writing',
+        'Evaluación heurística',
+      ],
+    },
+  } : null;
 
   return (
     <Helmet>
@@ -90,6 +127,11 @@ const SEO = ({
       <script type="application/ld+json">
         {JSON.stringify(webpageData)}
       </script>
+      {servicesData && (
+        <script type="application/ld+json">
+          {JSON.stringify(servicesData)}
+        </script>
+      )}
     </Helmet>
   );
 };

@@ -2,14 +2,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const clientLogos = [
-  { name: 'InnovateCore', description: 'Placeholder for InnovateCore' },
-  { name: 'QuantumLeap', description: 'Placeholder for QuantumLeap' },
-  { name: 'AuraFlow', description: 'Placeholder for AuraFlow' },
-  { name: 'NexusGen', description: 'Placeholder for NexusGen' },
-  { name: 'SparkSolutions', description: 'Placeholder for SparkSolutions' },
-  { name: 'VortexLabs', description: 'Placeholder for VortexLabs' },
-  { name: 'EchoBridge', description: 'Placeholder for EchoBridge' },
-  { name: 'ZenithWorks', description: 'Placeholder for ZenithWorks' },
+  { name: 'BBVA', description: 'Placeholder for InnovateCore' },
+  { name: 'Grupo Salinas', description: 'Placeholder for QuantumLeap' },
+  { name: 'Televisa N+', description: 'Placeholder for AuraFlow' },
+  { name: 'Expansive', description: 'Placeholder for NexusGen' },
+  { name: 'SegurosGCP', description: 'Placeholder for SparkSolutions' },
+  { name: 'LaPuerta De Quetzalcoatl', description: 'Placeholder for VortexLabs' },
+  { name: 'Harinas Elizondo ', description: 'Placeholder for EchoBridge' },
+  { name: 'Fundación Dondé', description: 'Placeholder for ZenithWorks' },
 ];
 
 const marqueeLogos = [...clientLogos, ...clientLogos]; // Duplicate for seamless loop
@@ -32,7 +32,7 @@ const TrustedClients = () => {
   return (
     <section className="py-20 bg-[#0C0D0D] border-t border-b border-[#1E1E2A] overflow-hidden">
       <div className="container mx-auto px-6 text-center">
-        <p className="text-lg text-gray-400 mb-12 uppercase">Confían en nosotros más de 13 empresas en todo latinoamerica</p>
+        <p className="text-lg text-gray-400 mb-12 uppercase">Hemos trabajado con más de 13 empresas en todo latinoamerica</p>
         <div className="relative w-full">
           <motion.div className="flex" variants={marqueeVariants} animate="animate">
             {marqueeLogos.map((logo, index) => (

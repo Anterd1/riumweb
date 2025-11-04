@@ -17,8 +17,8 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     toast({
-      title: 'Thank you!',
-      description: 'Your message has been sent successfully. We\'ll get back to you soon!',
+      title: '¡Gracias!',
+      description: 'Tu mensaje ha sido enviado exitosamente. ¡Te responderemos pronto!',
     });
     setFormData({ name: '', email: '', message: '' });
   };
@@ -34,8 +34,8 @@ const Contact = () => {
     <>
       <SEO
         title="Contacto"
-        description="Ponte en contacto con nuestra agencia creativa. Nos encantaría escucharte y discutir cómo podemos ayudar a transformar tu marca. Contáctanos hoy."
-        keywords="contacto agencia creativa, consulta diseño, contacto marketing digital, agencia diseño UI/UX"
+        description="Ponte en contacto con nuestra agencia creativa especializada en diseño UI/UX, auditorías UX, investigación de mercado, arquitectura de información, wireframes, pruebas de usabilidad y más servicios de experiencia de usuario."
+        keywords="contacto agencia creativa, consulta diseño, contacto marketing digital, agencia diseño UI/UX, consultoría UX, experiencia de usuario, auditoría UX, evaluaciones heurísticas, contacto diseño interfaces, contacto auditoría UX, contacto investigación mercado, cotización diseño UI/UX, presupuesto UX"
         url="https://rium.com/contact"
       />
       
@@ -55,10 +55,10 @@ const Contact = () => {
               className="text-center mb-16"
             >
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 uppercase">
-                Let's <span className="text-accent-purple">Connect</span>
+                Conectemos
               </h1>
               <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-                Have a project in mind? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+                ¿Tienes un proyecto en mente? Nos encantaría escucharte. Envíanos un mensaje y te responderemos lo antes posible.
               </p>
             </motion.div>
 
@@ -71,9 +71,9 @@ const Contact = () => {
                 className="space-y-8"
               >
                 <div>
-                  <h2 className="text-2xl font-bold mb-6">Get in Touch</h2>
+                  <h2 className="text-2xl font-bold mb-6">Ponte en Contacto</h2>
                   <p className="text-gray-400 mb-8">
-                    We're here to help and answer any question you might have. We look forward to hearing from you.
+                    Estamos aquí para ayudarte y responder cualquier pregunta que tengas. Esperamos saber de ti.
                   </p>
                 </div>
 
@@ -83,7 +83,7 @@ const Contact = () => {
                       <Mail className="w-5 h-5 text-accent-purple" />
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-1">Email</h3>
+                      <h3 className="font-semibold mb-1">Correo</h3>
                       <p className="text-gray-400">hello@agency.com</p>
                     </div>
                   </div>
@@ -93,7 +93,7 @@ const Contact = () => {
                       <Phone className="w-5 h-5 text-accent-purple" />
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-1">Phone</h3>
+                      <h3 className="font-semibold mb-1">Teléfono</h3>
                       <p className="text-gray-400">+1 (555) 123-4567</p>
                     </div>
                   </div>
@@ -103,7 +103,7 @@ const Contact = () => {
                       <MapPin className="w-5 h-5 text-accent-purple" />
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-1">Address</h3>
+                      <h3 className="font-semibold mb-1">Dirección</h3>
                       <p className="text-gray-400">123 Creative Street, Design City, DC 12345</p>
                     </div>
                   </div>
@@ -118,7 +118,7 @@ const Contact = () => {
               >
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <Input
-                    label="Name"
+                    label="Nombre"
                     name="name"
                     type="text"
                     value={formData.name}
@@ -138,7 +138,7 @@ const Contact = () => {
                   />
                   
                   <Textarea
-                    label="Message"
+                    label="Mensaje"
                     name="message"
                     rows={6}
                     value={formData.message}
@@ -152,7 +152,7 @@ const Contact = () => {
                     size="lg"
                     className="w-full bg-accent-purple hover:bg-accent-purple/90 text-white font-bold rounded-full group"
                   >
-                    Send Message
+                    Enviar Mensaje
                     <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </form>
