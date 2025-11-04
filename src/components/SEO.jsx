@@ -23,17 +23,19 @@ const SEO = ({
     url: 'https://rium.com.mx',
     logo: 'https://rium.com.mx/images/HERO.png',
     description: 'Agencia de diseño UI/UX en Latinoamérica especializada en diseño de interfaces, auditorías UX, investigación de mercado, arquitectura de información, wireframes, pruebas de usabilidad, user personas, journey mapping, card sorting, pruebas A/B, focus groups, análisis de competidores y más servicios de experiencia de usuario.',
+    // TODO: Actualizar con tus redes sociales reales
     sameAs: [
-      'https://github.com',
-      'https://twitter.com',
-      'https://linkedin.com',
-      'https://instagram.com',
+      // 'https://github.com/tu-usuario',
+      // 'https://twitter.com/tu-usuario',
+      // 'https://linkedin.com/company/tu-empresa',
+      // 'https://instagram.com/tu-usuario',
     ],
+    // TODO: Actualizar con tus datos de contacto reales
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: '+1-555-123-4567',
+      // telephone: '+52-XXX-XXX-XXXX', // Actualizar con tu teléfono
       contactType: 'customer service',
-      email: 'hello@agency.com',
+      // email: 'contacto@rium.com.mx', // Actualizar con tu email
     },
   };
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Helmet } from 'react-helmet'
 import { Calendar, Clock, ArrowLeft, Tag } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
@@ -95,6 +95,35 @@ const BlogPost = () => {
 
   const postTags = parseTags(post.tags)
 
+  // Structured Data para BlogPosting
+  const blogPostingData = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt,
+    image: post.image ? (post.image.startsWith('http') ? post.image : `https://rium.com.mx${post.image}`) : undefined,
+    datePublished: post.created_at,
+    dateModified: post.updated_at || post.created_at,
+    author: {
+      '@type': 'Person',
+      name: post.author || 'Equipo rium',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'rium - Agencia Creativa',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://rium.com.mx/images/HERO.png',
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://rium.com.mx/blog/${id}`,
+    },
+    articleSection: post.category,
+    keywords: postTags.length > 0 ? postTags.join(', ') : post.category,
+  }
+
   return (
     <div className="bg-[#0C0D0D] text-white min-h-screen pt-24">
       <SEO
@@ -105,6 +134,11 @@ const BlogPost = () => {
         type="article"
         image={post.image}
       />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(blogPostingData)}
+        </script>
+      </Helmet>
 
       <main>
         {/* Header */}

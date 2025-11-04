@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { ArrowRight, Mail, Phone, MapPin } from 'lucide-react';
+import { ArrowRight, Mail, Phone } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
 
 const Contact = () => {
@@ -84,7 +84,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">Correo</h3>
-                      <p className="text-gray-400">hello@agency.com</p>
+                      <p className="text-gray-400">hectorhugo359@gmail.com</p>
                     </div>
                   </div>
 
@@ -94,17 +94,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">Teléfono</h3>
-                      <p className="text-gray-400">+1 (555) 123-4567</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-accent-purple/10 rounded-lg">
-                      <MapPin className="w-5 h-5 text-accent-purple" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Dirección</h3>
-                      <p className="text-gray-400">123 Creative Street, Design City, DC 12345</p>
+                      <p className="text-gray-400">+52 5567748659</p>
                     </div>
                   </div>
                 </div>

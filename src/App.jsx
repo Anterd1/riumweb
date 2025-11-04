@@ -6,6 +6,7 @@ import Contact from '@/pages/Contact';
 import Project from '@/pages/Project';
 import Blog from '@/pages/Blog';
 import BlogPost from '@/pages/BlogPost';
+import Sitemap from '@/pages/Sitemap';
 import Login from '@/pages/admin/Login';
 import Dashboard from '@/pages/admin/Dashboard';
 import PostEditor from '@/pages/admin/PostEditor';
@@ -21,6 +22,9 @@ function App() {
         <Route path="blog/:id" element={<BlogPost />} />
         <Route path="project/:projectId" element={<Project />} />
       </Route>
+      
+      {/* Sitemap - sin layout */}
+      <Route path="/sitemap.xml" element={<Sitemap />} />
       
       {/* Admin Routes */}
       <Route path="/admin/login" element={<Login />} />
