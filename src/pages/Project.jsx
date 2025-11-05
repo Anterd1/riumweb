@@ -213,7 +213,7 @@ const Project = () => {
         <SectionAnimator>
             <div className="container mx-auto px-6 mb-16">
                  <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl shadow-accent-purple/10">
-                    <img className="w-full h-full object-cover" alt={project.images.hero.alt} src="https://horizons-cdn.hostinger.com/8c7cb7a4-8366-40b2-93de-512196b005b6/gemini_generated_image_n6u5epn6u5epn6u5-5ABrF.png" />
+                    <img className="w-full h-full object-cover" alt={project.images.hero.alt} src="https://horizons-cdn.hostinger.com/8c7cb7a4-8366-40b2-93de-512196b005b6/gemini_generated_image_n6u5epn6u5epn6u5-5ABrF.png" loading="lazy" decoding="async" />
                  </div>
             </div>
         </SectionAnimator>
@@ -225,10 +225,10 @@ const Project = () => {
                     {/* Two images */}
                     <div className="grid md:grid-cols-2 gap-8">
                         <div className="aspect-square rounded-2xl overflow-hidden">
-                           <img className="w-full h-full object-cover" alt={project.images.gallery[1].alt} src="https://horizons-cdn.hostinger.com/8c7cb7a4-8366-40b2-93de-512196b005b6/gemini_generated_image_mxgp1bmxgp1bmxgp-IDwMQ.png" />
+                           <img className="w-full h-full object-cover" alt={project.images.gallery[1].alt} src="https://horizons-cdn.hostinger.com/8c7cb7a4-8366-40b2-93de-512196b005b6/gemini_generated_image_mxgp1bmxgp1bmxgp-IDwMQ.png" loading="lazy" decoding="async" />
                         </div>
                         <div className="aspect-square rounded-2xl overflow-hidden">
-                            <img className="w-full h-full object-cover" alt={project.images.gallery[2].alt} src="https://horizons-cdn.hostinger.com/8c7cb7a4-8366-40b2-93de-512196b005b6/gemini_generated_image_mxgp1bmxgp1bmxgp-1-RqwfI.png" />
+                            <img className="w-full h-full object-cover" alt={project.images.gallery[2].alt} src="https://horizons-cdn.hostinger.com/8c7cb7a4-8366-40b2-93de-512196b005b6/gemini_generated_image_mxgp1bmxgp1bmxgp-1-RqwfI.png" loading="lazy" decoding="async" />
                         </div>
                     </div>
                 </div>
@@ -255,7 +255,7 @@ const Project = () => {
         <SectionAnimator>
             <div className="container mx-auto px-6 mb-16">
                 <div className="aspect-video rounded-2xl overflow-hidden">
-                    <img className="w-full h-full object-cover" alt={project.images.gallery2[0].alt} src="https://horizons-cdn.hostinger.com/8c7cb7a4-8366-40b2-93de-512196b005b6/professional-exchange-BmQpX.png" />
+                    <img className="w-full h-full object-cover" alt={project.images.gallery2[0].alt} src="https://horizons-cdn.hostinger.com/8c7cb7a4-8366-40b2-93de-512196b005b6/professional-exchange-BmQpX.png" loading="lazy" decoding="async" />
                 </div>
             </div>
         </SectionAnimator>

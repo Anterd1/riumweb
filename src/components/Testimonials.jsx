@@ -129,7 +129,7 @@ const Testimonials = () => {
             >
               <div className="bg-[#1E1E2A] p-8 rounded-2xl h-full flex flex-col border border-white/10">
                 <div className="flex items-center mb-6">
-                  <img className="w-12 h-12 rounded-full mr-4 object-cover" alt={testimonial.name} src={testimonial.avatar} />
+                  <img className="w-12 h-12 rounded-full mr-4 object-cover" alt={testimonial.name} src={testimonial.avatar} loading="lazy" decoding="async" />
                   <div>
                     <p className="font-bold text-white">{testimonial.name}</p>
                     <p className="text-sm text-gray-400">{testimonial.role}</p>
