@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Plus, Edit, Trash2, Eye, LogOut, FileText, Filter } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import SEO from '@/components/SEO'
@@ -22,6 +22,7 @@ const Dashboard = () => {
 
   const fetchPosts = async () => {
     try {
+      const supabase = await getSupabase()
       let query = supabase
         .from('blog_posts')
         .select('*')
@@ -63,6 +64,7 @@ const Dashboard = () => {
     if (!confirm('¿Estás seguro de que quieres eliminar este artículo?')) return
 
     try {
+      const supabase = await getSupabase()
       const { error } = await supabase
         .from('blog_posts')
         .delete()

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { supabase, isSupabaseConfigured } from '@/lib/supabase'
+import { getSupabase, getIsSupabaseConfigured } from '@/lib/supabase'
 
 export const useBlogPosts = (category = null) => {
   const [posts, setPosts] = useState([])
@@ -8,18 +8,21 @@ export const useBlogPosts = (category = null) => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      // Si Supabase no está configurado, no intentar cargar posts
-      if (!isSupabaseConfigured) {
-        console.warn('Supabase not configured. Blog posts will not be loaded.')
-        setPosts([])
-        setLoading(false)
-        setError('Supabase no está configurado')
-        return
-      }
-
       try {
         setLoading(true)
         setError(null)
+
+        // Cargar Supabase dinámicamente solo cuando se necesite
+        const supabase = await getSupabase()
+        const isConfigured = await getIsSupabaseConfigured()
+        
+        // Si Supabase no está configurado, no intentar cargar posts
+        if (!isConfigured) {
+          console.warn('Supabase not configured. Blog posts will not be loaded.')
+          setPosts([])
+          setLoading(false)
+          return
+        }
 
         let query = supabase
           .from('blog_posts')

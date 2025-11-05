@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Save, ArrowLeft, Eye, Upload, X, Loader2 } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -41,6 +41,7 @@ const PostEditor = () => {
 
   const fetchPost = async () => {
     try {
+      const supabase = await getSupabase()
       const { data, error } = await supabase
         .from('blog_posts')
         .select('*')
@@ -125,6 +126,7 @@ const PostEditor = () => {
       const fileName = `${user.id}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`
       
       // Subir imagen a Supabase Storage
+      const supabase = await getSupabase()
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('blog-images')
         .upload(fileName, file, {
@@ -205,6 +207,7 @@ const PostEditor = () => {
         user_id: user.id, // Asignar automáticamente al usuario actual
       }
 
+      const supabase = await getSupabase()
       let error
       if (isEdit) {
         const { error: updateError } = await supabase

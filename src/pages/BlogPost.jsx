@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { Calendar, Clock, ArrowLeft, Tag } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import SEO from '@/components/SEO'
 import SectionAnimator from '@/components/SectionAnimator'
@@ -23,6 +23,7 @@ const BlogPost = () => {
       setLoading(true)
       setError(null)
 
+      const supabase = await getSupabase()
       const { data, error: fetchError } = await supabase
         .from('blog_posts')
         .select('*')

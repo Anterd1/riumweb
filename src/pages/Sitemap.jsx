@@ -7,7 +7,7 @@
  */
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 
 const Sitemap = () => {
   const [xmlContent, setXmlContent] = useState('')
@@ -17,6 +17,7 @@ const Sitemap = () => {
     const generateSitemap = async () => {
       try {
         // Obtener artículos publicados del blog
+        const supabase = await getSupabase()
         const { data: blogPosts, error } = await supabase
           .from('blog_posts')
           .select('id, created_at, updated_at')
