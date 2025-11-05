@@ -36,17 +36,24 @@ const About = () => {
           ease: 'easeOut'
         }}>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white uppercase">
-              We're passionate about digital <span className="text-accent-purple">excellence</span>
+              Beneficios de invertir en <span className="text-accent-purple">diseño UI/UX</span>
             </h2>
 
-            <div className="space-y-8">
+            <div className="space-y-6">
               <div>
-                <h3 className="text-2xl font-bold text-white mb-3">Quality at the forefront</h3>
-                <p className="text-lg text-gray-400">Every project is crafted with attention to detail and a commitment to deliver exceptional results.</p>
+                <h3 className="text-2xl font-bold text-white">Mayor conversión y ROI</h3>
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-white mb-3">Focus on measurable impact</h3>
-                <p className="text-lg text-gray-400">Our focus is on delivering tangible, measurable results that help your business thrive.</p>
+                <h3 className="text-2xl font-bold text-white">Reducción de costos de desarrollo</h3>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-white">Mayor satisfacción y retención de usuarios</h3>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-white">Ventaja competitiva sostenible</h3>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-white">Mejora la imagen de marca</h3>
               </div>
             </div>
           </motion.div>

@@ -11,10 +11,13 @@ import Login from '@/pages/admin/Login';
 import Dashboard from '@/pages/admin/Dashboard';
 import PostEditor from '@/pages/admin/PostEditor';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 function App() {
   return (
-    <Routes>
+    <>
+      <GoogleAnalytics />
+      <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="contact" element={<Contact />} />
@@ -53,6 +56,7 @@ function App() {
         }
       />
     </Routes>
+    </>
   );
 }
 
