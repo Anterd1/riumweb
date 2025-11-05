@@ -94,3 +94,16 @@
 .admin-page textarea:disabled {
   cursor: not-allowed !important;
 }
+
+/* Screen Reader Only - Visible para crawlers/IAs, invisible para usuarios */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

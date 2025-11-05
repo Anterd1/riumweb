@@ -5,6 +5,7 @@
  * Este script genera un sitemap.xml que incluye:
  * - URLs estáticas de la página
  * - URLs dinámicas de artículos del blog desde Supabase
+ * - Imágenes de los artículos (sitemap de imágenes)
  */
 
 import { createClient } from '@supabase/supabase-js'
@@ -19,14 +20,17 @@ dotenv.config({ path: '.env' })
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-const supabaseUrl = process.env.VITE_SUPABASE_URL || ''
-const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY || ''
+// Intentar cargar variables de entorno de diferentes lugares
+const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || ''
+const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || ''
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('⚠️  Variables de entorno no configuradas. Generando sitemap solo con URLs estáticas.')
+  console.warn('⚠️  Variables de entorno no configuradas.')
+  console.warn('   Buscando: VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY')
+  console.warn('   Generando sitemap solo con URLs estáticas.')
 }
 
-const supabase = supabaseUrl && supabaseAnonKey 
+const supabase = supabaseUrl && supabaseAnonKey && supabaseUrl !== '' && supabaseAnonKey !== ''
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null
 
@@ -43,12 +47,38 @@ const staticUrls = [
   { loc: '/project/digital-marketing-agency-site', priority: '0.7', changefreq: 'monthly' },
 ]
 
+// Función para calcular prioridad basada en fecha
+function calculatePriority(postDate) {
+  const daysSincePublication = (new Date() - new Date(postDate)) / (1000 * 60 * 60 * 24)
+  
+  // Artículos recientes (menos de 30 días) tienen mayor prioridad
+  if (daysSincePublication < 30) return '0.8'
+  // Artículos entre 30 y 90 días
+  if (daysSincePublication < 90) return '0.7'
+  // Artículos antiguos
+  return '0.6'
+}
+
+// Función para formatear fecha
+function formatDate(dateString) {
+  if (!dateString) return today
+  try {
+    return new Date(dateString).toISOString().split('T')[0]
+  } catch {
+    return today
+  }
+}
+
 async function generateSitemap() {
   let xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 `
 
+  let totalUrls = 0
+
   // Agregar URLs estáticas
+  console.log('📝 Agregando URLs estáticas...')
   staticUrls.forEach((url) => {
     xml += `  <url>
     <loc>${baseUrl}${url.loc}</loc>
@@ -57,41 +87,67 @@ async function generateSitemap() {
     <priority>${url.priority}</priority>
   </url>
 `
+    totalUrls++
   })
 
   // Agregar URLs de artículos del blog si Supabase está configurado
+  let blogPostsCount = 0
   if (supabase) {
     try {
+      console.log('📚 Obteniendo artículos del blog desde Supabase...')
       const { data: blogPosts, error } = await supabase
         .from('blog_posts')
-        .select('id, created_at, updated_at')
+        .select('id, created_at, updated_at, image, title')
         .eq('published', true)
         .order('created_at', { ascending: false })
 
       if (error) {
-        console.error('Error al obtener artículos del blog:', error.message)
+        console.error('❌ Error al obtener artículos del blog:', error.message)
+        console.error('   Código:', error.code)
       } else if (blogPosts && blogPosts.length > 0) {
-        console.log(`✓ Agregando ${blogPosts.length} artículo(s) del blog al sitemap`)
+        console.log(`✓ Encontrados ${blogPosts.length} artículo(s) publicados`)
         
         blogPosts.forEach((post) => {
-          const lastmod = post.updated_at 
-            ? new Date(post.updated_at).toISOString().split('T')[0]
-            : new Date(post.created_at).toISOString().split('T')[0]
+          const lastmod = formatDate(post.updated_at || post.created_at)
+          const priority = calculatePriority(post.created_at)
           
           xml += `  <url>
     <loc>${baseUrl}/blog/${post.id}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>${priority}</priority>`
+          
+          // Agregar imagen si existe
+          if (post.image) {
+            const imageUrl = post.image.startsWith('http') 
+              ? post.image 
+              : `${baseUrl}${post.image}`
+            
+            xml += `
+    <image:image>
+      <image:loc>${imageUrl}</image:loc>
+      ${post.title ? `<image:title><![CDATA[${post.title}]]></image:title>` : ''}
+    </image:image>`
+          }
+          
+          xml += `
   </url>
 `
+          blogPostsCount++
+          totalUrls++
         })
+        
+        console.log(`✓ Agregados ${blogPostsCount} artículo(s) del blog al sitemap`)
+      } else {
+        console.log('ℹ️  No hay artículos publicados en el blog')
       }
     } catch (error) {
-      console.error('Error al generar sitemap con artículos:', error.message)
+      console.error('❌ Error al generar sitemap con artículos:', error.message)
+      console.error('   Stack:', error.stack)
     }
   } else {
     console.log('⚠️  Supabase no configurado. Generando sitemap solo con URLs estáticas.')
+    console.log('   Para incluir artículos del blog, configura VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY')
   }
 
   xml += `</urlset>`
@@ -100,8 +156,13 @@ async function generateSitemap() {
   const outputPath = join(__dirname, '..', 'public', 'sitemap.xml')
   writeFileSync(outputPath, xml, 'utf8')
   
-  console.log(`✓ Sitemap generado exitosamente en: ${outputPath}`)
-  console.log(`✓ Total de URLs: ${staticUrls.length + (supabase ? ' (incluye artículos del blog)' : '')}`)
+  console.log('\n✅ Sitemap generado exitosamente')
+  console.log(`   📍 Ubicación: ${outputPath}`)
+  console.log(`   📊 Total de URLs: ${totalUrls}`)
+  console.log(`   📄 URLs estáticas: ${staticUrls.length}`)
+  if (supabase) {
+    console.log(`   📚 URLs de blog: ${blogPostsCount}`)
+  }
 }
 
 generateSitemap().catch(console.error)

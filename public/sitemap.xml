@@ -1,39 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://rium.com.mx/</loc>
-    <lastmod>2025-11-04</lastmod>
+    <lastmod>2025-11-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://rium.com.mx/contact</loc>
-    <lastmod>2025-11-04</lastmod>
+    <lastmod>2025-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://rium.com.mx/blog</loc>
-    <lastmod>2025-11-04</lastmod>
+    <lastmod>2025-11-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://rium.com.mx/project/social-media-app</loc>
-    <lastmod>2025-11-04</lastmod>
+    <lastmod>2025-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://rium.com.mx/project/fintech-dashboard</loc>
-    <lastmod>2025-11-04</lastmod>
+    <lastmod>2025-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://rium.com.mx/project/digital-marketing-agency-site</loc>
-    <lastmod>2025-11-04</lastmod>
+    <lastmod>2025-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://rium.com.mx/blog/495dda9b-759d-4103-871b-627a763b8071</loc>
+    <lastmod>2025-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80</image:loc>
+      <image:title><![CDATA[10 Principios de Diseño UI/UX que Toda Aplicación Debe Seguir]]></image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://rium.com.mx/blog/cc300f0b-8752-41a6-b61e-096e7f581896</loc>
+    <lastmod>2025-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80</image:loc>
+      <image:title><![CDATA[Cómo Realizar una Auditoría UX Efectiva: Guía Completa]]></image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://rium.com.mx/blog/320dec61-4992-40d2-afb8-9559a1be1c5b</loc>
+    <lastmod>2025-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80</image:loc>
+      <image:title><![CDATA[Arquitectura de Información: Organizando el Caos Digital]]></image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://rium.com.mx/blog/8a84cf43-656a-4eb0-b67c-7a15e244b466</loc>
+    <lastmod>2025-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80</image:loc>
+      <image:title><![CDATA[Pruebas de Usabilidad: Métodos y Mejores Prácticas]]></image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://rium.com.mx/blog/90fae5c6-dd77-4a80-a5a6-2eb495b151e5</loc>
+    <lastmod>2025-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80</image:loc>
+      <image:title><![CDATA[Diseño Responsivo: Creando Experiencias para Todos los Dispositivos]]></image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://rium.com.mx/blog/52b5cb14-25a4-4c2d-8f79-7acfd729fe26</loc>
+    <lastmod>2025-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80</image:loc>
+      <image:title><![CDATA[User Personas: Creando Perfiles que Representan a tus Usuarios]]></image:title>
+    </image:image>
   </url>
 </urlset>
