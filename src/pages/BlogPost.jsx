@@ -110,7 +110,7 @@ const BlogPost = () => {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'rium - Agencia Creativa',
+      name: 'rium - Agencia de diseño UI/UX',
       logo: {
         '@type': 'ImageObject',
         url: 'https://rium.com.mx/images/HERO.png',

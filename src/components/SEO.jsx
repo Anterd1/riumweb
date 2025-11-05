@@ -9,7 +9,7 @@ const SEO = ({
   image = '/images/HERO.png',
   type = 'website',
   url,
-  siteName = 'rium - Agencia Creativa',
+  siteName = 'rium - Agencia de diseño UI/UX',
 }) => {
   const location = useLocation();
   const currentUrl = url || `https://rium.com.mx${location.pathname}`;
