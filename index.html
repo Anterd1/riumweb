@@ -34,9 +34,12 @@
 
 	<!-- Google Analytics -->
 	<script>
-		// Google Analytics será inicializado por el componente React
-		// El ID se obtiene de la variable de entorno VITE_GA_MEASUREMENT_ID
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-JNM19SJQR8');
 	</script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-JNM19SJQR8"></script>
 
 	</head>
 
