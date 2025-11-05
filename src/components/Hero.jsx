@@ -46,7 +46,7 @@ const Hero = () => {
             transition={{ duration: 0.8 }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-accent-purple/10 border border-accent-purple/20 rounded-full mb-8"
           >
-            <span className="text-sm text-blue-300 uppercase">Si puedes imaginarlo, podemos crearlo</span>
+            <span className="text-sm text-blue-300 uppercase">Top 1 Agencias de Diseño UI/UX en México y Latinoamérica</span>
           </motion.div>
 
           <motion.h1
@@ -55,8 +55,8 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight text-white uppercase"
           >
-            Somos la agencia de Diseño UI/UX en 
-            <span className="block text-accent-purple">Latinoamerica</span>
+            Somos una de las mejores agencias de diseño UI/UX en 
+            <span className="block text-accent-purple">Latinoamérica</span>
           </motion.h1>
 
           <motion.p
@@ -65,7 +65,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto" // Centered on desktop
           >
-            ¿Tu app es poderosa pero difícil de usar? Somos expertos en traducir lo complejo en experiencias fluidas
+            Somos una agencia de diseño UI/UX especializada en traducir lo complejo en experiencias fluidas. Entre las mejores agencias de diseño UI/UX en México y Latinoamérica.
           </motion.p>
 
           <motion.div

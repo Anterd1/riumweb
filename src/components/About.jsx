@@ -36,8 +36,15 @@ const About = () => {
           ease: 'easeOut'
         }}>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white uppercase">
-              Beneficios de invertir en <span className="text-accent-purple">diseño UI/UX</span>
+              ¿Por qué elegir entre las mejores <span className="text-accent-purple">agencias de diseño UI/UX?</span>
             </h2>
+
+            <p className="text-lg text-gray-400 mb-8">
+              Como una de las agencias de diseño UI/UX más reconocidas en México y 
+              Latinoamérica, nos especializamos en transformar productos digitales 
+              complejos en experiencias intuitivas y fluidas. Entre las mejores agencias 
+              de diseño UI/UX, destacamos por nuestra metodología probada y resultados medibles.
+            </p>
 
             <div className="space-y-6">
               <div>
