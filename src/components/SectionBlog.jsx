@@ -73,8 +73,8 @@ const SectionBlog = () => {
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                       className="bg-[#1E1E2A] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-accent-purple/10 transition-all duration-300 group cursor-pointer h-full"
                     >
-                      {/* Image */}
-                      <div className="relative h-48 overflow-hidden">
+                      {/* Image - Optimizado para móvil con aspect-ratio */}
+                      <div className="relative aspect-video overflow-hidden">
                         <img
                           src={post.image}
                           alt={post.title}

@@ -21,13 +21,15 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Background Video */}
+      {/* Background Video - Optimizado para móvil */}
       <video
         autoPlay
         loop
         muted
         playsInline
+        preload="metadata"
         className="absolute inset-0 w-full h-full object-cover"
+        aria-hidden="true"
       >
         <source src="/video/videocover.mp4" type="video/mp4" />
       </video>

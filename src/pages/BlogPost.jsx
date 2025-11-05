@@ -212,6 +212,7 @@ const BlogPost = () => {
                     loading="lazy"
                     decoding="async"
                     className="w-full h-full object-cover"
+                    style={{ aspectRatio: '16/9' }}
                   />
                 </div>
               </div>

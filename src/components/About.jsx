@@ -18,7 +18,7 @@ const About = () => {
           ease: 'easeOut'
         }}>
             <div className="rounded-2xl overflow-hidden aspect-[4/3]">
-              <img className="w-full h-full object-cover" alt="Modern office with creative team working on computers" src="https://horizons-cdn.hostinger.com/8c7cb7a4-8366-40b2-93de-512196b005b6/charlesdeluvio-lks7vei-eag-unsplash-7Or6F.jpg" loading="lazy" decoding="async" />
+              <img className="w-full h-full object-cover" alt="Modern office with creative team working on computers" src="https://horizons-cdn.hostinger.com/8c7cb7a4-8366-40b2-93de-512196b005b6/charlesdeluvio-lks7vei-eag-unsplash-7Or6F.jpg" loading="lazy" decoding="async" style={{ aspectRatio: '4/3' }} />
             </div>
           </motion.div>
 
@@ -74,7 +74,7 @@ const About = () => {
           ease: 'easeOut'
         }} className="lg:order-last">
             <div className="rounded-2xl overflow-hidden aspect-[4/3]">
-              <img className="w-full h-full object-cover" alt="Diverse team collaborating around a table with laptops and notes" src="https://horizons-cdn.hostinger.com/8c7cb7a4-8366-40b2-93de-512196b005b6/michael-t-rxri-ho62y4-unsplash-2-tvxRc.jpg" loading="lazy" decoding="async" />
+              <img className="w-full h-full object-cover" alt="Diverse team collaborating around a table with laptops and notes" src="https://horizons-cdn.hostinger.com/8c7cb7a4-8366-40b2-93de-512196b005b6/michael-t-rxri-ho62y4-unsplash-2-tvxRc.jpg" loading="lazy" decoding="async" style={{ aspectRatio: '4/3' }} />
             </div>
           </motion.div>
 
