@@ -40,14 +40,6 @@ const Hero = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-5xl mx-auto text-left md:text-center"> {/* Responsive alignment */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-accent-purple/10 border border-accent-purple/20 rounded-full mb-8"
-          >
-            <span className="text-sm text-blue-300 uppercase">Top 1 Agencias de Diseño UI/UX en México y Latinoamérica</span>
-          </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -55,7 +47,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight text-white uppercase"
           >
-            Somos una de las mejores agencias de diseño UI/UX en 
+            Somos la agencia líder de diseño UI/UX en 
             <span className="block text-accent-purple">Latinoamérica</span>
           </motion.h1>
 

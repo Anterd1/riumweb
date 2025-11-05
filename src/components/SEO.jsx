@@ -252,9 +252,8 @@ const SEO = ({
 
   return (
     <>
-    <Helmet>
+    <Helmet htmlAttributes={{ lang: 'es' }}>
       {/* Basic Meta Tags */}
-      <html lang="es" />
       <title>{optimizedTitle}</title>
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
@@ -284,37 +283,49 @@ const SEO = ({
       
       {/* Meta tags contextuales para sistemas de clasificación */}
       {location.pathname === '/' && (
-        <>
-          <meta name="classification" content="Agencia de Diseño UI/UX México Latinoamérica" />
-          <meta name="geo.region" content="MX" />
-          <meta name="geo.placename" content="México" />
-        </>
+        <meta name="classification" content="Agencia de Diseño UI/UX México Latinoamérica" />
+      )}
+      {location.pathname === '/' && (
+        <meta name="geo.region" content="MX" />
+      )}
+      {location.pathname === '/' && (
+        <meta name="geo.placename" content="México" />
       )}
 
       {/* Structured Data */}
-      <script type="application/ld+json">
-        {JSON.stringify(organizationData)}
-      </script>
-      <script type="application/ld+json">
-        {JSON.stringify(websiteData)}
-      </script>
-      <script type="application/ld+json">
-        {JSON.stringify(webpageData)}
-      </script>
-      <script type="application/ld+json">
-        {JSON.stringify(breadcrumbData)}
-      </script>
-      {servicesData && (
-        <script type="application/ld+json">
-          {JSON.stringify(servicesData)}
-        </script>
-      )}
-      {localBusinessData && (
-        <script type="application/ld+json">
-          {JSON.stringify(localBusinessData)}
-        </script>
-      )}
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData) }}
+      />
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }}
+      />
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webpageData) }}
+      />
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
+      />
     </Helmet>
+    {servicesData && (
+      <Helmet>
+        <script 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesData) }}
+        />
+      </Helmet>
+    )}
+    {localBusinessData && (
+      <Helmet>
+        <script 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessData) }}
+        />
+      </Helmet>
+    )}
     
     {/* Texto contextual oculto para sistemas de IA (visible para crawlers) */}
     {location.pathname === '/' && (
