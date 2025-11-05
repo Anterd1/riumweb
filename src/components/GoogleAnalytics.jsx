@@ -36,7 +36,21 @@ const initGA = () => {
   // Verificar que el script se cargó correctamente
   script.onload = () => {
     console.log('Google Analytics script cargado correctamente');
-    // El script de GA ahora procesará automáticamente el dataLayer
+    
+    // Esperar un momento para que el script procese el dataLayer
+    setTimeout(() => {
+      // Verificar que la función gtag real de Google Analytics esté disponible
+      if (window.gtag && typeof window.gtag === 'function') {
+        // Forzar el envío del primer page_view después de que el script esté listo
+        window.gtag('config', GA_MEASUREMENT_ID, {
+          page_path: window.location.pathname,
+          page_location: window.location.href,
+          page_title: document.title
+        });
+        
+        console.log('Google Analytics configurado y enviando datos');
+      }
+    }, 100);
   };
   
   script.onerror = () => {
