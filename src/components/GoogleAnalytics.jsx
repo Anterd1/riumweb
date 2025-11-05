@@ -11,29 +11,36 @@ const initGA = () => {
     return;
   }
 
-  // Configurar dataLayer primero
+  // Inicializar dataLayer ANTES de cargar el script
+  // Esto permite que el script procese los eventos cuando se carga
   window.dataLayer = window.dataLayer || [];
+  
+  // Función temporal gtag que solo hace push al dataLayer
+  // El script real de GA reemplazará esta función cuando se cargue
   function gtag(...args) {
     window.dataLayer.push(args);
   }
   window.gtag = gtag;
+
+  // Configurar GA antes de cargar el script
+  gtag('js', new Date());
+  gtag('config', GA_MEASUREMENT_ID, {
+    send_page_view: true
+  });
 
   // Cargar el script de Google Analytics
   const script = document.createElement('script');
   script.async = true;
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
   
-  // Cuando el script cargue, inicializar GA y enviar el primer page_view
+  // Verificar que el script se cargó correctamente
   script.onload = () => {
-    gtag('js', new Date());
-    gtag('config', GA_MEASUREMENT_ID);
-    
-    // Enviar el primer page_view explícitamente
-    gtag('event', 'page_view', {
-      page_path: window.location.pathname,
-      page_location: window.location.href,
-      page_title: document.title
-    });
+    console.log('Google Analytics script cargado correctamente');
+    // El script de GA ahora procesará automáticamente el dataLayer
+  };
+  
+  script.onerror = () => {
+    console.error('Error al cargar el script de Google Analytics');
   };
   
   document.head.appendChild(script);
@@ -43,8 +50,8 @@ const initGA = () => {
 const trackPageView = (path) => {
   if (!GA_MEASUREMENT_ID || !window.gtag || typeof window.gtag !== 'function') return;
 
-  // Enviar un evento page_view explícito
-  window.gtag('event', 'page_view', {
+  // Usar config para actualizar la página actual (método recomendado para GA4)
+  window.gtag('config', GA_MEASUREMENT_ID, {
     page_path: path,
     page_location: window.location.href,
     page_title: document.title
