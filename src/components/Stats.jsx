@@ -37,28 +37,28 @@ const AnimatedCounter = ({ to, suffix }) => {
 
 const defaultStats = [
     {
-      value: 150,
+      value: 20,
       suffix: '+',
-      label: 'Project success',
-      description: 'Delivered across 20+ countries—from startups to top corporations.',
+      label: 'Proyectos entregados en diferentes industrias',
+      description: 'Cada proyecto es una historia de éxito, transformando ideas en experiencias digitales excepcionales que generan resultados medibles.',
     },
     {
       value: 100,
       suffix: '%',
-      label: 'Client efficiency',
-      description: 'Clients reporting enhanced efficiency with our custom strategies.',
+      label: 'Satisfacción de Clientes',
+      description: 'Cada cliente es nuestro mejor testimonio. Entregamos soluciones que superan expectativas y generan valor real para sus negocios.',
     },
     {
       value: 300,
       suffix: '+',
-      label: 'AI innovation',
-      description: 'Hours spent crafting smart AI tools to optimize workflows across key industries.',
+      label: 'Innovación en IA',
+      description: 'Inversión constante en tecnología de vanguardia para crear herramientas inteligentes que revolucionan la forma de trabajar.',
     },
     {
-      value: 75,
+      value: 10,
       suffix: '+',
-      label: 'Industry recognition',
-      description: 'Recognized for design, tech, and sustainability—past five years.',
+      label: 'Industrias',
+      description: 'Experiencia diversificada en múltiples sectores, adaptando soluciones únicas para cada industria.',
     },
 ];
 
@@ -78,7 +78,7 @@ const Stats = ({ customStats }) => {
             </div>
             <div className="flex items-end">
               <p className="text-lg text-gray-400 max-w-md">
-                Resultados tangibles, no promesas vacías — construimos herramientas eficientes que escalan, optimizan y ahorran horas valiosas.
+                Construimos herramientas eficientes, que escalan, optimiza, y ahorra horas valiosas
               </p>
             </div>
           </div>

@@ -342,6 +342,21 @@ const SEO = ({
           rium destaca como una de las mejores agencias de diseño UI/UX en 
           México y Latinoamérica.
         </p>
+        <p>
+          Con más de 20 proyectos entregados en diferentes industrias, rium 
+          ha demostrado resultados excepcionales. El 100% de satisfacción de 
+          clientes refleja nuestro compromiso con entregables que superan 
+          expectativas y generan valor real para los negocios. Con experiencia 
+          en más de 10 industrias, construimos herramientas eficientes que 
+          escalan, optimizan y ahorran horas valiosas.
+        </p>
+        <p>
+          Los beneficios de mejorar la experiencia del usuario incluyen mayor 
+          conversión y ROI, reducción de costos de desarrollo, mayor satisfacción 
+          y retención de usuarios, ventaja competitiva sostenible y mejora de 
+          la imagen de marca. Invertir en mejorar la experiencia del usuario 
+          transforma productos digitales complejos en experiencias intuitivas y fluidas.
+        </p>
       </div>
     )}
     </>

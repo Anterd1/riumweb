@@ -24,7 +24,7 @@ const Home = () => {
       <SectionAnimator><TrustedClients /></SectionAnimator>
       <SectionAnimator><Services /></SectionAnimator>
       <About />
-      <SectionAnimator><Portfolio /></SectionAnimator>
+      {/* <SectionAnimator><Portfolio /></SectionAnimator> */}
       <SectionAnimator><Testimonials /></SectionAnimator>
       <SectionAnimator><Stats /></SectionAnimator>
       <SectionBlog />

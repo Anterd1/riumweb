@@ -22,7 +22,7 @@ const CTA = () => {
             transition={{ duration: 0.8 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white uppercase"
           >
-            Ready to Transform Your <span className="text-accent-purple">Brand?</span>
+            ¿Listo para Transformar tu <span className="text-accent-purple">Marca?</span>
           </motion.h2>
           
           <motion.p
@@ -32,7 +32,7 @@ const CTA = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto"
           >
-            Let's discuss how we can help you achieve your goals and create something extraordinary together.
+            Hablemos sobre cómo podemos ayudarte a alcanzar tus objetivos y crear algo extraordinario juntos.
           </motion.p>
           
           <motion.div
@@ -46,7 +46,7 @@ const CTA = () => {
               size="lg"
               className="bg-accent-purple hover:bg-accent-purple/90 text-white font-bold px-8 py-6 text-lg rounded-full group"
             >
-              Let's Talk
+              Hablemos
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
           </motion.div>
