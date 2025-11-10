@@ -107,35 +107,53 @@ const Contact = () => {
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <Input
-                    label="Nombre"
-                    name="name"
-                    type="text"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="bg-[#1E1E2A] border-white/10 text-white"
-                  />
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-semibold text-white mb-2">
+                      Nombre
+                    </label>
+                    <Input
+                      id="name"
+                      name="name"
+                      type="text"
+                      placeholder="Tu nombre completo"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="bg-[#1E1E2A] border-white/10 text-white placeholder:text-gray-400"
+                    />
+                  </div>
                   
-                  <Input
-                    label="Email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="bg-[#1E1E2A] border-white/10 text-white"
-                  />
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-semibold text-white mb-2">
+                      Email
+                    </label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="tu@email.com"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="bg-[#1E1E2A] border-white/10 text-white placeholder:text-gray-400"
+                    />
+                  </div>
                   
-                  <Textarea
-                    label="Mensaje"
-                    name="message"
-                    rows={6}
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    className="bg-[#1E1E2A] border-white/10 text-white"
-                  />
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-semibold text-white mb-2">
+                      Mensaje
+                    </label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      rows={6}
+                      placeholder="Cuéntanos sobre tu proyecto..."
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      className="bg-[#1E1E2A] border-white/10 text-white placeholder:text-gray-400"
+                    />
+                  </div>
                   
                   <Button
                     type="submit"
