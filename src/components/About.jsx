@@ -58,7 +58,7 @@ const About = () => {
           </motion.div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-center mt-24">
+        {/* <div className="grid lg:grid-cols-2 gap-16 items-center mt-24">
           <motion.div initial={{
           opacity: 0,
           x: -50
@@ -105,7 +105,7 @@ const About = () => {
               </div>
             </div>
           </motion.div>
-        </div>
+        </div> */}
       </div>
     </section>;
 };
