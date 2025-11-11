@@ -42,6 +42,7 @@ const staticUrls = [
   { loc: '/', priority: '1.0', changefreq: 'weekly' },
   { loc: '/contact', priority: '0.8', changefreq: 'monthly' },
   { loc: '/blog', priority: '0.8', changefreq: 'weekly' },
+  { loc: '/diseno-tu-pagina-web', priority: '0.9', changefreq: 'monthly' },
   { loc: '/project/social-media-app', priority: '0.7', changefreq: 'monthly' },
   { loc: '/project/fintech-dashboard', priority: '0.7', changefreq: 'monthly' },
   { loc: '/project/digital-marketing-agency-site', priority: '0.7', changefreq: 'monthly' },

@@ -8,6 +8,7 @@ import Blog from '@/pages/Blog';
 import BlogPost from '@/pages/BlogPost';
 import Sitemap from '@/pages/Sitemap';
 import NotFound from '@/pages/NotFound';
+import DisenoTuPaginaWeb from '@/pages/DisenoTuPaginaWeb';
 import Login from '@/pages/admin/Login';
 import Dashboard from '@/pages/admin/Dashboard';
 import PostEditor from '@/pages/admin/PostEditor';
@@ -25,6 +26,7 @@ function App() {
         <Route path="blog" element={<Blog />} />
         <Route path="blog/:id" element={<BlogPost />} />
         <Route path="project/:projectId" element={<Project />} />
+        <Route path="diseno-tu-pagina-web" element={<DisenoTuPaginaWeb />} />
       </Route>
       
       {/* Sitemap - sin layout */}
