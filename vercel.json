@@ -4,6 +4,49 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/contacto",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/en/contacto",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/en/soluciones",
+      "destination": "/#services",
+      "permanent": true
+    },
+    {
+      "source": "/explora",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/tradingar",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/optimiza-tus-ventas-con-estrategias-innovadoras-en-el-retail",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.rium.com.mx"
+        }
+      ],
+      "destination": "https://rium.com.mx/:splat",
+      "permanent": true
+    }
   ]
 }
 

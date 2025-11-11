@@ -250,6 +250,9 @@ const SEO = ({
     },
   } : null;
 
+  // Detectar si es una ruta admin (debe tener noindex)
+  const isAdminRoute = location.pathname.startsWith('/admin')
+
   // Structured Data for Video (if on homepage)
   const videoData = location.pathname === '/' ? {
     '@context': 'https://schema.org',
@@ -305,8 +308,17 @@ const SEO = ({
       <meta name="twitter:image" content={fullImageUrl} />
 
       {/* Additional SEO */}
-      <meta name="robots" content="index, follow" />
-      <meta name="googlebot" content="index, follow" />
+      {isAdminRoute ? (
+        <>
+          <meta name="robots" content="noindex, nofollow" />
+          <meta name="googlebot" content="noindex, nofollow" />
+        </>
+      ) : (
+        <>
+          <meta name="robots" content="index, follow" />
+          <meta name="googlebot" content="index, follow" />
+        </>
+      )}
       <meta name="theme-color" content="#0C0D0D" />
       
       {/* Meta tags contextuales para sistemas de clasificación */}
