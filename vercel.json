@@ -37,6 +37,16 @@
       "permanent": true
     },
     {
+      "source": "/tienda",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/tienda/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
       "source": "/(.*)",
       "has": [
         {

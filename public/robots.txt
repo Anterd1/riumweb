@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /tienda
 
 # Sitemap
 Sitemap: https://rium.com.mx/sitemap.xml

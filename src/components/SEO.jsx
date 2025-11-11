@@ -12,7 +12,14 @@ const SEO = ({
   siteName = 'rium - Agencia de diseño UI/UX',
 }) => {
   const location = useLocation();
-  const currentUrl = url || `https://rium.com.mx${location.pathname}`;
+  
+  // Limpiar URL de parámetros de query problemáticos y rutas que no deberían existir
+  let cleanPathname = location.pathname;
+  if (cleanPathname.startsWith('/tienda')) {
+    cleanPathname = '/';
+  }
+  
+  const currentUrl = url || `https://rium.com.mx${cleanPathname}`;
   const fullImageUrl = image.startsWith('http') ? image : `https://rium.com.mx${image}`;
 
   // Función para generar breadcrumbs
