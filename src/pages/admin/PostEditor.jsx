@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
 import { Toaster } from '@/components/ui/toaster'
 import SEO from '@/components/SEO'
-import MarkdownEditor from '@/components/MarkdownEditor'
+import WysiwygEditor from '@/components/WysiwygEditor'
 
 const PostEditor = () => {
   const { id } = useParams()
@@ -370,12 +370,12 @@ const PostEditor = () => {
             {/* Content */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Contenido (Markdown)
+                Contenido
               </label>
-              <MarkdownEditor
+              <WysiwygEditor
                 value={formData.content}
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                placeholder="Escribe el contenido del artículo usando Markdown..."
+                placeholder="Escribe el contenido del artículo. Se verá exactamente como en la página publicada..."
               />
             </div>
 

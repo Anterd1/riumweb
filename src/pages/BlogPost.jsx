@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Calendar, Clock, ArrowLeft, Tag } from 'lucide-react'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import rehypeRaw from 'rehype-raw'
 import { getSupabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import SEO from '@/components/SEO'
@@ -229,39 +226,149 @@ const BlogPost = () => {
         <SectionAnimator>
           <div className="container mx-auto px-6 pb-24">
             <div className="max-w-4xl mx-auto">
-              <div className="prose prose-invert prose-lg max-w-none">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  rehypePlugins={[rehypeRaw]}
-                  components={{
-                    h1: ({ node, ...props }) => <h1 className="text-4xl font-bold mb-6 text-white" {...props} />,
-                    h2: ({ node, ...props }) => <h2 className="text-3xl font-bold mb-5 mt-8 text-white" {...props} />,
-                    h3: ({ node, ...props }) => <h3 className="text-2xl font-bold mb-4 mt-6 text-white" {...props} />,
-                    h4: ({ node, ...props }) => <h4 className="text-xl font-bold mb-3 mt-5 text-white" {...props} />,
-                    p: ({ node, ...props }) => <p className="mb-4 text-gray-300 leading-relaxed text-lg" {...props} />,
-                    ul: ({ node, ...props }) => <ul className="list-disc list-inside mb-4 text-gray-300 space-y-2" {...props} />,
-                    ol: ({ node, ...props }) => <ol className="list-decimal list-inside mb-4 text-gray-300 space-y-2" {...props} />,
-                    li: ({ node, ...props }) => <li className="mb-2 leading-relaxed" {...props} />,
-                    a: ({ node, ...props }) => <a className="text-accent-purple hover:text-accent-purple/80 underline transition-colors" {...props} />,
-                    code: ({ node, inline, ...props }) => 
-                      inline ? 
-                        <code className="bg-white/10 px-2 py-1 rounded text-accent-purple text-base" {...props} /> :
-                        <code className="block bg-[#0C0D0D] p-4 rounded-lg text-sm overflow-x-auto my-4 border border-white/10" {...props} />,
-                    pre: ({ node, ...props }) => <pre className="bg-[#0C0D0D] p-4 rounded-lg overflow-x-auto my-4 border border-white/10" {...props} />,
-                    blockquote: ({ node, ...props }) => 
-                      <blockquote className="border-l-4 border-accent-purple pl-6 py-2 italic text-gray-400 my-6 bg-white/5 rounded-r-lg" {...props} />,
-                    img: ({ node, ...props }) => <img className="rounded-lg my-6 w-full" {...props} />,
-                    strong: ({ node, ...props }) => <strong className="font-bold text-white" {...props} />,
-                    em: ({ node, ...props }) => <em className="italic text-gray-200" {...props} />,
-                    hr: ({ node, ...props }) => <hr className="my-8 border-white/20" {...props} />,
-                    table: ({ node, ...props }) => <table className="w-full my-6 border-collapse" {...props} />,
-                    th: ({ node, ...props }) => <th className="border border-white/20 px-4 py-2 bg-white/5 text-left" {...props} />,
-                    td: ({ node, ...props }) => <td className="border border-white/20 px-4 py-2" {...props} />,
-                  }}
-                >
-                  {post.content || post.excerpt}
-                </ReactMarkdown>
-              </div>
+              <div 
+                className="prose prose-invert prose-lg max-w-none blog-content"
+                dangerouslySetInnerHTML={{ __html: post.content || post.excerpt }}
+                style={{
+                  color: '#d1d5db',
+                }}
+              />
+              <style>{`
+                .blog-content h1 {
+                  font-size: 2.25rem;
+                  font-weight: 700;
+                  margin-bottom: 1.5rem;
+                  margin-top: 0;
+                  color: #ffffff;
+                }
+                
+                .blog-content h2 {
+                  font-size: 1.875rem;
+                  font-weight: 700;
+                  margin-bottom: 1.25rem;
+                  margin-top: 2rem;
+                  color: #ffffff;
+                }
+                
+                .blog-content h3 {
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  margin-bottom: 1rem;
+                  margin-top: 1.5rem;
+                  color: #ffffff;
+                }
+                
+                .blog-content p {
+                  margin-bottom: 1rem;
+                  color: #d1d5db;
+                  line-height: 1.75;
+                  font-size: 1.125rem;
+                }
+                
+                .blog-content ul, .blog-content ol {
+                  margin-bottom: 1rem;
+                  padding-left: 1.5rem;
+                  color: #d1d5db;
+                }
+                
+                .blog-content ul {
+                  list-style-type: disc;
+                }
+                
+                .blog-content ol {
+                  list-style-type: decimal;
+                }
+                
+                .blog-content li {
+                  margin-bottom: 0.5rem;
+                  line-height: 1.75;
+                }
+                
+                .blog-content a {
+                  color: #a855f7;
+                  text-decoration: underline;
+                  transition: color 0.2s;
+                }
+                
+                .blog-content a:hover {
+                  color: rgba(168, 85, 247, 0.8);
+                }
+                
+                .blog-content blockquote {
+                  border-left: 4px solid #a855f7;
+                  padding-left: 1.5rem;
+                  padding-top: 0.5rem;
+                  padding-bottom: 0.5rem;
+                  font-style: italic;
+                  color: #9ca3af;
+                  margin: 1.5rem 0;
+                  background-color: rgba(255, 255, 255, 0.05);
+                  border-radius: 0 0.5rem 0.5rem 0;
+                }
+                
+                .blog-content img {
+                  border-radius: 0.5rem;
+                  margin: 1.5rem 0;
+                  width: 100%;
+                  height: auto;
+                }
+                
+                .blog-content code {
+                  background-color: rgba(255, 255, 255, 0.1);
+                  padding: 0.25rem 0.5rem;
+                  border-radius: 0.25rem;
+                  color: #a855f7;
+                  font-size: 1rem;
+                }
+                
+                .blog-content pre {
+                  background-color: #0C0D0D;
+                  padding: 1rem;
+                  border-radius: 0.5rem;
+                  overflow-x: auto;
+                  margin: 1rem 0;
+                  border: 1px solid rgba(255, 255, 255, 0.1);
+                }
+                
+                .blog-content pre code {
+                  background-color: transparent;
+                  padding: 0;
+                  color: inherit;
+                }
+                
+                .blog-content strong {
+                  font-weight: 700;
+                  color: #ffffff;
+                }
+                
+                .blog-content em {
+                  font-style: italic;
+                  color: #e5e7eb;
+                }
+                
+                .blog-content hr {
+                  margin: 2rem 0;
+                  border-color: rgba(255, 255, 255, 0.2);
+                }
+                
+                .blog-content table {
+                  width: 100%;
+                  margin: 1.5rem 0;
+                  border-collapse: collapse;
+                }
+                
+                .blog-content th {
+                  border: 1px solid rgba(255, 255, 255, 0.2);
+                  padding: 0.5rem 1rem;
+                  background-color: rgba(255, 255, 255, 0.05);
+                  text-align: left;
+                }
+                
+                .blog-content td {
+                  border: 1px solid rgba(255, 255, 255, 0.2);
+                  padding: 0.5rem 1rem;
+                }
+              `}</style>
             </div>
           </div>
         </SectionAnimator>
