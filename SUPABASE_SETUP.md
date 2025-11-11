@@ -47,6 +47,7 @@ VITE_SUPABASE_ANON_KEY=tu_anon_key
 | tags | jsonb | - | Yes | No |
 | read_time | text | - | Yes | No |
 | published | boolean | false | No | No |
+| user_id | uuid | - | Yes | No |
 | created_at | timestamptz | now() | No | No |
 | updated_at | timestamptz | now() | No | No |
 
@@ -66,13 +67,15 @@ CREATE TABLE blog_posts (
   tags JSONB DEFAULT '[]'::jsonb,
   read_time TEXT,
   published BOOLEAN DEFAULT false NOT NULL,
+  user_id UUID REFERENCES auth.users(id),
   created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
   updated_at TIMESTAMPTZ DEFAULT now() NOT NULL
 );
 
--- Crear índice para mejorar búsquedas por categoría
+-- Crear índices para mejorar búsquedas
 CREATE INDEX idx_blog_posts_category ON blog_posts(category);
 CREATE INDEX idx_blog_posts_published ON blog_posts(published);
+CREATE INDEX idx_blog_posts_user_id ON blog_posts(user_id);
 
 -- Crear función para actualizar updated_at automáticamente
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -92,19 +95,52 @@ CREATE TRIGGER update_blog_posts_updated_at
 
 ## 5. Configurar políticas de seguridad (RLS)
 
+**IMPORTANTE**: Ejecuta el script completo `scripts/setup-rls-policies.sql` en el SQL Editor de Supabase para configurar todas las políticas correctamente.
+
+### Opción 1: Ejecutar script completo (Recomendado)
+
+1. Ve a **SQL Editor** en Supabase
+2. Copia y pega el contenido de `scripts/setup-rls-policies.sql`
+3. Ejecuta el script
+
+### Opción 2: Configurar manualmente
+
 1. Ve a **Authentication** > **Policies** en Supabase
 2. Selecciona la tabla `blog_posts`
 3. Habilita **Row Level Security (RLS)**
-4. Crea una política para permitir lectura pública de artículos publicados:
+4. Crea las siguientes políticas:
 
 ```sql
--- Política para permitir lectura de artículos publicados
+-- Política para lectura pública (artículos publicados)
 CREATE POLICY "Public articles are viewable by everyone"
 ON blog_posts FOR SELECT
 USING (published = true);
-```
 
-Si también quieres permitir escritura desde la aplicación (requiere autenticación), puedes crear políticas adicionales.
+-- Política para lectura de todos los artículos por usuarios autenticados (para el dashboard)
+CREATE POLICY "Authenticated users can view all posts"
+ON blog_posts FOR SELECT
+TO authenticated
+USING (true);
+
+-- Política para INSERT: usuarios autenticados pueden crear artículos
+CREATE POLICY "Users can insert their own posts"
+ON blog_posts FOR INSERT
+TO authenticated
+WITH CHECK (auth.uid() = user_id);
+
+-- Política para UPDATE: usuarios pueden actualizar sus propios artículos
+CREATE POLICY "Users can update their own posts"
+ON blog_posts FOR UPDATE
+TO authenticated
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
+
+-- Política para DELETE: usuarios pueden eliminar sus propios artículos
+CREATE POLICY "Users can delete their own posts"
+ON blog_posts FOR DELETE
+TO authenticated
+USING (auth.uid() = user_id);
+```
 
 ## 6. Insertar datos de ejemplo (opcional)
 

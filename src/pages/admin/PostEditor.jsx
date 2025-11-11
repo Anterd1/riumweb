@@ -179,8 +179,30 @@ const PostEditor = () => {
 
     if (!user) {
       toast({
-        title: 'Error',
-        description: 'Debes estar autenticado para crear artículos',
+        title: 'Error de autenticación',
+        description: 'Debes estar autenticado para crear artículos. Por favor, inicia sesión nuevamente.',
+        variant: 'destructive',
+      })
+      setLoading(false)
+      navigate('/admin/login')
+      return
+    }
+
+    // Validaciones
+    if (!formData.title || formData.title.trim().length === 0) {
+      toast({
+        title: 'Error de validación',
+        description: 'El título es obligatorio',
+        variant: 'destructive',
+      })
+      setLoading(false)
+      return
+    }
+
+    if (!formData.excerpt || formData.excerpt.trim().length === 0) {
+      toast({
+        title: 'Error de validación',
+        description: 'El resumen (excerpt) es obligatorio',
         variant: 'destructive',
       })
       setLoading(false)
@@ -195,48 +217,81 @@ const PostEditor = () => {
         .filter(tag => tag.length > 0)
 
       const postData = {
-        title: formData.title,
-        excerpt: formData.excerpt,
-        content: formData.content,
-        author: formData.author,
+        title: formData.title.trim(),
+        excerpt: formData.excerpt.trim(),
+        content: formData.content?.trim() || '',
+        author: formData.author?.trim() || 'Equipo rium',
         category: formData.category,
-        image: formData.image,
+        image: formData.image?.trim() || '',
         tags: tagsArray,
-        read_time: formData.read_time,
+        read_time: formData.read_time?.trim() || '5 min',
         published: formData.published,
         user_id: user.id, // Asignar automáticamente al usuario actual
       }
 
+      console.log('Guardando artículo:', { ...postData, content: postData.content.substring(0, 50) + '...' })
+
       const supabase = await getSupabase()
+      let result
       let error
+      
       if (isEdit) {
-        const { error: updateError } = await supabase
+        result = await supabase
           .from('blog_posts')
           .update(postData)
           .eq('id', id)
-        error = updateError
+          .select()
+        error = result.error
       } else {
-        const { error: insertError } = await supabase
+        result = await supabase
           .from('blog_posts')
           .insert([postData])
-        error = insertError
+          .select()
+        error = result.error
       }
 
-      if (error) throw error
+      if (error) {
+        console.error('Error de Supabase:', error)
+        // Mensajes de error más descriptivos
+        let errorMessage = error.message || 'Error desconocido'
+        
+        if (error.code === '42501') {
+          errorMessage = 'No tienes permisos para realizar esta acción. Verifica las políticas RLS en Supabase.'
+        } else if (error.code === '23505') {
+          errorMessage = 'Ya existe un artículo con estos datos. Intenta con un título diferente.'
+        } else if (error.code === '23503') {
+          errorMessage = 'Error de referencia. Verifica que el user_id sea válido.'
+        } else if (error.message?.includes('RLS')) {
+          errorMessage = 'Error de permisos (RLS). Verifica que las políticas estén configuradas correctamente en Supabase.'
+        }
+        
+        throw new Error(errorMessage)
+      }
 
-      toast({
-        title: isEdit ? 'Artículo actualizado' : 'Artículo creado',
-        description: `El artículo ha sido ${isEdit ? 'actualizado' : 'creado'} correctamente`,
-      })
+      // Verificar que se guardó correctamente
+      if (result.data && result.data.length > 0) {
+        const savedPost = result.data[0]
+        console.log('Artículo guardado exitosamente:', savedPost.id)
+        
+        toast({
+          title: isEdit ? '✅ Artículo actualizado' : '✅ Artículo creado',
+          description: `El artículo "${savedPost.title}" ha sido ${isEdit ? 'actualizado' : 'creado'} correctamente. ${savedPost.published ? 'Está publicado y visible en el blog.' : 'Está guardado como borrador.'}`,
+        })
 
-      navigate('/admin')
+        // Pequeño delay para que el usuario vea el mensaje
+        setTimeout(() => {
+          navigate('/admin')
+        }, 1500)
+      } else {
+        throw new Error('El artículo no se guardó correctamente. No se recibió confirmación de la base de datos.')
+      }
     } catch (error) {
+      console.error('Error completo:', error)
       toast({
-        title: 'Error',
-        description: error.message,
+        title: '❌ Error al guardar',
+        description: error.message || 'Ocurrió un error inesperado al guardar el artículo. Por favor, intenta nuevamente.',
         variant: 'destructive',
       })
-    } finally {
       setLoading(false)
     }
   }
