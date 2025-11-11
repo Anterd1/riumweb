@@ -69,6 +69,17 @@ function formatDate(dateString) {
   }
 }
 
+// Función para escapar caracteres especiales en XML
+function escapeXml(unsafe) {
+  if (!unsafe) return ''
+  return String(unsafe)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+}
+
 async function generateSitemap() {
   let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -81,7 +92,7 @@ async function generateSitemap() {
   console.log('📝 Agregando URLs estáticas...')
   staticUrls.forEach((url) => {
     xml += `  <url>
-    <loc>${baseUrl}${url.loc}</loc>
+    <loc>${escapeXml(baseUrl + url.loc)}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${url.changefreq}</changefreq>
     <priority>${url.priority}</priority>
@@ -112,7 +123,7 @@ async function generateSitemap() {
           const priority = calculatePriority(post.created_at)
           
           xml += `  <url>
-    <loc>${baseUrl}/blog/${post.id}</loc>
+    <loc>${escapeXml(`${baseUrl}/blog/${post.id}`)}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>${priority}</priority>`
@@ -125,7 +136,7 @@ async function generateSitemap() {
             
             xml += `
     <image:image>
-      <image:loc>${imageUrl}</image:loc>
+      <image:loc>${escapeXml(imageUrl)}</image:loc>
       ${post.title ? `<image:title><![CDATA[${post.title}]]></image:title>` : ''}
     </image:image>`
           }

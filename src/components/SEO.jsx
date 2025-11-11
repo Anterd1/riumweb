@@ -250,6 +250,27 @@ const SEO = ({
     },
   } : null;
 
+  // Structured Data for Video (if on homepage)
+  const videoData = location.pathname === '/' ? {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: 'Agencia de Diseño UI/UX en Latinoamérica - rium',
+    description: 'Somos la agencia líder de diseño UI/UX en Latinoamérica. Especializados en transformar productos digitales complejos en experiencias intuitivas y fluidas.',
+    thumbnailUrl: 'https://rium.com.mx/images/HERO.png',
+    uploadDate: '2024-01-01',
+    contentUrl: 'https://rium.com.mx/video/videocover.mp4',
+    embedUrl: 'https://rium.com.mx/',
+    duration: 'PT30S', // Duración estimada del video (30 segundos)
+    publisher: {
+      '@type': 'Organization',
+      name: siteName,
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://rium.com.mx/images/HERO.png',
+      },
+    },
+  } : null;
+
   return (
     <>
     <Helmet htmlAttributes={{ lang: 'es' }}>
@@ -268,6 +289,13 @@ const SEO = ({
       <meta property="og:image" content={fullImageUrl} />
       <meta property="og:site_name" content={siteName} />
       <meta property="og:locale" content="es_ES" />
+      {location.pathname === '/' && (
+        <>
+          <meta property="og:video" content="https://rium.com.mx/video/videocover.mp4" />
+          <meta property="og:video:type" content="video/mp4" />
+          <meta property="og:video:secure_url" content="https://rium.com.mx/video/videocover.mp4" />
+        </>
+      )}
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -323,6 +351,14 @@ const SEO = ({
         <script 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessData) }}
+        />
+      </Helmet>
+    )}
+    {videoData && (
+      <Helmet>
+        <script 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(videoData) }}
         />
       </Helmet>
     )}
