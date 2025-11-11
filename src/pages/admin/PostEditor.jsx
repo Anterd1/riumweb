@@ -8,7 +8,9 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
+import { Toaster } from '@/components/ui/toaster'
 import SEO from '@/components/SEO'
+import MarkdownEditor from '@/components/MarkdownEditor'
 
 const PostEditor = () => {
   const { id } = useParams()
@@ -313,6 +315,7 @@ const PostEditor = () => {
         description="Editor de artículos del blog"
         url={`https://rium.com.mx/admin/posts/${id || 'new'}`}
       />
+      <Toaster />
 
       <div className="container mx-auto px-6 max-w-4xl">
         {/* Header */}
@@ -367,14 +370,12 @@ const PostEditor = () => {
             {/* Content */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Contenido
+                Contenido (Markdown)
               </label>
-              <Textarea
+              <MarkdownEditor
                 value={formData.content}
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                placeholder="Contenido completo del artículo..."
-                rows={10}
-                className="bg-[#0C0D0D] border-white/10 text-white"
+                placeholder="Escribe el contenido del artículo usando Markdown..."
               />
             </div>
 

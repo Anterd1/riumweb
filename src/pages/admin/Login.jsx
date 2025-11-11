@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
+import { Toaster } from '@/components/ui/toaster'
 import SEO from '@/components/SEO'
 
 const Login = () => {
@@ -17,10 +18,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    console.log('📝 Formulario enviado:', { email })
     setLoading(true)
 
     try {
+      console.log('🔐 Intentando login...')
       const { data, error } = await signIn(email, password)
+      console.log('📥 Respuesta de signIn:', { data, error })
 
       if (error) {
         console.error('Error de login:', error)
@@ -70,6 +74,7 @@ const Login = () => {
         description="Panel de administración de rium"
         url="https://rium.com.mx/admin/login"
       />
+      <Toaster />
       
       <motion.div
         initial={{ opacity: 0, y: 20 }}

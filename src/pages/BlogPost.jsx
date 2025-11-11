@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Calendar, Clock, ArrowLeft, Tag } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 import { getSupabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import SEO from '@/components/SEO'
@@ -227,9 +230,37 @@ const BlogPost = () => {
           <div className="container mx-auto px-6 pb-24">
             <div className="max-w-4xl mx-auto">
               <div className="prose prose-invert prose-lg max-w-none">
-                <div className="text-gray-300 leading-relaxed whitespace-pre-line">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw]}
+                  components={{
+                    h1: ({ node, ...props }) => <h1 className="text-4xl font-bold mb-6 text-white" {...props} />,
+                    h2: ({ node, ...props }) => <h2 className="text-3xl font-bold mb-5 mt-8 text-white" {...props} />,
+                    h3: ({ node, ...props }) => <h3 className="text-2xl font-bold mb-4 mt-6 text-white" {...props} />,
+                    h4: ({ node, ...props }) => <h4 className="text-xl font-bold mb-3 mt-5 text-white" {...props} />,
+                    p: ({ node, ...props }) => <p className="mb-4 text-gray-300 leading-relaxed text-lg" {...props} />,
+                    ul: ({ node, ...props }) => <ul className="list-disc list-inside mb-4 text-gray-300 space-y-2" {...props} />,
+                    ol: ({ node, ...props }) => <ol className="list-decimal list-inside mb-4 text-gray-300 space-y-2" {...props} />,
+                    li: ({ node, ...props }) => <li className="mb-2 leading-relaxed" {...props} />,
+                    a: ({ node, ...props }) => <a className="text-accent-purple hover:text-accent-purple/80 underline transition-colors" {...props} />,
+                    code: ({ node, inline, ...props }) => 
+                      inline ? 
+                        <code className="bg-white/10 px-2 py-1 rounded text-accent-purple text-base" {...props} /> :
+                        <code className="block bg-[#0C0D0D] p-4 rounded-lg text-sm overflow-x-auto my-4 border border-white/10" {...props} />,
+                    pre: ({ node, ...props }) => <pre className="bg-[#0C0D0D] p-4 rounded-lg overflow-x-auto my-4 border border-white/10" {...props} />,
+                    blockquote: ({ node, ...props }) => 
+                      <blockquote className="border-l-4 border-accent-purple pl-6 py-2 italic text-gray-400 my-6 bg-white/5 rounded-r-lg" {...props} />,
+                    img: ({ node, ...props }) => <img className="rounded-lg my-6 w-full" {...props} />,
+                    strong: ({ node, ...props }) => <strong className="font-bold text-white" {...props} />,
+                    em: ({ node, ...props }) => <em className="italic text-gray-200" {...props} />,
+                    hr: ({ node, ...props }) => <hr className="my-8 border-white/20" {...props} />,
+                    table: ({ node, ...props }) => <table className="w-full my-6 border-collapse" {...props} />,
+                    th: ({ node, ...props }) => <th className="border border-white/20 px-4 py-2 bg-white/5 text-left" {...props} />,
+                    td: ({ node, ...props }) => <td className="border border-white/20 px-4 py-2" {...props} />,
+                  }}
+                >
                   {post.content || post.excerpt}
-                </div>
+                </ReactMarkdown>
               </div>
             </div>
           </div>
