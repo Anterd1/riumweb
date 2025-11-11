@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { Calendar, Clock, ArrowLeft, Tag } from 'lucide-react'
 import { getSupabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
@@ -136,9 +136,10 @@ const BlogPost = () => {
         image={post.image}
       />
       <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify(blogPostingData)}
-        </script>
+        <script 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingData) }}
+        />
       </Helmet>
 
       <main>

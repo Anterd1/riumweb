@@ -20,15 +20,7 @@ export default defineConfig({
           'framer-motion': ['framer-motion'],
           'supabase': ['@supabase/supabase-js'],
           'radix-ui': [
-            '@radix-ui/react-alert-dialog',
-            '@radix-ui/react-avatar',
-            '@radix-ui/react-checkbox',
-            '@radix-ui/react-dialog',
-            '@radix-ui/react-dropdown-menu',
-            '@radix-ui/react-label',
-            '@radix-ui/react-slider',
             '@radix-ui/react-slot',
-            '@radix-ui/react-tabs',
             '@radix-ui/react-toast',
           ],
         },
@@ -47,6 +39,13 @@ export default defineConfig({
   },
   // Optimizar caché
   server: {
+    host: '0.0.0.0', // Escuchar en todas las interfaces (IPv4 e IPv6) para compatibilidad con Safari
+    port: 3000,
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost',
+      port: 3000,
+    },
     headers: {
       'Cache-Control': 'public, max-age=31536000',
     },

@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite --host :: --port 3000",
+    "dev": "vite --host 0.0.0.0 --port 3000",
     "build": "npm run generate:sitemap && vite build",
     "preview": "vite preview --host :: --port 3000",
     "generate:sitemap": "node scripts/generate-sitemap.js"
@@ -20,7 +20,7 @@
     "lucide-react": "^0.285.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-helmet": "^6.1.0",
+    "react-helmet-async": "^2.0.5",
     "react-router-dom": "6.16.0",
     "tailwind-merge": "^1.1.4",
     "tailwindcss-animate": "^1.0.7"
