@@ -54,7 +54,7 @@
           "value": "www.rium.com.mx"
         }
       ],
-      "destination": "https://rium.com.mx/:splat",
+      "destination": "https://rium.com.mx/$1",
       "permanent": true
     }
   ]
