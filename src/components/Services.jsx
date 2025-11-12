@@ -108,10 +108,12 @@ const Services = () => {
 
   // Mapeo de chips a servicios (índices)
   const filterTagMap = {
-    'Design': 0, // Diseño UI/UX
-    'Development': 4, // Diseño Web
-    'Digital Marketing': 5, // Retail Marketing
-    'SEO': 3 // SEO/SEM
+    'Diseño UI/UX': 0,
+    'Auditorías UX': 1,
+    'Investigación': 2,
+    'SEO/SEM': 3,
+    'Diseño Web': 4,
+    'Retail Marketing': 5
   };
 
   const handleFilterClick = (tag) => {
@@ -129,7 +131,8 @@ const Services = () => {
     }
   };
 
-  const filterTags = ['Design', 'Development', 'Digital Marketing', 'SEO'];
+  // Chips para todos los servicios
+  const filterTags = ['Diseño UI/UX', 'Auditorías UX', 'Investigación', 'SEO/SEM', 'Diseño Web', 'Retail Marketing'];
 
   return (
     <section id="services" className="py-24 bg-[#0C0D0D]" itemScope itemType="https://schema.org/Service">
@@ -146,9 +149,9 @@ const Services = () => {
               <button 
                 key={tag} 
                 onClick={() => handleFilterClick(tag)}
-                className="px-5 py-2 border border-gray-600 rounded-full text-gray-400 hover:text-white hover:border-accent-purple/50 hover:bg-accent-purple/10 transition-all cursor-pointer uppercase"
+                className="px-5 py-2 border border-gray-600 rounded-full text-gray-400 hover:text-white hover:border-accent-purple/50 hover:bg-accent-purple/10 transition-all cursor-pointer uppercase text-sm md:text-base"
               >
-                {tag === 'Design' ? 'Diseño' : tag === 'Development' ? 'Desarrollo' : tag === 'Digital Marketing' ? 'Marketing Digital' : tag === 'SEO' ? 'SEO' : tag}
+                {tag}
               </button>
             ))}
           </div>
