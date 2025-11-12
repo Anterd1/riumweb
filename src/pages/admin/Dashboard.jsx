@@ -204,12 +204,12 @@ const Dashboard = () => {
               <table className="w-full">
                 <thead className="bg-[#0C0D0D] border-b border-white/10">
                   <tr>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-300">Título</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-300">Categoría</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-300">Autor</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-300">Estado</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-300">Fecha</th>
-                    <th className="px-6 py-4 text-right text-sm font-semibold text-gray-300">Acciones</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[200px] max-w-[200px]">Título</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[140px]">Categoría</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[140px]">Autor</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[110px]">Estado</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[120px]">Fecha</th>
+                    <th className="px-4 py-4 text-right text-sm font-semibold text-gray-300 w-[100px]">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -224,17 +224,17 @@ const Dashboard = () => {
                       const isOwner = user && post.user_id === user.id
                       return (
                         <tr key={post.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                          <td className="px-6 py-4">
-                            <p className="font-medium text-white">{post.title}</p>
-                            <p className="text-sm text-gray-400 line-clamp-1">{post.excerpt}</p>
+                          <td className="px-4 py-4 w-[200px] max-w-[200px]">
+                            <p className="font-medium text-white line-clamp-2 text-sm">{post.title}</p>
+                            <p className="text-xs text-gray-400 line-clamp-1 mt-1">{post.excerpt}</p>
                           </td>
-                          <td className="px-6 py-4">
+                          <td className="px-4 py-4 w-[140px]">
                             <span className="px-3 py-1 bg-accent-purple/20 text-accent-purple rounded-full text-xs font-medium">
                               {post.category}
                             </span>
                           </td>
-                          <td className="px-6 py-4">
-                            <div className="flex items-center gap-2">
+                          <td className="px-4 py-4 w-[140px]">
+                            <div className="flex items-center gap-2 flex-wrap">
                               <span className="text-sm text-gray-300">{post.author || 'Equipo rium'}</span>
                               {isOwner && (
                                 <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded text-xs">
@@ -243,7 +243,7 @@ const Dashboard = () => {
                               )}
                             </div>
                           </td>
-                          <td className="px-6 py-4">
+                          <td className="px-4 py-4 w-[110px]">
                             {post.published ? (
                               <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
                                 Publicado
@@ -254,10 +254,10 @@ const Dashboard = () => {
                               </span>
                             )}
                           </td>
-                          <td className="px-6 py-4 text-gray-400 text-sm">
+                          <td className="px-4 py-4 text-gray-400 text-sm w-[120px]">
                             {formatDate(post.created_at)}
                           </td>
-                          <td className="px-6 py-4">
+                          <td className="px-4 py-4 w-[100px]">
                             <div className="flex justify-end gap-2">
                               {isOwner ? (
                                 <>
