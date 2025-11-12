@@ -101,21 +101,21 @@ const Dashboard = () => {
       <Toaster />
       
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-4xl font-bold mb-2">
+          <h1 className="text-2xl md:text-4xl font-bold mb-2">
             <span className="text-accent-purple">Artículos</span>
           </h1>
-          <p className="text-gray-400">Gestiona los artículos de tu blog</p>
+          <p className="text-sm md:text-base text-gray-400">Gestiona los artículos de tu blog</p>
           {user && (
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-xs md:text-sm text-gray-500 mt-1">
               Conectado como: <span className="text-accent-purple">{user.email}</span>
             </p>
           )}
         </div>
         <Button
           onClick={() => navigate('/admin/posts/new')}
-          className="bg-accent-purple hover:bg-accent-purple/90"
+          className="bg-accent-purple hover:bg-accent-purple/90 w-full md:w-auto"
         >
           <Plus className="mr-2 h-4 w-4" />
           Nuevo Artículo
@@ -140,7 +140,7 @@ const Dashboard = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
           <div className="bg-[#1E1E2A] rounded-xl p-6 border border-white/10">
             <div className="flex items-center justify-between">
               <div>
@@ -180,111 +180,199 @@ const Dashboard = () => {
             <p className="text-gray-400">Cargando artículos...</p>
           </div>
         ) : (
-          <div className="bg-[#1E1E2A] rounded-xl border border-white/10 overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-[#0C0D0D] border-b border-white/10">
-                  <tr>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[200px] max-w-[200px]">Título</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[140px]">Categoría</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[140px]">Autor</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[110px]">Estado</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[120px]">Fecha</th>
-                    <th className="px-4 py-4 text-right text-sm font-semibold text-gray-300 w-[100px]">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {posts.length === 0 ? (
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden md:block bg-[#1E1E2A] rounded-xl border border-white/10 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-[#0C0D0D] border-b border-white/10">
                     <tr>
-                      <td colSpan="6" className="px-6 py-12 text-center text-gray-400">
-                        {showOnlyMine ? 'No tienes artículos aún. Crea tu primer artículo.' : 'No hay artículos aún. Crea tu primer artículo.'}
-                      </td>
+                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[200px] max-w-[200px]">Título</th>
+                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[140px]">Categoría</th>
+                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[140px]">Autor</th>
+                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[110px]">Estado</th>
+                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[120px]">Fecha</th>
+                      <th className="px-4 py-4 text-right text-sm font-semibold text-gray-300 w-[100px]">Acciones</th>
                     </tr>
-                  ) : (
-                    posts.map((post) => {
-                      const isOwner = user && post.user_id === user.id
-                      return (
-                        <tr key={post.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                          <td className="px-4 py-4 w-[200px] max-w-[200px]">
-                            <p className="font-medium text-white line-clamp-2 text-sm">{post.title}</p>
-                            <p className="text-xs text-gray-400 line-clamp-1 mt-1">{post.excerpt}</p>
-                          </td>
-                          <td className="px-4 py-4 w-[140px]">
-                            <span className="px-3 py-1 bg-accent-purple/20 text-accent-purple rounded-full text-xs font-medium">
-                              {post.category}
-                            </span>
-                          </td>
-                          <td className="px-4 py-4 w-[140px]">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-sm text-gray-300">{post.author || 'Equipo rium'}</span>
-                              {isOwner && (
-                                <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded text-xs">
-                                  Tuyo
+                  </thead>
+                  <tbody>
+                    {posts.length === 0 ? (
+                      <tr>
+                        <td colSpan="6" className="px-6 py-12 text-center text-gray-400">
+                          {showOnlyMine ? 'No tienes artículos aún. Crea tu primer artículo.' : 'No hay artículos aún. Crea tu primer artículo.'}
+                        </td>
+                      </tr>
+                    ) : (
+                      posts.map((post) => {
+                        const isOwner = user && post.user_id === user.id
+                        return (
+                          <tr key={post.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                            <td className="px-4 py-4 w-[200px] max-w-[200px]">
+                              <p className="font-medium text-white line-clamp-2 text-sm">{post.title}</p>
+                              <p className="text-xs text-gray-400 line-clamp-1 mt-1">{post.excerpt}</p>
+                            </td>
+                            <td className="px-4 py-4 w-[140px]">
+                              <span className="px-3 py-1 bg-accent-purple/20 text-accent-purple rounded-full text-xs font-medium">
+                                {post.category}
+                              </span>
+                            </td>
+                            <td className="px-4 py-4 w-[140px]">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-sm text-gray-300">{post.author || 'Equipo rium'}</span>
+                                {isOwner && (
+                                  <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded text-xs">
+                                    Tuyo
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+                            <td className="px-4 py-4 w-[110px]">
+                              {post.published ? (
+                                <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
+                                  Publicado
+                                </span>
+                              ) : (
+                                <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-medium">
+                                  Borrador
                                 </span>
                               )}
-                            </div>
-                          </td>
-                          <td className="px-4 py-4 w-[110px]">
-                            {post.published ? (
-                              <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
-                                Publicado
-                              </span>
-                            ) : (
-                              <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-medium">
-                                Borrador
-                              </span>
-                            )}
-                          </td>
-                          <td className="px-4 py-4 text-gray-400 text-sm w-[120px]">
-                            {formatDate(post.created_at)}
-                          </td>
-                          <td className="px-4 py-4 w-[100px]">
-                            <div className="flex justify-end gap-2">
-                              {post.published && (
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() => window.open(`/blog/${post.id}`, '_blank')}
-                                  className="text-blue-400 hover:text-blue-400 hover:bg-blue-500/10"
-                                  title="Ver artículo publicado"
-                                >
-                                  <Eye className="h-4 w-4" />
-                                </Button>
-                              )}
-                              {isOwner ? (
-                                <>
+                            </td>
+                            <td className="px-4 py-4 text-gray-400 text-sm w-[120px]">
+                              {formatDate(post.created_at)}
+                            </td>
+                            <td className="px-4 py-4 w-[100px]">
+                              <div className="flex justify-end gap-2">
+                                {post.published && (
                                   <Button
                                     variant="ghost"
                                     size="sm"
-                                    onClick={() => navigate(`/admin/posts/${post.id}`)}
-                                    className="text-accent-purple hover:text-accent-purple hover:bg-accent-purple/10"
-                                    title="Editar artículo"
+                                    onClick={() => window.open(`/blog/${post.id}`, '_blank')}
+                                    className="text-blue-400 hover:text-blue-400 hover:bg-blue-500/10"
+                                    title="Ver artículo publicado"
                                   >
-                                    <Edit className="h-4 w-4" />
+                                    <Eye className="h-4 w-4" />
                                   </Button>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => handleDelete(post.id)}
-                                    className="text-red-400 hover:text-red-400 hover:bg-red-500/10"
-                                    title="Eliminar artículo"
-                                  >
-                                    <Trash2 className="h-4 w-4" />
-                                  </Button>
-                                </>
-                              ) : (
-                                <span className="text-xs text-gray-500">Solo lectura</span>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      )
-                    })
-                  )}
-                </tbody>
-              </table>
+                                )}
+                                {isOwner ? (
+                                  <>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => navigate(`/admin/posts/${post.id}`)}
+                                      className="text-accent-purple hover:text-accent-purple hover:bg-accent-purple/10"
+                                      title="Editar artículo"
+                                    >
+                                      <Edit className="h-4 w-4" />
+                                    </Button>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => handleDelete(post.id)}
+                                      className="text-red-400 hover:text-red-400 hover:bg-red-500/10"
+                                      title="Eliminar artículo"
+                                    >
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <span className="text-xs text-gray-500">Solo lectura</span>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        )
+                      })
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden space-y-4">
+              {posts.length === 0 ? (
+                <div className="bg-[#1E1E2A] rounded-xl p-8 text-center border border-white/10">
+                  <p className="text-gray-400">
+                    {showOnlyMine ? 'No tienes artículos aún. Crea tu primer artículo.' : 'No hay artículos aún. Crea tu primer artículo.'}
+                  </p>
+                </div>
+              ) : (
+                posts.map((post) => {
+                  const isOwner = user && post.user_id === user.id
+                  return (
+                    <div
+                      key={post.id}
+                      className="bg-[#1E1E2A] rounded-xl p-4 border border-white/10 space-y-3"
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-white text-sm mb-1 line-clamp-2">{post.title}</h3>
+                          <p className="text-xs text-gray-400 line-clamp-2 mb-2">{post.excerpt}</p>
+                        </div>
+                        {post.published && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => window.open(`/blog/${post.id}`, '_blank')}
+                            className="text-blue-400 hover:text-blue-400 hover:bg-blue-500/10 flex-shrink-0"
+                            title="Ver artículo"
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="px-2 py-1 bg-accent-purple/20 text-accent-purple rounded-full text-xs font-medium">
+                          {post.category}
+                        </span>
+                        {post.published ? (
+                          <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
+                            Publicado
+                          </span>
+                        ) : (
+                          <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-medium">
+                            Borrador
+                          </span>
+                        )}
+                        {isOwner && (
+                          <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">
+                            Tuyo
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex items-center justify-between pt-2 border-t border-white/10">
+                        <span className="text-xs text-gray-500">{formatDate(post.created_at)}</span>
+                        {isOwner && (
+                          <div className="flex gap-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => navigate(`/admin/posts/${post.id}`)}
+                              className="text-accent-purple hover:text-accent-purple hover:bg-accent-purple/10"
+                              title="Editar"
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDelete(post.id)}
+                              className="text-red-400 hover:text-red-400 hover:bg-red-500/10"
+                              title="Eliminar"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })
+              )}
+            </div>
+          </>
         )}
     </div>
   )

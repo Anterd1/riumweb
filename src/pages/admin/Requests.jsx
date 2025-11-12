@@ -118,17 +118,17 @@ const Requests = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
         <div>
-          <h1 className="text-4xl font-bold mb-2">
+          <h1 className="text-2xl md:text-4xl font-bold mb-2">
             Solicitudes de <span className="text-accent-purple">Contacto</span>
           </h1>
-          <p className="text-gray-400">
+          <p className="text-sm md:text-base text-gray-400">
             {messages.length} mensaje{messages.length !== 1 ? 's' : ''} recibido{messages.length !== 1 ? 's' : ''}
             {unreadCount > 0 && (
-              <span className="ml-2 px-2 py-1 bg-accent-purple/20 text-accent-purple rounded-full text-sm">
+              <span className="ml-2 px-2 py-1 bg-accent-purple/20 text-accent-purple rounded-full text-xs md:text-sm">
                 {unreadCount} no leído{unreadCount !== 1 ? 's' : ''}
               </span>
             )}
@@ -136,20 +136,20 @@ const Requests = () => {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-4 md:gap-6">
         {/* Lista de mensajes */}
-        <div className="lg:col-span-1 space-y-3">
+        <div className={`lg:col-span-1 space-y-3 ${selectedMessage ? 'hidden lg:block' : ''}`}>
           {messages.length === 0 ? (
-            <div className="bg-[#1E1E2A] rounded-xl p-8 text-center border border-white/10">
-              <Mail className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-              <p className="text-gray-400">No hay mensajes aún</p>
+            <div className="bg-[#1E1E2A] rounded-xl p-6 md:p-8 text-center border border-white/10">
+              <Mail className="w-10 h-10 md:w-12 md:h-12 text-gray-600 mx-auto mb-4" />
+              <p className="text-sm md:text-base text-gray-400">No hay mensajes aún</p>
             </div>
           ) : (
             messages.map((message) => (
               <div
                 key={message.id}
                 onClick={() => setSelectedMessage(message)}
-                className={`p-4 rounded-xl border cursor-pointer transition-all ${
+                className={`p-3 md:p-4 rounded-xl border cursor-pointer transition-all ${
                   selectedMessage?.id === message.id
                     ? 'bg-accent-purple/20 border-accent-purple/50'
                     : message.read
@@ -158,22 +158,22 @@ const Requests = () => {
                 }`}
               >
                 <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1">
-                    <p className={`font-semibold ${!message.read ? 'text-white' : 'text-gray-300'}`}>
+                  <div className="flex-1 min-w-0">
+                    <p className={`font-semibold text-sm md:text-base ${!message.read ? 'text-white' : 'text-gray-300'}`}>
                       {message.name}
                     </p>
-                    <p className="text-sm text-gray-400 truncate">{message.email}</p>
+                    <p className="text-xs md:text-sm text-gray-400 truncate">{message.email}</p>
                   </div>
                   {!message.read && (
                     <div className="w-2 h-2 bg-accent-purple rounded-full ml-2 flex-shrink-0 mt-1" />
                   )}
                 </div>
-                <p className="text-sm text-gray-400 line-clamp-2 mb-2">
+                <p className="text-xs md:text-sm text-gray-400 line-clamp-2 mb-2">
                   {message.message}
                 </p>
                 <div className="flex items-center gap-2 text-xs text-gray-500">
                   <Calendar size={12} />
-                  {formatDate(message.created_at)}
+                  <span className="truncate">{formatDate(message.created_at)}</span>
                 </div>
               </div>
             ))
@@ -181,19 +181,27 @@ const Requests = () => {
         </div>
 
         {/* Detalle del mensaje */}
-        <div className="lg:col-span-2">
+        <div className={`lg:col-span-2 ${!selectedMessage ? 'hidden lg:block' : ''}`}>
           {selectedMessage ? (
-            <div className="bg-[#1E1E2A] rounded-xl p-6 border border-white/10">
-              <div className="flex items-start justify-between mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold mb-2">{selectedMessage.name}</h2>
-                  <p className="text-accent-purple">{selectedMessage.email}</p>
-                  <div className="flex items-center gap-2 mt-2 text-sm text-gray-400">
+            <>
+              {/* Botón volver en móvil */}
+              <button
+                onClick={() => setSelectedMessage(null)}
+                className="lg:hidden mb-4 text-accent-purple hover:text-accent-purple/80 flex items-center gap-2 text-sm"
+              >
+                ← Volver a la lista
+              </button>
+            <div className="bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-white/10">
+              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4 md:mb-6">
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-xl md:text-2xl font-bold mb-2 break-words">{selectedMessage.name}</h2>
+                  <p className="text-sm md:text-base text-accent-purple break-all">{selectedMessage.email}</p>
+                  <div className="flex items-center gap-2 mt-2 text-xs md:text-sm text-gray-400">
                     <Calendar size={14} />
                     {formatDate(selectedMessage.created_at)}
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-shrink-0">
                   <Button
                     variant="ghost"
                     size="sm"
@@ -217,9 +225,9 @@ const Requests = () => {
 
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-400 mb-2">Mensaje</h3>
-                  <div className="bg-[#0C0D0D] rounded-lg p-4 border border-white/10">
-                    <p className="text-gray-300 whitespace-pre-wrap leading-relaxed">
+                  <h3 className="text-xs md:text-sm font-semibold text-gray-400 mb-2">Mensaje</h3>
+                  <div className="bg-[#0C0D0D] rounded-lg p-3 md:p-4 border border-white/10">
+                    <p className="text-sm md:text-base text-gray-300 whitespace-pre-wrap leading-relaxed break-words">
                       {selectedMessage.message}
                     </p>
                   </div>
@@ -228,7 +236,7 @@ const Requests = () => {
                 <div className="flex gap-3 pt-4 border-t border-white/10">
                   <Button
                     onClick={() => window.open(`mailto:${selectedMessage.email}`, '_blank')}
-                    className="bg-accent-purple hover:bg-accent-purple/90"
+                    className="bg-accent-purple hover:bg-accent-purple/90 w-full md:w-auto"
                   >
                     <Mail className="mr-2 h-4 w-4" />
                     Responder por Email
@@ -236,10 +244,11 @@ const Requests = () => {
                 </div>
               </div>
             </div>
+            </>
           ) : (
-            <div className="bg-[#1E1E2A] rounded-xl p-12 text-center border border-white/10">
-              <Mail className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-              <p className="text-gray-400">Selecciona un mensaje para ver los detalles</p>
+            <div className="bg-[#1E1E2A] rounded-xl p-8 md:p-12 text-center border border-white/10">
+              <Mail className="w-12 h-12 md:w-16 md:h-16 text-gray-600 mx-auto mb-4" />
+              <p className="text-sm md:text-base text-gray-400">Selecciona un mensaje para ver los detalles</p>
             </div>
           )}
         </div>
