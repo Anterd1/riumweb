@@ -12,7 +12,9 @@ import DisenoTuPaginaWeb from '@/pages/DisenoTuPaginaWeb';
 import Login from '@/pages/admin/Login';
 import Dashboard from '@/pages/admin/Dashboard';
 import PostEditor from '@/pages/admin/PostEditor';
+import Requests from '@/pages/admin/Requests';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import AdminLayout from '@/components/AdminLayout';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 function App() {
@@ -38,10 +40,13 @@ function App() {
         path="/admin"
         element={
           <ProtectedRoute>
-            <Dashboard />
+            <AdminLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<Dashboard />} />
+        <Route path="requests" element={<Requests />} />
+      </Route>
       <Route
         path="/admin/posts/new"
         element={

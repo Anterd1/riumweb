@@ -4,8 +4,10 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { ArrowRight, Mail, Phone } from 'lucide-react';
+import { ArrowRight, Mail, Phone, Loader2 } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
+import { Toaster } from '@/components/ui/toaster';
+import { getSupabase } from '@/lib/supabase';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -13,14 +15,39 @@ const Contact = () => {
     email: '',
     message: '',
   });
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    toast({
-      title: '¡Gracias!',
-      description: 'Tu mensaje ha sido enviado exitosamente. ¡Te responderemos pronto!',
-    });
-    setFormData({ name: '', email: '', message: '' });
+    setLoading(true);
+
+    try {
+      const supabase = await getSupabase();
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert([{
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          message: formData.message.trim(),
+        }]);
+
+      if (error) throw error;
+
+      toast({
+        title: '¡Gracias!',
+        description: 'Tu mensaje ha sido enviado exitosamente. ¡Te responderemos pronto!',
+      });
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      console.error('Error enviando mensaje:', error);
+      toast({
+        title: 'Error',
+        description: 'No se pudo enviar el mensaje. Por favor, intenta nuevamente o contáctanos directamente por email.',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -38,6 +65,7 @@ const Contact = () => {
         keywords="contacto agencia creativa, consulta diseño, contacto marketing digital, agencia diseño UI/UX, consultoría UX, experiencia de usuario, auditoría UX, evaluaciones heurísticas, contacto diseño interfaces, contacto auditoría UX, contacto investigación mercado, cotización diseño UI/UX, presupuesto UX"
         url="https://rium.com.mx/contact"
       />
+      <Toaster />
       
       <motion.div
         initial={{ opacity: 0 }}
@@ -158,10 +186,20 @@ const Contact = () => {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-accent-purple hover:bg-accent-purple/90 text-white font-bold rounded-full group"
+                    disabled={loading}
+                    className="w-full bg-accent-purple hover:bg-accent-purple/90 text-white font-bold rounded-full group disabled:opacity-50"
                   >
-                    Enviar Mensaje
-                    <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                    {loading ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Enviando...
+                      </>
+                    ) : (
+                      <>
+                        Enviar Mensaje
+                        <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
                   </Button>
                 </form>
               </motion.div>

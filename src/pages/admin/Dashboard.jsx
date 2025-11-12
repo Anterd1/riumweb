@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Plus, Edit, Trash2, Eye, LogOut, FileText, Filter } from 'lucide-react'
+import { Plus, Edit, Trash2, Eye, FileText, Filter } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { getSupabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
-import SEO from '@/components/SEO'
+import { Toaster } from '@/components/ui/toaster'
 
 const Dashboard = () => {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [showOnlyMine, setShowOnlyMine] = useState(false)
-  const { user, signOut } = useAuth()
+  const { user } = useAuth()
   const { toast } = useToast()
   const navigate = useNavigate()
 
@@ -86,10 +86,6 @@ const Dashboard = () => {
     }
   }
 
-  const handleLogout = async () => {
-    await signOut()
-    navigate('/admin/login')
-  }
 
   const formatDate = (dateString) => {
     if (!dateString) return ''
@@ -101,48 +97,33 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="admin-page min-h-screen bg-[#0C0D0D] text-white pt-24 pb-20">
-      <SEO
-        title="Dashboard - Admin"
-        description="Panel de administración del blog de rium"
-        url="https://rium.com.mx/admin"
-      />
-
-      <div className="container mx-auto px-6">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-4xl font-bold mb-2">
-              Panel de <span className="text-accent-purple">Administración</span>
-            </h1>
-            <p className="text-gray-400">Gestiona los artículos de tu blog</p>
-            {user && (
-              <p className="text-sm text-gray-500 mt-1">
-                Conectado como: <span className="text-accent-purple">{user.email}</span>
-              </p>
-            )}
-          </div>
-          <div className="flex gap-4">
-            <Button
-              onClick={() => navigate('/admin/posts/new')}
-              className="bg-accent-purple hover:bg-accent-purple/90"
-            >
-              <Plus className="mr-2 h-4 w-4" />
-              Nuevo Artículo
-            </Button>
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              className="border-white/10"
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              Salir
-            </Button>
-          </div>
+    <div className="space-y-6">
+      <Toaster />
+      
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-4xl font-bold mb-2">
+            <span className="text-accent-purple">Artículos</span>
+          </h1>
+          <p className="text-gray-400">Gestiona los artículos de tu blog</p>
+          {user && (
+            <p className="text-sm text-gray-500 mt-1">
+              Conectado como: <span className="text-accent-purple">{user.email}</span>
+            </p>
+          )}
         </div>
+        <Button
+          onClick={() => navigate('/admin/posts/new')}
+          className="bg-accent-purple hover:bg-accent-purple/90"
+        >
+          <Plus className="mr-2 h-4 w-4" />
+          Nuevo Artículo
+        </Button>
+      </div>
 
-        {/* Filtro */}
-        <div className="mb-6 flex items-center gap-4">
+      {/* Filtro */}
+      <div className="flex items-center gap-4">
           <Button
             variant={showOnlyMine ? "default" : "outline"}
             onClick={() => setShowOnlyMine(!showOnlyMine)}
@@ -305,7 +286,6 @@ const Dashboard = () => {
             </div>
           </div>
         )}
-      </div>
     </div>
   )
 }
