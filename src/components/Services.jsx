@@ -106,6 +106,29 @@ const Services = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
+  // Mapeo de chips a servicios (índices)
+  const filterTagMap = {
+    'Design': 0, // Diseño UI/UX
+    'Development': 4, // Diseño Web
+    'Digital Marketing': 5, // Retail Marketing
+    'SEO': 3 // SEO/SEM
+  };
+
+  const handleFilterClick = (tag) => {
+    const serviceIndex = filterTagMap[tag];
+    if (serviceIndex !== undefined) {
+      // Hacer scroll al servicio correspondiente
+      const serviceElement = document.getElementById(`service-${serviceIndex}`);
+      if (serviceElement) {
+        serviceElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Abrir el servicio automáticamente después de un pequeño delay
+        setTimeout(() => {
+          setActiveIndex(serviceIndex);
+        }, 300);
+      }
+    }
+  };
+
   const filterTags = ['Design', 'Development', 'Digital Marketing', 'SEO'];
 
   return (
@@ -120,7 +143,11 @@ const Services = () => {
           </p>
           <div className="flex flex-wrap gap-3 mt-8">
             {filterTags.map(tag => (
-              <button key={tag} className="px-5 py-2 border border-gray-600 rounded-full text-gray-400 cursor-default uppercase">
+              <button 
+                key={tag} 
+                onClick={() => handleFilterClick(tag)}
+                className="px-5 py-2 border border-gray-600 rounded-full text-gray-400 hover:text-white hover:border-accent-purple/50 hover:bg-accent-purple/10 transition-all cursor-pointer uppercase"
+              >
                 {tag === 'Design' ? 'Diseño' : tag === 'Development' ? 'Desarrollo' : tag === 'Digital Marketing' ? 'Marketing Digital' : tag === 'SEO' ? 'SEO' : tag}
               </button>
             ))}
@@ -129,7 +156,13 @@ const Services = () => {
 
         <div className="border-t border-gray-800" itemScope itemType="https://schema.org/ItemList">
           {services.map((service, index) => (
-            <article key={service.title} className="border-b border-gray-800" itemScope itemType="https://schema.org/Service">
+            <article 
+              key={service.title} 
+              id={`service-${index}`}
+              className="border-b border-gray-800 scroll-mt-24" 
+              itemScope 
+              itemType="https://schema.org/Service"
+            >
               <div className="flex justify-between items-center cursor-pointer py-8 group" onClick={() => handleServiceClick(index)}>
                 <div className="flex items-center gap-4">
                   <h3 className={`text-3xl md:text-5xl font-bold transition-colors duration-300 ${activeIndex === index ? 'text-white' : 'text-gray-600 group-hover:text-gray-400'}`} itemProp="name">
