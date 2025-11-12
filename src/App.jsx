@@ -16,6 +16,7 @@ import Dashboard from '@/pages/admin/Dashboard';
 import NewsDashboard from '@/pages/admin/NewsDashboard';
 import PostEditor from '@/pages/admin/PostEditor';
 import Requests from '@/pages/admin/Requests';
+import Users from '@/pages/admin/Users';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import AdminLayout from '@/components/AdminLayout';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
@@ -52,6 +53,7 @@ function App() {
         <Route index element={<Dashboard />} />
         <Route path="news" element={<NewsDashboard />} />
         <Route path="requests" element={<Requests />} />
+        <Route path="users" element={<Users />} />
       </Route>
       <Route
         path="/admin/posts/new"

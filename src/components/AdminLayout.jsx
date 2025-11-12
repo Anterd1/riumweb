@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
-import { FileText, Mail, LogOut, Menu, X, Newspaper } from 'lucide-react'
+import { FileText, Mail, LogOut, Menu, X, Newspaper, Users } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/toaster'
@@ -33,6 +33,11 @@ const AdminLayout = () => {
       icon: Mail,
       label: 'Solicitudes',
       path: '/admin/requests',
+    },
+    {
+      icon: Users,
+      label: 'Usuarios',
+      path: '/admin/users',
     },
   ]
 
