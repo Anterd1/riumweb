@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
@@ -6,11 +6,11 @@ import { useBlogPosts } from '@/hooks/useBlogPosts';
 import { Button } from '@/components/ui/button';
 import SectionAnimator from '@/components/SectionAnimator';
 
-const SectionBlog = () => {
-  const { posts, loading } = useBlogPosts(null);
+const SectionBlog = React.memo(() => {
+  const { posts, loading } = useBlogPosts(null, 'article'); // Solo artículos, no noticias
   
-  // Obtener solo los últimos 3 artículos
-  const latestPosts = posts.slice(0, 3);
+  // Obtener solo los últimos 3 artículos (memoizado)
+  const latestPosts = useMemo(() => posts.slice(0, 3), [posts]);
 
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -185,7 +185,9 @@ const SectionBlog = () => {
       </section>
     </SectionAnimator>
   );
-};
+});
+
+SectionBlog.displayName = 'SectionBlog';
 
 export default SectionBlog;
 

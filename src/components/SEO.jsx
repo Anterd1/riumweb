@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 
-const SEO = ({
+const SEO = React.memo(({
   title,
   description,
   keywords,
@@ -13,19 +13,22 @@ const SEO = ({
 }) => {
   const location = useLocation();
   
-  // Limpiar URL de parámetros de query problemáticos y rutas que no deberían existir
-  let cleanPathname = location.pathname;
-  if (cleanPathname.startsWith('/tienda')) {
-    cleanPathname = '/';
-  }
+  // Limpiar URL de parámetros de query problemáticos y rutas que no deberían existir (memoizado)
+  const cleanPathname = useMemo(() => {
+    let path = location.pathname;
+    if (path.startsWith('/tienda')) {
+      path = '/';
+    }
+    return path;
+  }, [location.pathname]);
   
-  const currentUrl = url || `https://rium.com.mx${cleanPathname}`;
-  const fullImageUrl = image.startsWith('http') ? image : `https://rium.com.mx${image}`;
+  const currentUrl = useMemo(() => url || `https://rium.com.mx${cleanPathname}`, [url, cleanPathname]);
+  const fullImageUrl = useMemo(() => image.startsWith('http') ? image : `https://rium.com.mx${image}`, [image]);
 
-  // Función para generar breadcrumbs
-  const generateBreadcrumbs = () => {
+  // Función para generar breadcrumbs (memoizada)
+  const breadcrumbs = useMemo(() => {
     const pathSegments = location.pathname.split('/').filter(Boolean);
-    const breadcrumbs = [
+    const breadcrumbList = [
       {
         '@type': 'ListItem',
         position: 1,
@@ -54,7 +57,7 @@ const SEO = ({
         name = segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
       }
 
-      breadcrumbs.push({
+      breadcrumbList.push({
         '@type': 'ListItem',
         position,
         name,
@@ -62,8 +65,8 @@ const SEO = ({
       });
     });
 
-    return breadcrumbs;
-  };
+    return breadcrumbList;
+  }, [location.pathname]);
 
   // Optimizar título (máximo 60 caracteres)
   const optimizedTitle = title.length + siteName.length + 3 > 60 
@@ -146,7 +149,7 @@ const SEO = ({
   const breadcrumbData = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    itemListElement: generateBreadcrumbs(),
+    itemListElement: breadcrumbs,
   };
 
   // Structured Data for Services (if on homepage) - Mejorado con más detalles
@@ -630,7 +633,9 @@ const SEO = ({
     )}
     </>
   );
-};
+});
+
+SEO.displayName = 'SEO';
 
 export default SEO;
 

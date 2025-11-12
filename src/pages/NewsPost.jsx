@@ -1,0 +1,407 @@
+import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate, Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
+import { Calendar, Clock, ArrowLeft, Tag, TrendingUp } from 'lucide-react'
+import { getSupabase } from '@/lib/supabase'
+import { Button } from '@/components/ui/button'
+import SEO from '@/components/SEO'
+import SectionAnimator from '@/components/SectionAnimator'
+
+const NewsPost = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const [post, setPost] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    fetchPost()
+  }, [id])
+
+  const fetchPost = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+
+      const supabase = await getSupabase()
+      const { data, error: fetchError } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('id', id)
+        .eq('published', true)
+        .eq('post_type', 'news') // Solo noticias
+        .single()
+
+      if (fetchError) throw fetchError
+
+      if (!data) {
+        setError('Noticia no encontrada')
+        return
+      }
+
+      setPost(data)
+    } catch (err) {
+      console.error('Error fetching news post:', err)
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const formatDate = (dateString) => {
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    return date.toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  }
+
+  const parseTags = (tags) => {
+    if (!tags) return []
+    if (Array.isArray(tags)) return tags
+    try {
+      return JSON.parse(tags)
+    } catch {
+      return typeof tags === 'string' ? tags.split(',').map(t => t.trim()) : []
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="bg-[#0C0D0D] text-white min-h-screen pt-24 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent-purple"></div>
+          <p className="text-gray-400">Cargando noticia...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error || !post) {
+    return (
+      <div className="bg-[#0C0D0D] text-white min-h-screen pt-24">
+        <div className="container mx-auto px-6 py-16">
+          <div className="bg-red-500/10 border border-red-500/50 rounded-2xl p-8 text-center">
+            <p className="text-red-400 mb-4">Error al cargar la noticia</p>
+            <p className="text-gray-400 text-sm mb-6">{error || 'Noticia no encontrada'}</p>
+            <Button onClick={() => navigate('/noticias')} className="bg-accent-purple hover:bg-accent-purple/90">
+              Volver a Noticias
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const postTags = parseTags(post.tags)
+
+  // Structured Data para NewsArticle
+  const newsArticleData = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: post.title,
+    description: post.excerpt,
+    image: post.image ? (post.image.startsWith('http') ? post.image : `https://rium.com.mx${post.image}`) : undefined,
+    datePublished: post.created_at,
+    dateModified: post.updated_at || post.created_at,
+    author: {
+      '@type': 'Person',
+      name: post.author || 'Equipo rium',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'rium - Agencia de diseño UI/UX',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://rium.com.mx/images/HERO.png',
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://rium.com.mx/noticias/${id}`,
+    },
+    articleSection: post.category,
+    keywords: postTags.length > 0 ? postTags.join(', ') : post.category,
+  }
+
+  return (
+    <div className="bg-[#0C0D0D] text-white min-h-screen pt-24">
+      <SEO
+        title={post.title}
+        description={post.excerpt}
+        keywords={`${post.category}, ${postTags.join(', ')}, noticias tech, tecnología`}
+        url={`https://rium.com.mx/noticias/${id}`}
+        type="article"
+        image={post.image}
+      />
+      <Helmet>
+        <script 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(newsArticleData) }}
+        />
+      </Helmet>
+
+      <main>
+        {/* Header */}
+        <SectionAnimator>
+          <div className="container mx-auto px-6 pt-16 pb-8">
+            <Link
+              to="/noticias"
+              className="inline-flex items-center gap-2 text-gray-400 hover:text-accent-purple transition-colors mb-8"
+            >
+              <ArrowLeft size={20} />
+              Volver a Noticias
+            </Link>
+
+            <div className="max-w-4xl mx-auto">
+              {/* Category Badge */}
+              <div className="mb-6 flex items-center gap-3">
+                <span className="px-4 py-2 bg-accent-purple/20 text-accent-purple rounded-full text-sm font-semibold uppercase">
+                  {post.category}
+                </span>
+                <span className="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-full text-sm font-semibold uppercase flex items-center gap-2">
+                  <TrendingUp size={14} />
+                  Noticia Tech
+                </span>
+              </div>
+
+              {/* Title */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                {post.title}
+              </h1>
+
+              {/* Meta Info */}
+              <div className="flex flex-wrap items-center gap-6 text-gray-400 mb-8">
+                {post.author && (
+                  <span className="text-lg">Por {post.author}</span>
+                )}
+                <span className="flex items-center gap-2">
+                  <Calendar size={18} />
+                  {formatDate(post.created_at)}
+                </span>
+                {post.read_time && (
+                  <span className="flex items-center gap-2">
+                    <Clock size={18} />
+                    {post.read_time}
+                  </span>
+                )}
+              </div>
+
+              {/* Tags */}
+              {postTags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {postTags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="px-3 py-1 bg-white/10 rounded-full text-sm text-gray-300 flex items-center gap-1"
+                    >
+                      <Tag size={14} />
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </SectionAnimator>
+
+        {/* Featured Image */}
+        {post.image && (
+          <SectionAnimator>
+            <div className="container mx-auto px-6 mb-12">
+              <div className="max-w-4xl mx-auto">
+                <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl">
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover"
+                    style={{ aspectRatio: '16/9' }}
+                  />
+                </div>
+              </div>
+            </div>
+          </SectionAnimator>
+        )}
+
+        {/* Content */}
+        <SectionAnimator>
+          <div className="container mx-auto px-6 pb-24">
+            <div className="max-w-4xl mx-auto">
+              <div 
+                className="prose prose-invert prose-lg max-w-none blog-content"
+                dangerouslySetInnerHTML={{ __html: post.content || post.excerpt }}
+                style={{
+                  color: '#d1d5db',
+                }}
+              />
+              <style>{`
+                .blog-content h1 {
+                  font-size: 2.25rem;
+                  font-weight: 700;
+                  margin-bottom: 1.5rem;
+                  margin-top: 0;
+                  color: #ffffff;
+                }
+                
+                .blog-content h2 {
+                  font-size: 1.875rem;
+                  font-weight: 700;
+                  margin-bottom: 1.25rem;
+                  margin-top: 2rem;
+                  color: #ffffff;
+                }
+                
+                .blog-content h3 {
+                  font-size: 1.5rem;
+                  font-weight: 700;
+                  margin-bottom: 1rem;
+                  margin-top: 1.5rem;
+                  color: #ffffff;
+                }
+                
+                .blog-content p {
+                  margin-bottom: 1rem;
+                  color: #d1d5db;
+                  line-height: 1.75;
+                  font-size: 1.125rem;
+                }
+                
+                .blog-content ul, .blog-content ol {
+                  margin-bottom: 1rem;
+                  padding-left: 1.5rem;
+                  color: #d1d5db;
+                }
+                
+                .blog-content ul {
+                  list-style-type: disc;
+                }
+                
+                .blog-content ol {
+                  list-style-type: decimal;
+                }
+                
+                .blog-content li {
+                  margin-bottom: 0.5rem;
+                  line-height: 1.75;
+                }
+                
+                .blog-content a {
+                  color: #a855f7;
+                  text-decoration: underline;
+                  transition: color 0.2s;
+                }
+                
+                .blog-content a:hover {
+                  color: rgba(168, 85, 247, 0.8);
+                }
+                
+                .blog-content blockquote {
+                  border-left: 4px solid #a855f7;
+                  padding-left: 1.5rem;
+                  padding-top: 0.5rem;
+                  padding-bottom: 0.5rem;
+                  font-style: italic;
+                  color: #9ca3af;
+                  margin: 1.5rem 0;
+                  background-color: rgba(255, 255, 255, 0.05);
+                  border-radius: 0 0.5rem 0.5rem 0;
+                }
+                
+                .blog-content img {
+                  border-radius: 0.5rem;
+                  margin: 1.5rem 0;
+                  width: 100%;
+                  height: auto;
+                }
+                
+                .blog-content code {
+                  background-color: rgba(255, 255, 255, 0.1);
+                  padding: 0.25rem 0.5rem;
+                  border-radius: 0.25rem;
+                  color: #a855f7;
+                  font-size: 1rem;
+                }
+                
+                .blog-content pre {
+                  background-color: #0C0D0D;
+                  padding: 1rem;
+                  border-radius: 0.5rem;
+                  overflow-x: auto;
+                  margin: 1rem 0;
+                  border: 1px solid rgba(255, 255, 255, 0.1);
+                }
+                
+                .blog-content pre code {
+                  background-color: transparent;
+                  padding: 0;
+                  color: inherit;
+                }
+                
+                .blog-content strong {
+                  font-weight: 700;
+                  color: #ffffff;
+                }
+                
+                .blog-content em {
+                  font-style: italic;
+                  color: #e5e7eb;
+                }
+                
+                .blog-content hr {
+                  margin: 2rem 0;
+                  border-color: rgba(255, 255, 255, 0.2);
+                }
+                
+                .blog-content table {
+                  width: 100%;
+                  margin: 1.5rem 0;
+                  border-collapse: collapse;
+                }
+                
+                .blog-content th {
+                  border: 1px solid rgba(255, 255, 255, 0.2);
+                  padding: 0.5rem 1rem;
+                  background-color: rgba(255, 255, 255, 0.05);
+                  text-align: left;
+                }
+                
+                .blog-content td {
+                  border: 1px solid rgba(255, 255, 255, 0.2);
+                  padding: 0.5rem 1rem;
+                }
+              `}</style>
+            </div>
+          </div>
+        </SectionAnimator>
+
+        {/* Back to News CTA */}
+        <SectionAnimator>
+          <div className="container mx-auto px-6 pb-24">
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-[#1E1E2A] rounded-2xl p-8 border border-white/10 text-center">
+                <h2 className="text-2xl font-bold mb-4">¿Te gustó esta noticia?</h2>
+                <p className="text-gray-400 mb-6">
+                  Explora más noticias sobre tecnología, diseño y desarrollo.
+                </p>
+                <Button
+                  onClick={() => navigate('/noticias')}
+                  className="bg-accent-purple hover:bg-accent-purple/90"
+                >
+                  Ver todas las noticias
+                  <ArrowLeft className="ml-2 rotate-180" size={18} />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </SectionAnimator>
+      </main>
+    </div>
+  )
+}
+
+export default NewsPost
+

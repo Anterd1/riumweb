@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Plus, Edit, Trash2, Eye, FileText, Filter } from 'lucide-react'
+import { Plus, Edit, Trash2, Eye, FileText, Filter, Newspaper, BookOpen } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { getSupabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
@@ -12,13 +12,14 @@ const Dashboard = () => {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [showOnlyMine, setShowOnlyMine] = useState(false)
+  const [postTypeFilter, setPostTypeFilter] = useState('all') // 'all', 'article', 'news'
   const { user } = useAuth()
   const { toast } = useToast()
   const navigate = useNavigate()
 
   useEffect(() => {
     fetchPosts()
-  }, [showOnlyMine, user])
+  }, [showOnlyMine, user, postTypeFilter])
 
   const fetchPosts = async () => {
     try {
@@ -27,6 +28,11 @@ const Dashboard = () => {
         .from('blog_posts')
         .select('*')
         .order('created_at', { ascending: false })
+
+      // Filtrar por tipo de post
+      if (postTypeFilter !== 'all') {
+        query = query.eq('post_type', postTypeFilter)
+      }
 
       // Filtrar solo los artículos del usuario actual si está activado el filtro
       if (showOnlyMine && user) {
@@ -122,8 +128,9 @@ const Dashboard = () => {
         </Button>
       </div>
 
-      {/* Filtro */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+      {/* Filtros */}
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
           <Button
             variant={showOnlyMine ? "default" : "outline"}
             onClick={() => setShowOnlyMine(!showOnlyMine)}
@@ -132,12 +139,41 @@ const Dashboard = () => {
             <Filter className="mr-2 h-4 w-4" />
             {showOnlyMine ? 'Mostrar todos' : 'Solo mis artículos'}
           </Button>
-          {showOnlyMine && (
-            <span className="text-xs sm:text-sm text-gray-400">
-              Mostrando {posts.length} artículo{posts.length !== 1 ? 's' : ''} tuyo{posts.length !== 1 ? 's' : ''}
-            </span>
-          )}
+          
+          {/* Filtro por tipo */}
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <Button
+              variant={postTypeFilter === 'all' ? "default" : "outline"}
+              onClick={() => setPostTypeFilter('all')}
+              className={`${postTypeFilter === 'all' ? "bg-accent-purple hover:bg-accent-purple/90" : "border-white/10"} flex-1 sm:flex-none`}
+            >
+              Todos
+            </Button>
+            <Button
+              variant={postTypeFilter === 'article' ? "default" : "outline"}
+              onClick={() => setPostTypeFilter('article')}
+              className={`${postTypeFilter === 'article' ? "bg-accent-purple hover:bg-accent-purple/90" : "border-white/10"} flex-1 sm:flex-none`}
+            >
+              <BookOpen className="mr-2 h-4 w-4" />
+              Artículos
+            </Button>
+            <Button
+              variant={postTypeFilter === 'news' ? "default" : "outline"}
+              onClick={() => setPostTypeFilter('news')}
+              className={`${postTypeFilter === 'news' ? "bg-accent-purple hover:bg-accent-purple/90" : "border-white/10"} flex-1 sm:flex-none`}
+            >
+              <Newspaper className="mr-2 h-4 w-4" />
+              Noticias
+            </Button>
+          </div>
         </div>
+        {(showOnlyMine || postTypeFilter !== 'all') && (
+          <span className="text-xs sm:text-sm text-gray-400">
+            Mostrando {posts.length} {postTypeFilter === 'article' ? 'artículo' : postTypeFilter === 'news' ? 'noticia' : 'contenido'}{posts.length !== 1 ? 's' : ''}
+            {showOnlyMine ? ' tuyo' + (posts.length !== 1 ? 's' : '') : ''}
+          </span>
+        )}
+      </div>
 
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-6 mb-4 md:mb-8">
@@ -212,9 +248,18 @@ const Dashboard = () => {
                               <p className="text-xs text-gray-400 line-clamp-1 mt-1">{post.excerpt}</p>
                             </td>
                             <td className="px-4 py-4 w-[140px]">
-                              <span className="px-3 py-1 bg-accent-purple/20 text-accent-purple rounded-full text-xs font-medium">
-                                {post.category}
-                              </span>
+                              <div className="flex flex-col gap-1">
+                                <span className="px-3 py-1 bg-accent-purple/20 text-accent-purple rounded-full text-xs font-medium">
+                                  {post.category}
+                                </span>
+                                <span className={`px-2 py-0.5 rounded text-xs ${
+                                  post.post_type === 'news' 
+                                    ? 'bg-blue-500/20 text-blue-400' 
+                                    : 'bg-gray-500/20 text-gray-400'
+                                }`}>
+                                  {post.post_type === 'news' ? 'Noticia' : 'Artículo'}
+                                </span>
+                              </div>
                             </td>
                             <td className="px-4 py-4 w-[140px]">
                               <div className="flex items-center gap-2 flex-wrap">
@@ -246,9 +291,14 @@ const Dashboard = () => {
                                   <Button
                                     variant="ghost"
                                     size="sm"
-                                    onClick={() => window.open(`/blog/${post.id}`, '_blank')}
+                                    onClick={() => {
+                                      const url = post.post_type === 'news' 
+                                        ? `/noticias/${post.id}` 
+                                        : `/blog/${post.id}`
+                                      window.open(url, '_blank')
+                                    }}
                                     className="text-blue-400 hover:text-blue-400 hover:bg-blue-500/10"
-                                    title="Ver artículo publicado"
+                                    title={post.post_type === 'news' ? "Ver noticia publicada" : "Ver artículo publicado"}
                                   >
                                     <Eye className="h-4 w-4" />
                                   </Button>
@@ -315,6 +365,13 @@ const Dashboard = () => {
                         <span className="px-2 py-1 bg-accent-purple/20 text-accent-purple rounded-full text-xs font-medium">
                           {post.category}
                         </span>
+                        <span className={`px-2 py-1 rounded text-xs ${
+                          post.post_type === 'news' 
+                            ? 'bg-blue-500/20 text-blue-400' 
+                            : 'bg-gray-500/20 text-gray-400'
+                        }`}>
+                          {post.post_type === 'news' ? 'Noticia' : 'Artículo'}
+                        </span>
                         {post.published ? (
                           <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
                             Publicado
@@ -338,9 +395,14 @@ const Dashboard = () => {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => window.open(`/blog/${post.id}`, '_blank')}
+                              onClick={() => {
+                                const url = post.post_type === 'news' 
+                                  ? `/noticias/${post.id}` 
+                                  : `/blog/${post.id}`
+                                window.open(url, '_blank')
+                              }}
                               className="text-blue-400 hover:text-blue-400 hover:bg-blue-500/10"
-                              title="Ver artículo"
+                              title={post.post_type === 'news' ? "Ver noticia" : "Ver artículo"}
                             >
                               <Eye className="h-4 w-4" />
                             </Button>

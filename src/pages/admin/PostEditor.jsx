@@ -33,13 +33,21 @@ const PostEditor = () => {
     tags: '',
     read_time: '5 min',
     published: false,
+    post_type: 'article', // 'article' o 'news'
   })
 
   useEffect(() => {
+    // Verificar si hay un parámetro type en la URL para establecer el tipo de post
+    const urlParams = new URLSearchParams(window.location.search)
+    const typeParam = urlParams.get('type')
+    if (typeParam === 'news' && !isEdit) {
+      setFormData(prev => ({ ...prev, post_type: 'news', category: 'Diseño' }))
+    }
+
     if (isEdit && user) {
       fetchPost()
     }
-  }, [id, user])
+  }, [id, user, isEdit])
 
   const fetchPost = async () => {
     try {
@@ -73,6 +81,7 @@ const PostEditor = () => {
         tags: Array.isArray(data.tags) ? data.tags.join(', ') : '',
         read_time: data.read_time || '5 min',
         published: data.published || false,
+        post_type: data.post_type || 'article',
       })
       // Establecer preview si hay imagen
       if (data.image) {
@@ -228,6 +237,7 @@ const PostEditor = () => {
         tags: tagsArray,
         read_time: formData.read_time?.trim() || '5 min',
         published: formData.published,
+        post_type: formData.post_type || 'article',
         user_id: user.id, // Asignar automáticamente al usuario actual
       }
 
@@ -298,7 +308,8 @@ const PostEditor = () => {
     }
   }
 
-  const categories = [
+  // Categorías según el tipo de post
+  const articleCategories = [
     'Diseño UI/UX',
     'Auditorías UX',
     'Arquitectura de Información',
@@ -307,6 +318,21 @@ const PostEditor = () => {
     'User Personas',
     'Investigación de Mercado',
   ]
+
+  const newsCategories = [
+    'Diseño',
+    'Desarrollo',
+    'Tecnología',
+    'Herramientas',
+    'Tendencias',
+    'Frameworks',
+    'Librerías',
+    'IA y Machine Learning',
+    'Startups',
+    'Eventos',
+  ]
+
+  const categories = formData.post_type === 'news' ? newsCategories : articleCategories
 
   return (
     <div className="admin-page min-h-screen bg-[#0C0D0D] text-white pt-24 pb-20">
@@ -391,6 +417,36 @@ const PostEditor = () => {
                 placeholder="Equipo rium"
                 className="bg-[#0C0D0D] border-white/10 text-white"
               />
+            </div>
+
+            {/* Post Type */}
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Tipo de Contenido *
+              </label>
+              <select
+                value={formData.post_type}
+                onChange={(e) => {
+                  const newType = e.target.value
+                  // Resetear categoría cuando cambia el tipo
+                  const defaultCategory = newType === 'news' ? 'Diseño' : 'Diseño UI/UX'
+                  setFormData({ 
+                    ...formData, 
+                    post_type: newType,
+                    category: defaultCategory
+                  })
+                }}
+                required
+                className="w-full px-4 py-2 bg-[#0C0D0D] border border-white/10 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-accent-purple"
+              >
+                <option value="article">Artículo del Blog</option>
+                <option value="news">Noticia Tech</option>
+              </select>
+              <p className="text-xs text-gray-500 mt-1">
+                {formData.post_type === 'article' 
+                  ? 'Artículo sobre diseño UI/UX, experiencia de usuario, etc.'
+                  : 'Noticia sobre tecnología, desarrollo, herramientas, etc.'}
+              </p>
             </div>
 
             {/* Category */}

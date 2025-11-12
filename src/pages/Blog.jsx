@@ -9,7 +9,10 @@ import { useBlogPosts } from '@/hooks/useBlogPosts';
 
 const Blog = () => {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
-  const { posts, loading, error } = useBlogPosts(selectedCategory === 'Todos' ? null : selectedCategory);
+  const { posts, loading, error } = useBlogPosts(
+    selectedCategory === 'Todos' ? null : selectedCategory,
+    'article' // Solo artículos del blog, no noticias
+  );
   
   const categories = useMemo(() => {
     const uniqueCategories = [...new Set(posts.map(post => post.category))];

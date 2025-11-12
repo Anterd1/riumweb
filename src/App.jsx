@@ -6,11 +6,14 @@ import Contact from '@/pages/Contact';
 import Project from '@/pages/Project';
 import Blog from '@/pages/Blog';
 import BlogPost from '@/pages/BlogPost';
+import News from '@/pages/News';
+import NewsPost from '@/pages/NewsPost';
 import Sitemap from '@/pages/Sitemap';
 import NotFound from '@/pages/NotFound';
 import DisenoTuPaginaWeb from '@/pages/DisenoTuPaginaWeb';
 import Login from '@/pages/admin/Login';
 import Dashboard from '@/pages/admin/Dashboard';
+import NewsDashboard from '@/pages/admin/NewsDashboard';
 import PostEditor from '@/pages/admin/PostEditor';
 import Requests from '@/pages/admin/Requests';
 import ProtectedRoute from '@/components/ProtectedRoute';
@@ -27,6 +30,8 @@ function App() {
         <Route path="contact" element={<Contact />} />
         <Route path="blog" element={<Blog />} />
         <Route path="blog/:id" element={<BlogPost />} />
+        <Route path="noticias" element={<News />} />
+        <Route path="noticias/:id" element={<NewsPost />} />
         <Route path="project/:projectId" element={<Project />} />
         <Route path="diseno-tu-pagina-web" element={<DisenoTuPaginaWeb />} />
       </Route>
@@ -45,6 +50,7 @@ function App() {
         }
       >
         <Route index element={<Dashboard />} />
+        <Route path="news" element={<NewsDashboard />} />
         <Route path="requests" element={<Requests />} />
       </Route>
       <Route
