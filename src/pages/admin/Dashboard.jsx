@@ -97,11 +97,11 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <Toaster />
       
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 md:gap-4 mb-4 md:mb-6">
         <div>
           <h1 className="text-2xl md:text-4xl font-bold mb-2">
             <span className="text-accent-purple">Artículos</span>
@@ -123,53 +123,53 @@ const Dashboard = () => {
       </div>
 
       {/* Filtro */}
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
           <Button
             variant={showOnlyMine ? "default" : "outline"}
             onClick={() => setShowOnlyMine(!showOnlyMine)}
-            className={showOnlyMine ? "bg-accent-purple hover:bg-accent-purple/90" : "border-white/10"}
+            className={`${showOnlyMine ? "bg-accent-purple hover:bg-accent-purple/90" : "border-white/10"} w-full sm:w-auto`}
           >
             <Filter className="mr-2 h-4 w-4" />
             {showOnlyMine ? 'Mostrar todos' : 'Solo mis artículos'}
           </Button>
           {showOnlyMine && (
-            <span className="text-sm text-gray-400">
+            <span className="text-xs sm:text-sm text-gray-400">
               Mostrando {posts.length} artículo{posts.length !== 1 ? 's' : ''} tuyo{posts.length !== 1 ? 's' : ''}
             </span>
           )}
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
-          <div className="bg-[#1E1E2A] rounded-xl p-6 border border-white/10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-6 mb-4 md:mb-8">
+          <div className="bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-white/10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm mb-1">Total Artículos</p>
-                <p className="text-3xl font-bold">{posts.length}</p>
+                <p className="text-gray-400 text-xs md:text-sm mb-1">Total Artículos</p>
+                <p className="text-2xl md:text-3xl font-bold">{posts.length}</p>
               </div>
-              <FileText className="h-8 w-8 text-accent-purple" />
+              <FileText className="h-6 w-6 md:h-8 md:w-8 text-accent-purple" />
             </div>
           </div>
-          <div className="bg-[#1E1E2A] rounded-xl p-6 border border-white/10">
+          <div className="bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-white/10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm mb-1">Publicados</p>
-                <p className="text-3xl font-bold">
+                <p className="text-gray-400 text-xs md:text-sm mb-1">Publicados</p>
+                <p className="text-2xl md:text-3xl font-bold">
                   {posts.filter(p => p.published).length}
                 </p>
               </div>
-              <Eye className="h-8 w-8 text-green-500" />
+              <Eye className="h-6 w-6 md:h-8 md:w-8 text-green-500" />
             </div>
           </div>
-          <div className="bg-[#1E1E2A] rounded-xl p-6 border border-white/10">
+          <div className="bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-white/10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm mb-1">Borradores</p>
-                <p className="text-3xl font-bold">
+                <p className="text-gray-400 text-xs md:text-sm mb-1">Borradores</p>
+                <p className="text-2xl md:text-3xl font-bold">
                   {posts.filter(p => !p.published).length}
                 </p>
               </div>
-              <FileText className="h-8 w-8 text-yellow-500" />
+              <FileText className="h-6 w-6 md:h-8 md:w-8 text-yellow-500" />
             </div>
           </div>
         </div>
@@ -289,7 +289,7 @@ const Dashboard = () => {
             </div>
 
             {/* Mobile Card View */}
-            <div className="md:hidden space-y-4">
+            <div className="block md:hidden space-y-3">
               {posts.length === 0 ? (
                 <div className="bg-[#1E1E2A] rounded-xl p-8 text-center border border-white/10">
                   <p className="text-gray-400">
@@ -304,22 +304,11 @@ const Dashboard = () => {
                       key={post.id}
                       className="bg-[#1E1E2A] rounded-xl p-4 border border-white/10 space-y-3"
                     >
-                      <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-start gap-2">
                         <div className="flex-1 min-w-0">
                           <h3 className="font-semibold text-white text-sm mb-1 line-clamp-2">{post.title}</h3>
                           <p className="text-xs text-gray-400 line-clamp-2 mb-2">{post.excerpt}</p>
                         </div>
-                        {post.published && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => window.open(`/blog/${post.id}`, '_blank')}
-                            className="text-blue-400 hover:text-blue-400 hover:bg-blue-500/10 flex-shrink-0"
-                            title="Ver artículo"
-                          >
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                        )}
                       </div>
 
                       <div className="flex flex-wrap items-center gap-2">
@@ -344,28 +333,41 @@ const Dashboard = () => {
 
                       <div className="flex items-center justify-between pt-2 border-t border-white/10">
                         <span className="text-xs text-gray-500">{formatDate(post.created_at)}</span>
-                        {isOwner && (
-                          <div className="flex gap-2">
+                        <div className="flex gap-2">
+                          {post.published && (
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => navigate(`/admin/posts/${post.id}`)}
-                              className="text-accent-purple hover:text-accent-purple hover:bg-accent-purple/10"
-                              title="Editar"
+                              onClick={() => window.open(`/blog/${post.id}`, '_blank')}
+                              className="text-blue-400 hover:text-blue-400 hover:bg-blue-500/10"
+                              title="Ver artículo"
                             >
-                              <Edit className="h-4 w-4" />
+                              <Eye className="h-4 w-4" />
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleDelete(post.id)}
-                              className="text-red-400 hover:text-red-400 hover:bg-red-500/10"
-                              title="Eliminar"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        )}
+                          )}
+                          {isOwner && (
+                            <>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => navigate(`/admin/posts/${post.id}`)}
+                                className="text-accent-purple hover:text-accent-purple hover:bg-accent-purple/10"
+                                title="Editar"
+                              >
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleDelete(post.id)}
+                                className="text-red-400 hover:text-red-400 hover:bg-red-500/10"
+                                title="Eliminar"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
                   )
