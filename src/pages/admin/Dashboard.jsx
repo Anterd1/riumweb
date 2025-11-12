@@ -259,6 +259,17 @@ const Dashboard = () => {
                           </td>
                           <td className="px-4 py-4 w-[100px]">
                             <div className="flex justify-end gap-2">
+                              {post.published && (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => window.open(`/blog/${post.id}`, '_blank')}
+                                  className="text-blue-400 hover:text-blue-400 hover:bg-blue-500/10"
+                                  title="Ver artículo publicado"
+                                >
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                              )}
                               {isOwner ? (
                                 <>
                                   <Button
@@ -266,6 +277,7 @@ const Dashboard = () => {
                                     size="sm"
                                     onClick={() => navigate(`/admin/posts/${post.id}`)}
                                     className="text-accent-purple hover:text-accent-purple hover:bg-accent-purple/10"
+                                    title="Editar artículo"
                                   >
                                     <Edit className="h-4 w-4" />
                                   </Button>
@@ -274,6 +286,7 @@ const Dashboard = () => {
                                     size="sm"
                                     onClick={() => handleDelete(post.id)}
                                     className="text-red-400 hover:text-red-400 hover:bg-red-500/10"
+                                    title="Eliminar artículo"
                                   >
                                     <Trash2 className="h-4 w-4" />
                                   </Button>
