@@ -19,7 +19,7 @@ const AnimatedHeroBackground = () => {
   
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-blue-700/20 animate-pulse" />
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-blue-700/20" />
       <motion.div
         className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl hidden md:block"
         animate={prefersReducedMotion ? {} : {

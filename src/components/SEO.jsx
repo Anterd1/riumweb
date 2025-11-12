@@ -149,18 +149,37 @@ const SEO = ({
     itemListElement: generateBreadcrumbs(),
   };
 
-  // Structured Data for Services (if on homepage)
+  // Structured Data for Services (if on homepage) - Mejorado con más detalles
   const servicesData = location.pathname === '/' ? {
     '@context': 'https://schema.org',
     '@type': 'Service',
     serviceType: 'Diseño UI/UX y Experiencia de Usuario',
+    name: 'Servicios de Diseño UI/UX y Experiencia de Usuario',
     provider: {
       '@type': 'Organization',
       name: siteName,
       url: 'https://rium.com.mx',
+      logo: 'https://rium.com.mx/logo.png',
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'Customer Service',
+        areaServed: 'MX',
+        availableLanguage: 'Spanish'
+      }
     },
-    areaServed: 'Latinoamérica',
-    description: 'Servicios de diseño UI/UX, auditorías UX, investigación de mercado, arquitectura de información, wireframes, pruebas de usabilidad, user personas, journey mapping y más.',
+    areaServed: {
+      '@type': 'Country',
+      name: 'México'
+    },
+    serviceArea: {
+      '@type': 'GeoCircle',
+      geoMidpoint: {
+        '@type': 'GeoCoordinates',
+        latitude: '19.4326',
+        longitude: '-99.1332'
+      }
+    },
+    description: 'Servicios profesionales de diseño UI/UX, auditorías UX, investigación de mercado, arquitectura de información, wireframes, pruebas de usabilidad, user personas, journey mapping, card sorting, pruebas A/B y más servicios de experiencia de usuario en México y Latinoamérica.',
     // Información de clasificación para sistemas de búsqueda
     aggregateRating: {
       '@type': 'AggregateRating',
@@ -168,30 +187,225 @@ const SEO = ({
       bestRating: '5',
       worstRating: '1',
       ratingCount: '50',
+      reviewCount: '50'
     },
     offers: {
       '@type': 'Offer',
       itemOffered: [
-        'Diseño UI/UX',
-        'Auditorías UX',
-        'Investigación de mercado',
-        'Arquitectura de información',
-        'Wireframes',
-        'Pruebas de usabilidad',
-        'User Personas',
-        'Journey Mapping',
-        'Card Sorting',
-        'Pruebas A/B',
-        'Focus Groups',
-        'Análisis de competidores',
-        'Diseño responsivo',
-        'Aplicaciones móviles',
-        'Accesibilidad web',
-        'Sistemas de diseño',
-        'UX Writing',
-        'Evaluación heurística',
+        {
+          '@type': 'Service',
+          name: 'Diseño UI/UX',
+          description: 'Creamos experiencias de usuario excepcionales que combinan diseño intuitivo con funcionalidad estratégica'
+        },
+        {
+          '@type': 'Service',
+          name: 'Auditorías UX',
+          description: 'Evaluaciones exhaustivas de experiencia de usuario para identificar oportunidades de mejora'
+        },
+        {
+          '@type': 'Service',
+          name: 'Investigación de mercado',
+          description: 'Estudios profundos para entender audiencia, competencia y tendencias del mercado'
+        },
+        {
+          '@type': 'Service',
+          name: 'Arquitectura de información',
+          description: 'Organización del contenido para una navegación intuitiva'
+        },
+        {
+          '@type': 'Service',
+          name: 'Wireframes',
+          description: 'Esquematización de pantallas para definir estructura y funcionalidad'
+        },
+        {
+          '@type': 'Service',
+          name: 'Pruebas de usabilidad',
+          description: 'Evaluación de qué tan fácil es usar tu producto'
+        },
+        {
+          '@type': 'Service',
+          name: 'User Personas',
+          description: 'Desarrollo de perfiles que representan a tus usuarios clave'
+        },
+        {
+          '@type': 'Service',
+          name: 'Journey Mapping',
+          description: 'Visualización de la experiencia completa del usuario con tu producto'
+        },
+        {
+          '@type': 'Service',
+          name: 'Card Sorting',
+          description: 'Organización de contenido según la lógica de los usuarios'
+        },
+        {
+          '@type': 'Service',
+          name: 'Pruebas A/B',
+          description: 'Comparación de variantes para elegir la más efectiva'
+        },
+        {
+          '@type': 'Service',
+          name: 'Focus Groups',
+          description: 'Exploración de percepciones y opiniones en sesiones grupales'
+        },
+        {
+          '@type': 'Service',
+          name: 'Análisis de competidores',
+          description: 'Comparación de tu producto con otros del mercado para detectar oportunidades'
+        },
+        {
+          '@type': 'Service',
+          name: 'Diseño responsivo',
+          description: 'Adaptación del diseño a distintos dispositivos y resoluciones'
+        },
+        {
+          '@type': 'Service',
+          name: 'Aplicaciones móviles',
+          description: 'Creación de experiencias optimizadas para móviles'
+        },
+        {
+          '@type': 'Service',
+          name: 'Accesibilidad web',
+          description: 'Garantía de que el producto sea usable por todas las personas'
+        },
+        {
+          '@type': 'Service',
+          name: 'Sistemas de diseño',
+          description: 'Unificación de estilos, componentes y reglas visuales en una guía'
+        },
+        {
+          '@type': 'Service',
+          name: 'UX Writing',
+          description: 'Obtención de información directa sobre necesidades y expectativas'
+        },
+        {
+          '@type': 'Service',
+          name: 'Evaluación heurística',
+          description: 'Análisis de la interfaz según principios de usabilidad'
+        },
+        {
+          '@type': 'Service',
+          name: 'SEO/SEM',
+          description: 'Optimización estratégica y campañas de búsqueda pagada que generan tráfico calificado'
+        },
+        {
+          '@type': 'Service',
+          name: 'Diseño Web',
+          description: 'Sitios web centrados en el usuario que convierten visitantes en clientes'
+        },
+        {
+          '@type': 'Service',
+          name: 'Retail Marketing',
+          description: 'Estrategias de marketing digital especializadas para el sector retail que impulsan ventas y fidelización'
+        }
       ],
     },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Servicios de Diseño UI/UX',
+      itemListElement: [
+        {
+          '@type': 'OfferCatalog',
+          name: 'Diseño UI/UX',
+          itemListElement: [
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Arquitectura de la información' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño de Wireframes' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño de interfaz de usuario (UI)' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño de interacciones' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño responsivo' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño de aplicaciones móviles' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño web' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Accesibilidad' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Creación de sistemas de diseño' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño gráfico' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'UX Writing' } }
+          ]
+        },
+        {
+          '@type': 'OfferCatalog',
+          name: 'Auditorías UX',
+          itemListElement: [
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Evaluación heurística' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Pruebas de usabilidad' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Card Sorting' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Pruebas remotas moderadas' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Pruebas remotas no moderadas' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Pruebas A/B' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Encuestas a usuarios' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Auditorías de accesibilidad' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Análisis técnico (Evaluación de código)' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Análisis de rendimiento (performance)' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Análisis del embudo de ventas' } }
+          ]
+        },
+        {
+          '@type': 'OfferCatalog',
+          name: 'Investigación de mercado',
+          itemListElement: [
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Entrevistas de usuarios' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Encuestas y cuestionarios' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Benchmark y análisis de competidores' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Análisis de tendencias' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Focus Groups' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Desarrollo de User Personas' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Mapeo del User Journey Map' } }
+          ]
+        },
+        {
+          '@type': 'OfferCatalog',
+          name: 'SEO/SEM',
+          itemListElement: [
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Auditoría SEO técnica' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Investigación de palabras clave' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Optimización On-Page' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Optimización Off-Page' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Optimización de contenido' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'SEO local' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Campañas Google Ads' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Campañas de Display' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Remarketing y Retargeting' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Análisis y reportes SEO' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Optimización de velocidad' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'SEO para e-commerce' } }
+          ]
+        },
+        {
+          '@type': 'OfferCatalog',
+          name: 'Diseño Web',
+          itemListElement: [
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño responsive' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño de landing pages' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño de e-commerce' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño de portales corporativos' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Optimización de conversión (CRO)' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Integración de sistemas' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño de dashboards' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Migración y rediseño' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Optimización de rendimiento' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Diseño accesible' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Prototipado y wireframing' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Mantenimiento y soporte' } }
+          ]
+        },
+        {
+          '@type': 'OfferCatalog',
+          name: 'Retail Marketing',
+          itemListElement: [
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Estrategia omnicanal' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Marketing en punto de venta' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Programas de fidelización' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Email marketing para retail' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Marketing de temporada' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Gestión de catálogos digitales' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Marketing de proximidad' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Análisis de comportamiento del cliente' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Estrategias de pricing dinámico' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Marketing de influencers para retail' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Eventos y activaciones en tienda' } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Marketing de contenido para retail' } }
+          ]
+        }
+      ]
+    }
   } : null;
 
   // Structured Data for LocalBusiness (if on homepage)

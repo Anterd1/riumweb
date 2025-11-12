@@ -48,10 +48,55 @@ const services = [{
   ]
 }, {
   title: 'SEO/SEM',
-  description: 'Optimización estratégica y campañas de búsqueda pagada que generan tráfico calificado.'
+  description: 'Optimización estratégica y campañas de búsqueda pagada que generan tráfico calificado y mejoran tu visibilidad en los motores de búsqueda.',
+  points: [
+    { title: 'Auditoría SEO técnica', description: 'Analizamos la estructura técnica de tu sitio para identificar problemas que afectan el posicionamiento.' },
+    { title: 'Investigación de palabras clave', description: 'Identificamos las palabras clave más relevantes para tu negocio y audiencia objetivo.' },
+    { title: 'Optimización On-Page', description: 'Mejoramos títulos, meta descripciones, encabezados y contenido para maximizar el SEO.' },
+    { title: 'Optimización Off-Page', description: 'Desarrollamos estrategias de link building y presencia en línea para mejorar la autoridad del dominio.' },
+    { title: 'Optimización de contenido', description: 'Creamos y optimizamos contenido relevante y valioso que atrae tráfico orgánico.' },
+    { title: 'SEO local', description: 'Mejoramos tu visibilidad en búsquedas locales para atraer clientes en tu área geográfica.' },
+    { title: 'Campañas Google Ads', description: 'Gestionamos campañas de búsqueda pagada para obtener resultados inmediatos y medibles.' },
+    { title: 'Campañas de Display', description: 'Creamos campañas visuales en la red de display de Google para aumentar el reconocimiento de marca.' },
+    { title: 'Remarketing y Retargeting', description: 'Reconectamos con visitantes anteriores para aumentar las conversiones.' },
+    { title: 'Análisis y reportes SEO', description: 'Monitoreamos métricas clave y generamos reportes detallados del rendimiento SEO.' },
+    { title: 'Optimización de velocidad', description: 'Mejoramos la velocidad de carga del sitio, factor clave para el SEO y la experiencia del usuario.' },
+    { title: 'SEO para e-commerce', description: 'Estrategias especializadas para tiendas en línea y optimización de páginas de producto.' }
+  ]
 }, {
   title: 'Diseño Web',
-  description: 'Sitios web hermosos y centrados en el usuario que convierten visitantes en clientes.'
+  description: 'Sitios web hermosos y centrados en el usuario que convierten visitantes en clientes, optimizados para rendimiento y conversión.',
+  points: [
+    { title: 'Diseño responsive', description: 'Sitios que se adaptan perfectamente a todos los dispositivos: móviles, tablets y desktop.' },
+    { title: 'Diseño de landing pages', description: 'Páginas optimizadas para conversión que guían a los visitantes hacia acciones específicas.' },
+    { title: 'Diseño de e-commerce', description: 'Tiendas en línea intuitivas y optimizadas para ventas con experiencia de compra fluida.' },
+    { title: 'Diseño de portales corporativos', description: 'Sitios web profesionales que reflejan la identidad y valores de tu empresa.' },
+    { title: 'Optimización de conversión (CRO)', description: 'Mejoramos elementos de diseño para aumentar las tasas de conversión y ROI.' },
+    { title: 'Integración de sistemas', description: 'Conectamos tu sitio web con CRM, sistemas de pago, inventario y otras herramientas.' },
+    { title: 'Diseño de dashboards', description: 'Interfaces administrativas intuitivas para gestionar contenido y datos de tu sitio.' },
+    { title: 'Migración y rediseño', description: 'Modernizamos sitios existentes mejorando diseño, funcionalidad y rendimiento.' },
+    { title: 'Optimización de rendimiento', description: 'Aceleramos la carga de páginas para mejorar la experiencia del usuario y SEO.' },
+    { title: 'Diseño accesible', description: 'Garantizamos que tu sitio sea accesible para todos los usuarios, cumpliendo estándares WCAG.' },
+    { title: 'Prototipado y wireframing', description: 'Creamos prototipos interactivos antes del desarrollo para validar conceptos.' },
+    { title: 'Mantenimiento y soporte', description: 'Ofrecemos mantenimiento continuo, actualizaciones y soporte técnico para tu sitio web.' }
+  ]
+}, {
+  title: 'Retail Marketing',
+  description: 'Estrategias de marketing digital especializadas para el sector retail que impulsan ventas, fidelización de clientes y crecimiento de tu negocio físico y online.',
+  points: [
+    { title: 'Estrategia omnicanal', description: 'Integramos todos tus canales de venta (físico, online, móvil) para una experiencia unificada del cliente.' },
+    { title: 'Marketing en punto de venta', description: 'Diseñamos estrategias y materiales para aumentar ventas y engagement en tiendas físicas.' },
+    { title: 'Programas de fidelización', description: 'Creamos sistemas de recompensas y membresías que aumentan la retención y el valor del cliente.' },
+    { title: 'Email marketing para retail', description: 'Campañas segmentadas para promociones, nuevos productos, carritos abandonados y reactivación.' },
+    { title: 'Marketing de temporada', description: 'Estrategias especializadas para temporadas altas como Black Friday, Navidad, Día de las Madres, etc.' },
+    { title: 'Gestión de catálogos digitales', description: 'Creamos y optimizamos catálogos digitales atractivos que facilitan la decisión de compra.' },
+    { title: 'Marketing de proximidad', description: 'Estrategias de geolocalización y marketing basado en ubicación para atraer clientes cercanos.' },
+    { title: 'Análisis de comportamiento del cliente', description: 'Estudiamos patrones de compra y comportamiento para personalizar experiencias y ofertas.' },
+    { title: 'Estrategias de pricing dinámico', description: 'Optimizamos precios y promociones basados en datos de mercado y comportamiento del cliente.' },
+    { title: 'Marketing de influencers para retail', description: 'Colaboraciones estratégicas con influencers para promocionar productos y aumentar visibilidad.' },
+    { title: 'Eventos y activaciones en tienda', description: 'Diseñamos y ejecutamos eventos, lanzamientos y activaciones que generan tráfico y ventas.' },
+    { title: 'Marketing de contenido para retail', description: 'Creamos contenido relevante (guías, tutoriales, lookbooks) que inspira y educa a tus clientes.' }
+  ]
 }];
 
 const Services = () => {
@@ -64,13 +109,15 @@ const Services = () => {
   const filterTags = ['Design', 'Development', 'Digital Marketing', 'SEO'];
 
   return (
-    <section id="services" className="py-24 bg-[#0C0D0D]">
+    <section id="services" className="py-24 bg-[#0C0D0D]" itemScope itemType="https://schema.org/Service">
       <div className="container mx-auto px-6 relative z-10">
-        <div className="mb-16">
+        <header className="mb-16">
           <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight text-white uppercase">
             Nuestros <span className="text-accent-purple">Servicios</span>
           </h2>
-          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mt-4">Explora el mundo a través de nuestras capacidades visuales y encuentra lo que amas.</p>
+          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mt-4" itemProp="description">
+            Especialistas en diseño UI/UX, auditorías de experiencia de usuario, investigación de mercado y consultoría UX. Ofrecemos servicios completos de diseño de interfaces, pruebas de usabilidad, arquitectura de información, wireframes, user personas, journey mapping y más para empresas en México y Latinoamérica.
+          </p>
           <div className="flex flex-wrap gap-3 mt-8">
             {filterTags.map(tag => (
               <button key={tag} className="px-5 py-2 border border-gray-600 rounded-full text-gray-400 cursor-default uppercase">
@@ -78,14 +125,14 @@ const Services = () => {
               </button>
             ))}
           </div>
-        </div>
+        </header>
 
-        <div className="border-t border-gray-800">
+        <div className="border-t border-gray-800" itemScope itemType="https://schema.org/ItemList">
           {services.map((service, index) => (
-            <div key={service.title} className="border-b border-gray-800">
+            <article key={service.title} className="border-b border-gray-800" itemScope itemType="https://schema.org/Service">
               <div className="flex justify-between items-center cursor-pointer py-8 group" onClick={() => handleServiceClick(index)}>
                 <div className="flex items-center gap-4">
-                  <h3 className={`text-3xl md:text-5xl font-bold transition-colors duration-300 ${activeIndex === index ? 'text-white' : 'text-gray-600 group-hover:text-gray-400'}`}>
+                  <h3 className={`text-3xl md:text-5xl font-bold transition-colors duration-300 ${activeIndex === index ? 'text-white' : 'text-gray-600 group-hover:text-gray-400'}`} itemProp="name">
                     {service.title}
                   </h3>
                   {activeIndex === index && (
@@ -116,20 +163,20 @@ const Services = () => {
                     className="overflow-hidden"
                   >
                     <div className="pb-8 pr-16">
-                      <p className="text-lg text-gray-400 max-w-2xl mb-6">{service.description}</p>
+                      <p className="text-lg text-gray-400 max-w-2xl mb-6" itemProp="description">{service.description}</p>
                       {service.points && service.points.length > 0 && (
-                        <ul className="space-y-4 mt-6">
+                        <ul className="space-y-4 mt-6" itemScope itemType="https://schema.org/ItemList">
                           {service.points.map((point, pointIndex) => {
                             const pointTitle = typeof point === 'string' ? point : point.title;
                             const pointDescription = typeof point === 'object' && point.description ? point.description : null;
                             
                             return (
-                              <li key={pointIndex} className="flex items-start gap-3">
+                              <li key={pointIndex} className="flex items-start gap-3" itemScope itemType="https://schema.org/Service">
                                 <div className="w-4 h-4 rounded-full bg-accent-purple mt-1 flex-shrink-0"></div>
                                 <div className="flex-1">
-                                  <span className="text-lg text-gray-300 font-medium">{pointTitle}</span>
+                                  <span className="text-lg text-gray-300 font-medium" itemProp="name">{pointTitle}</span>
                                   {pointDescription && (
-                                    <p className="text-base text-gray-400 mt-1">{pointDescription}</p>
+                                    <p className="text-base text-gray-400 mt-1" itemProp="description">{pointDescription}</p>
                                   )}
                                 </div>
                               </li>
@@ -141,7 +188,7 @@ const Services = () => {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </article>
           ))}
         </div>
       </div>
