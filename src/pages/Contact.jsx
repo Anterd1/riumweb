@@ -22,16 +22,45 @@ const Contact = () => {
     setLoading(true);
 
     try {
+      // Verificar que Supabase esté configurado
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      
+      console.log('🔍 Verificando configuración de Supabase:', {
+        hasUrl: !!supabaseUrl,
+        hasKey: !!supabaseAnonKey,
+        urlLength: supabaseUrl?.length || 0,
+        keyLength: supabaseAnonKey?.length || 0,
+      });
+      
+      if (!supabaseUrl || !supabaseAnonKey || supabaseUrl === '' || supabaseAnonKey === '') {
+        console.error('❌ Supabase no configurado correctamente');
+        throw new Error('Supabase no está configurado. Por favor, contacta al administrador.');
+      }
+
       const supabase = await getSupabase();
-      const { error } = await supabase
+      
+      if (!supabase) {
+        throw new Error('No se pudo conectar con Supabase. Por favor, intenta nuevamente.');
+      }
+
+      const { data, error } = await supabase
         .from('contact_messages')
         .insert([{
           name: formData.name.trim(),
           email: formData.email.trim(),
           message: formData.message.trim(),
-        }]);
+        }])
+        .select();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error de Supabase:', error);
+        throw error;
+      }
+
+      if (!data || data.length === 0) {
+        throw new Error('No se recibió confirmación del servidor. El mensaje puede no haberse guardado.');
+      }
 
       toast({
         title: '¡Gracias!',
@@ -40,9 +69,21 @@ const Contact = () => {
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {
       console.error('Error enviando mensaje:', error);
+      const errorMessage = error?.message || error?.error?.message || 'Error desconocido';
+      console.error('Detalles del error:', {
+        error,
+        message: errorMessage,
+        code: error?.code,
+        details: error?.details,
+      });
+      
       toast({
         title: 'Error',
-        description: 'No se pudo enviar el mensaje. Por favor, intenta nuevamente o contáctanos directamente por email.',
+        description: errorMessage.includes('RLS') 
+          ? 'Error de permisos. Verifica la configuración de Supabase.'
+          : errorMessage.includes('JWT')
+          ? 'Error de autenticación. Verifica las credenciales de Supabase.'
+          : `No se pudo enviar el mensaje: ${errorMessage}`,
         variant: 'destructive',
       });
     } finally {

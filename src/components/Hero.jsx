@@ -78,7 +78,7 @@ const Hero = () => {
               onClick={handleViewWorkClick}
               size="lg"
               variant="outline"
-              className="border-2 border-accent-purple/40 hover:bg-accent-purple/10 text-white px-8 py-6 text-lg rounded-full"
+              className="border-2 border-accent-purple/40 hover:bg-accent-purple/10 text-white px-8 py-6 text-lg rounded-full hidden"
             >
               Ver Nuestro Trabajo
             </Button>
