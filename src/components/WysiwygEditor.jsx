@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
@@ -53,6 +53,47 @@ const WysiwygEditor = ({ value, onChange, placeholder = 'Escribe tu contenido aq
       onChange({ target: { value: html } })
     },
   })
+
+  // Actualizar el contenido del editor cuando value cambie
+  useEffect(() => {
+    if (!editor) return
+    
+    if (value === undefined || value === null) {
+      return
+    }
+
+    const currentContent = editor.getHTML()
+    const normalizedValue = value.trim()
+    const normalizedCurrent = currentContent.trim()
+    
+    // Solo actualizar si el contenido es diferente y value no está vacío
+    if (normalizedValue && normalizedValue !== normalizedCurrent) {
+      // Si el contenido parece ser Markdown (contiene sintaxis markdown pero no tags HTML)
+      const isMarkdown = normalizedValue.includes('**') || 
+                         normalizedValue.includes('##') || 
+                         normalizedValue.includes('[') ||
+                         (normalizedValue.includes('\n') && !normalizedValue.includes('<'))
+      
+      if (isMarkdown && !normalizedValue.includes('<')) {
+        // Convertir Markdown básico a HTML
+        let html = normalizedValue
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*(.*?)\*/g, '<em>$1</em>')
+          .replace(/## (.*?)$/gm, '<h2>$1</h2>')
+          .replace(/### (.*?)$/gm, '<h3>$1</h3>')
+          .replace(/^\- (.*?)$/gm, '<li>$1</li>')
+          .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+          .replace(/\n/g, '<br>')
+        
+        editor.commands.setContent(html)
+      } else {
+        editor.commands.setContent(normalizedValue)
+      }
+    } else if (!normalizedValue && normalizedCurrent) {
+      // Si value está vacío pero el editor tiene contenido, limpiar
+      editor.commands.setContent('')
+    }
+  }, [editor, value])
 
   if (!editor) {
     return null

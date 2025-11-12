@@ -373,6 +373,7 @@ const PostEditor = () => {
                 Contenido
               </label>
               <WysiwygEditor
+                key={id || 'new'} // Forzar recreación del editor cuando cambie el artículo
                 value={formData.content}
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                 placeholder="Escribe el contenido del artículo. Se verá exactamente como en la página publicada..."
