@@ -18,7 +18,7 @@ const SEO = React.memo(({
     let path = location.pathname;
     if (path.startsWith('/tienda')) {
       path = '/';
-    }
+  }
     return path;
   }, [location.pathname]);
   

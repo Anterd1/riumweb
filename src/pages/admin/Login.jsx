@@ -68,7 +68,7 @@ const Login = () => {
   }
 
   return (
-    <div className="admin-page min-h-screen bg-[#0C0D0D] flex items-center justify-center p-6">
+    <div className="admin-page min-h-screen bg-gray-50 dark:bg-[#0C0D0D] flex items-center justify-center p-6">
       <SEO
         title="Iniciar Sesión - Admin"
         description="Panel de administración de rium"
@@ -81,17 +81,19 @@ const Login = () => {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
-        <div className="bg-[#1E1E2A] rounded-2xl p-8 shadow-2xl border border-white/10">
+        <div className="bg-white dark:bg-[#1E1E2A] border-gray-200 dark:border-white/10 rounded-2xl p-8 shadow-2xl border">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">
+            <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
               Panel de <span className="text-accent-purple">Administración</span>
             </h1>
-            <p className="text-gray-400">Inicia sesión para gestionar el blog</p>
+            <p className="text-gray-500 dark:text-gray-400">
+              Inicia sesión para gestionar el blog
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Email
               </label>
               <Input
@@ -101,12 +103,12 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="tu@email.com"
                 required
-                className="bg-[#0C0D0D] border-white/10 text-white"
+                className="bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="password" className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Contraseña
               </label>
               <Input
@@ -116,7 +118,7 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 required
-                className="bg-[#0C0D0D] border-white/10 text-white"
+                className="bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
               />
             </div>
 

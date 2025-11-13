@@ -67,7 +67,7 @@ export const useBlogPosts = (category = null, postType = 'article') => {
         setPosts([])
       } finally {
         if (!signal.aborted) {
-          setLoading(false)
+        setLoading(false)
         }
       }
     }

@@ -225,7 +225,7 @@ const Users = () => {
           <h1 className="text-2xl md:text-4xl font-bold mb-2">
             <span className="text-accent-purple">Usuarios</span>
           </h1>
-          <p className="text-sm md:text-base text-gray-400">
+          <p className="text-sm md:text-base text-gray-500 dark:text-gray-400">
             Gestiona los usuarios que pueden publicar artículos y noticias
           </p>
         </div>
@@ -240,11 +240,11 @@ const Users = () => {
 
       {/* Formulario de creación */}
       {showCreateForm && (
-        <div className="bg-[#1E1E2A] rounded-xl p-6 border border-white/10">
-          <h2 className="text-xl font-bold mb-4">Crear Nuevo Usuario</h2>
+        <div className="bg-white dark:bg-[#1E1E2A] rounded-xl p-6 border border-gray-200 dark:border-white/10">
+          <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Crear Nuevo Usuario</h2>
           <form onSubmit={handleCreateUser} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Email *
               </label>
               <Input
@@ -253,11 +253,11 @@ const Users = () => {
                 onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
                 placeholder="usuario@ejemplo.com"
                 required
-                className="bg-[#0C0D0D] border-white/10 text-white"
+                className="bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Contraseña * (mínimo 6 caracteres)
               </label>
               <Input
@@ -267,11 +267,11 @@ const Users = () => {
                 placeholder="••••••••"
                 required
                 minLength={6}
-                className="bg-[#0C0D0D] border-white/10 text-white"
+                className="bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Nombre (opcional)
               </label>
               <Input
@@ -279,7 +279,7 @@ const Users = () => {
                 value={newUser.name}
                 onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
                 placeholder="Nombre del usuario"
-                className="bg-[#0C0D0D] border-white/10 text-white"
+                className="bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
               />
             </div>
             <div className="flex gap-3">
@@ -307,7 +307,7 @@ const Users = () => {
                   setShowCreateForm(false)
                   setNewUser({ email: '', password: '', name: '' })
                 }}
-                className="border-white/10"
+                className="border-gray-200 dark:border-white/10 bg-white dark:bg-transparent text-gray-900 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"
               >
                 Cancelar
               </Button>
@@ -320,18 +320,18 @@ const Users = () => {
       {loading ? (
         <div className="text-center py-16">
           <Loader2 className="h-12 w-12 animate-spin text-accent-purple mx-auto mb-4" />
-          <p className="text-gray-400">Cargando usuarios...</p>
+          <p className="text-gray-500 dark:text-gray-400">Cargando usuarios...</p>
         </div>
       ) : users.length === 0 ? (
-        <div className="bg-[#1E1E2A] rounded-xl p-8 text-center border border-white/10">
-          <User className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-400 mb-2">
+        <div className="bg-white dark:bg-[#1E1E2A] rounded-xl p-8 text-center border border-gray-200 dark:border-white/10">
+          <User className="h-12 w-12 text-gray-500 dark:text-gray-400 mx-auto mb-4" />
+          <p className="text-gray-500 dark:text-gray-400 mb-2">
             {import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY
               ? 'No hay usuarios registrados aún.'
               : 'SERVICE_ROLE_KEY no configurado. Agrega VITE_SUPABASE_SERVICE_ROLE_KEY a tu .env'}
           </p>
           {!import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY && (
-            <p className="text-xs text-gray-500 mt-2">
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
               Obtén el SERVICE_ROLE_KEY desde Supabase Dashboard > Settings > API
             </p>
           )}
@@ -339,28 +339,28 @@ const Users = () => {
       ) : (
         <>
           {/* Desktop Table View */}
-          <div className="hidden md:block bg-[#1E1E2A] rounded-xl border border-white/10 overflow-hidden">
+          <div className="hidden md:block bg-white dark:bg-[#1E1E2A] rounded-xl border border-gray-200 dark:border-white/10 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-[#0C0D0D] border-b border-white/10">
+                <thead className="bg-gray-50 dark:bg-[#0C0D0D] border-b border-gray-200 dark:border-white/10">
                   <tr>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300">Email</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300">Nombre</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300">Rol</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300">Creado</th>
-                    <th className="px-4 py-4 text-right text-sm font-semibold text-gray-300">Acciones</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Email</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Nombre</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Rol</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Creado</th>
+                    <th className="px-4 py-4 text-right text-sm font-semibold text-gray-700 dark:text-gray-300">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users.map((user) => (
-                    <tr key={user.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                    <tr key={user.id} className="border-b border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-2">
-                          <Mail size={16} className="text-gray-400" />
-                          <span className="text-white">{user.email}</span>
+                          <Mail size={16} className="text-gray-500 dark:text-gray-400" />
+                          <span className="text-gray-900 dark:text-white">{user.email}</span>
                         </div>
                       </td>
-                      <td className="px-4 py-4 text-gray-300">
+                      <td className="px-4 py-4 text-gray-700 dark:text-gray-300">
                         {user.user_metadata?.name || 'N/A'}
                       </td>
                       <td className="px-4 py-4">
@@ -368,7 +368,7 @@ const Users = () => {
                           {user.user_metadata?.role || 'editor'}
                         </span>
                       </td>
-                      <td className="px-4 py-4 text-gray-400 text-sm">
+                      <td className="px-4 py-4 text-gray-500 dark:text-gray-400 text-sm">
                         {formatDate(user.created_at)}
                       </td>
                       <td className="px-4 py-4">
@@ -396,20 +396,20 @@ const Users = () => {
             {users.map((user) => (
               <div
                 key={user.id}
-                className="bg-[#1E1E2A] rounded-xl p-4 border border-white/10 space-y-3"
+                className="bg-white dark:bg-[#1E1E2A] rounded-xl p-4 border border-gray-200 dark:border-white/10 space-y-3"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <Mail size={16} className="text-gray-400" />
-                      <span className="font-semibold text-white">{user.email}</span>
+                      <Mail size={16} className="text-gray-500 dark:text-gray-400" />
+                      <span className="font-semibold text-gray-900 dark:text-white">{user.email}</span>
                     </div>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                       {user.user_metadata?.name || 'Sin nombre'}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center justify-between pt-2 border-t border-white/10">
+                <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-white/10">
                   <div className="flex items-center gap-2">
                     <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">
                       {user.user_metadata?.role || 'editor'}

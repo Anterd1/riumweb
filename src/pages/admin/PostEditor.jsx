@@ -335,7 +335,7 @@ const PostEditor = () => {
   const categories = formData.post_type === 'news' ? newsCategories : articleCategories
 
   return (
-    <div className="admin-page min-h-screen bg-[#0C0D0D] text-white pt-24 pb-20">
+    <div className="admin-page min-h-screen bg-gray-50 dark:bg-[#0C0D0D] text-gray-900 dark:text-white pt-24 pb-20">
       <SEO
         title={isEdit ? 'Editar Artículo - Admin' : 'Nuevo Artículo - Admin'}
         description="Editor de artículos del blog"
@@ -350,12 +350,12 @@ const PostEditor = () => {
             <Button
               variant="ghost"
               onClick={() => navigate('/admin')}
-              className="mb-4 text-gray-400 hover:text-white"
+              className="mb-4 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Volver al Dashboard
             </Button>
-            <h1 className="text-4xl font-bold">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
               {isEdit ? 'Editar' : 'Nuevo'} <span className="text-accent-purple">Artículo</span>
             </h1>
           </div>
@@ -363,10 +363,10 @@ const PostEditor = () => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="bg-[#1E1E2A] rounded-xl p-6 border border-white/10 space-y-6">
+          <div className="bg-white dark:bg-[#1E1E2A] border-gray-200 dark:border-white/10 rounded-xl p-6 border space-y-6">
             {/* Title */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Título *
               </label>
               <Input
@@ -374,13 +374,13 @@ const PostEditor = () => {
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 placeholder="Ej: 10 Principios de Diseño UI/UX..."
                 required
-                className="bg-[#0C0D0D] border-white/10 text-white"
+                className="bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
               />
             </div>
 
             {/* Excerpt */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Resumen (Excerpt) *
               </label>
               <Textarea
@@ -389,13 +389,13 @@ const PostEditor = () => {
                 placeholder="Breve descripción del artículo..."
                 required
                 rows={3}
-                className="bg-[#0C0D0D] border-white/10 text-white"
+                className="bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
               />
             </div>
 
             {/* Content */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Contenido
               </label>
               <WysiwygEditor
@@ -408,20 +408,20 @@ const PostEditor = () => {
 
             {/* Author */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Autor
               </label>
               <Input
                 value={formData.author}
                 onChange={(e) => setFormData({ ...formData, author: e.target.value })}
                 placeholder="Equipo rium"
-                className="bg-[#0C0D0D] border-white/10 text-white"
+                className="bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
               />
             </div>
 
             {/* Post Type */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Tipo de Contenido *
               </label>
               <select
@@ -437,12 +437,12 @@ const PostEditor = () => {
                   })
                 }}
                 required
-                className="w-full px-4 py-2 bg-[#0C0D0D] border border-white/10 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-accent-purple"
+                className="w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-purple bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white border"
               >
                 <option value="article">Artículo del Blog</option>
                 <option value="news">Noticia Tech</option>
               </select>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs mt-1 text-gray-400 dark:text-gray-500">
                 {formData.post_type === 'article' 
                   ? 'Artículo sobre diseño UI/UX, experiencia de usuario, etc.'
                   : 'Noticia sobre tecnología, desarrollo, herramientas, etc.'}
@@ -451,14 +451,14 @@ const PostEditor = () => {
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Categoría *
               </label>
               <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 required
-                className="w-full px-4 py-2 bg-[#0C0D0D] border border-white/10 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-accent-purple"
+                className="w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-purple bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white border"
               >
                 {categories.map((cat) => (
                   <option key={cat} value={cat}>
@@ -470,13 +470,13 @@ const PostEditor = () => {
 
             {/* Image Upload */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Imagen del Artículo
               </label>
               
               {/* Preview de imagen */}
               {imagePreview && (
-                <div className="relative mb-4 rounded-lg overflow-hidden border border-white/10">
+                <div className="relative mb-4 rounded-lg overflow-hidden border border-gray-200 dark:border-white/10">
                   <img
                     src={imagePreview}
                     alt="Preview"
@@ -508,18 +508,20 @@ const PostEditor = () => {
                   className={`flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
                     uploadingImage
                       ? 'border-gray-500 cursor-not-allowed'
-                      : 'border-white/20 hover:border-accent-purple/50'
+                      : 'border-gray-300 dark:border-white/20 hover:border-accent-purple/50'
                   }`}
                 >
                   {uploadingImage ? (
                     <>
                       <Loader2 className="h-5 w-5 animate-spin text-accent-purple" />
-                      <span className="text-gray-400">Subiendo imagen...</span>
+                      <span className="text-gray-500 dark:text-gray-400">
+                        Subiendo imagen...
+                      </span>
                     </>
                   ) : (
                     <>
-                      <Upload className="h-5 w-5 text-gray-400" />
-                      <span className="text-gray-400">
+                      <Upload className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                      <span className="text-gray-500 dark:text-gray-400">
                         {imagePreview ? 'Cambiar imagen' : 'Subir imagen desde tu dispositivo'}
                       </span>
                     </>
@@ -529,7 +531,9 @@ const PostEditor = () => {
 
               {/* Input para URL manual (opcional) */}
               <div className="mt-4">
-                <p className="text-xs text-gray-500 mb-2">O ingresa una URL manualmente:</p>
+                <p className="text-xs mb-2 text-gray-400 dark:text-gray-500">
+                  O ingresa una URL manualmente:
+                </p>
                 <Input
                   value={formData.image}
                   onChange={(e) => {
@@ -537,34 +541,34 @@ const PostEditor = () => {
                     setImagePreview(e.target.value || null)
                   }}
                   placeholder="https://images.unsplash.com/..."
-                  className="bg-[#0C0D0D] border-white/10 text-white"
+                  className="bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
                 />
               </div>
             </div>
 
             {/* Tags */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Tags (separados por comas)
               </label>
               <Input
                 value={formData.tags}
                 onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
                 placeholder="UI/UX, Diseño, Mejores Prácticas"
-                className="bg-[#0C0D0D] border-white/10 text-white"
+                className="bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
               />
             </div>
 
             {/* Read Time */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
                 Tiempo de Lectura
               </label>
               <Input
                 value={formData.read_time}
                 onChange={(e) => setFormData({ ...formData, read_time: e.target.value })}
                 placeholder="5 min"
-                className="bg-[#0C0D0D] border-white/10 text-white"
+                className="bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
               />
             </div>
 
@@ -575,9 +579,9 @@ const PostEditor = () => {
                 id="published"
                 checked={formData.published}
                 onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
-                className="w-4 h-4 text-accent-purple bg-[#0C0D0D] border-white/10 rounded focus:ring-accent-purple"
+                className="w-4 h-4 text-accent-purple rounded focus:ring-accent-purple bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 border"
               />
-              <label htmlFor="published" className="text-sm font-medium text-gray-300">
+              <label htmlFor="published" className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Publicar artículo
               </label>
             </div>
@@ -597,7 +601,7 @@ const PostEditor = () => {
               type="button"
               variant="outline"
               onClick={() => navigate('/admin')}
-              className="border-white/10"
+              className="border-gray-200 dark:border-white/10 bg-white dark:bg-transparent text-gray-900 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"
             >
               Cancelar
             </Button>

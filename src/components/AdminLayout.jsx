@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
-import { FileText, Mail, LogOut, Menu, X, Newspaper, Users } from 'lucide-react'
+import { FileText, Mail, LogOut, Menu, X, Newspaper, Users, Settings } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/toaster'
@@ -39,6 +39,11 @@ const AdminLayout = () => {
       label: 'Usuarios',
       path: '/admin/users',
     },
+    {
+      icon: Settings,
+      label: 'Configuración',
+      path: '/admin/settings',
+    },
   ]
 
   const isActive = (path, exact = false) => {
@@ -49,7 +54,7 @@ const AdminLayout = () => {
   }
 
   return (
-    <div className="admin-page min-h-screen bg-[#0C0D0D] text-white">
+    <div className="admin-page min-h-screen bg-gray-50 dark:bg-[#0C0D0D] text-gray-900 dark:text-white">
       <SEO
         title="Panel de Administración"
         description="Panel de administración del blog de rium"
@@ -61,25 +66,25 @@ const AdminLayout = () => {
         {/* Mobile Overlay */}
         {sidebarOpen && (
           <div
-            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            className="fixed inset-0 z-40 md:hidden bg-black/30 dark:bg-black/50"
             onClick={() => setSidebarOpen(false)}
           />
         )}
 
         {/* Sidebar */}
         <aside
-          className={`fixed md:static inset-y-0 left-0 z-50 w-64 bg-[#1E1E2A] border-r border-white/10 flex flex-col transform transition-transform duration-300 ease-in-out ${
+          className={`fixed md:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-[#1E1E2A] border-r border-gray-200 dark:border-white/10 flex flex-col transform transition-transform duration-300 ease-in-out ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
           }`}
         >
           {/* Logo/Header */}
-          <div className="p-4 md:p-6 border-b border-white/10 flex items-center justify-between">
+          <div className="p-4 md:p-6 border-b border-gray-200 dark:border-white/10 flex items-center justify-between">
             <h1 className="text-lg md:text-xl font-bold">
               <span className="text-accent-purple">rium</span> Admin
             </h1>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="md:hidden text-gray-400 hover:text-white"
+              className="md:hidden text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
             >
               <X size={24} />
             </button>
@@ -100,7 +105,7 @@ const AdminLayout = () => {
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                     active
                       ? 'bg-accent-purple/20 text-accent-purple border border-accent-purple/30'
-                      : 'text-gray-400 hover:text-white hover:bg-white/5'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5'
                   }`}
                 >
                   <Icon size={20} />
@@ -111,11 +116,11 @@ const AdminLayout = () => {
           </nav>
 
           {/* Logout */}
-          <div className="p-4 border-t border-white/10">
+          <div className="p-4 border-t border-gray-200 dark:border-white/10">
             <Button
               onClick={handleLogout}
               variant="ghost"
-              className="w-full justify-start text-gray-400 hover:text-white hover:bg-white/5"
+              className="w-full justify-start text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5"
             >
               <LogOut className="mr-3 h-4 w-4" />
               Salir
@@ -126,10 +131,10 @@ const AdminLayout = () => {
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto w-full">
           {/* Mobile Header */}
-          <div className="md:hidden sticky top-0 z-30 bg-[#1E1E2A] border-b border-white/10 p-4 flex items-center justify-between">
+          <div className="md:hidden sticky top-0 z-30 bg-white dark:bg-[#1E1E2A] border-b border-gray-200 dark:border-white/10 p-4 flex items-center justify-between">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="text-gray-400 hover:text-white"
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
             >
               <Menu size={24} />
             </button>

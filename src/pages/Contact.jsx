@@ -62,11 +62,11 @@ const Contact = () => {
         throw new Error('No se recibió confirmación del servidor. El mensaje puede no haberse guardado.');
       }
 
-      toast({
-        title: '¡Gracias!',
-        description: 'Tu mensaje ha sido enviado exitosamente. ¡Te responderemos pronto!',
-      });
-      setFormData({ name: '', email: '', message: '' });
+    toast({
+      title: '¡Gracias!',
+      description: 'Tu mensaje ha sido enviado exitosamente. ¡Te responderemos pronto!',
+    });
+    setFormData({ name: '', email: '', message: '' });
     } catch (error) {
       console.error('Error enviando mensaje:', error);
       const errorMessage = error?.message || error?.error?.message || 'Error desconocido';
@@ -237,8 +237,8 @@ const Contact = () => {
                       </>
                     ) : (
                       <>
-                        Enviar Mensaje
-                        <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                    Enviar Mensaje
+                    <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                       </>
                     )}
                   </Button>

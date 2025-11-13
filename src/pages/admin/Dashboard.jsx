@@ -106,27 +106,27 @@ const Dashboard = () => {
     <div className="space-y-4 md:space-y-6">
       <Toaster />
       
-      {/* Header */}
+        {/* Header */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 md:gap-4 mb-4 md:mb-6">
-        <div>
+          <div>
           <h1 className="text-2xl md:text-4xl font-bold mb-2">
             <span className="text-accent-purple">Artículos</span>
-          </h1>
-          <p className="text-sm md:text-base text-gray-400">Gestiona los artículos de tu blog</p>
-          {user && (
-            <p className="text-xs md:text-sm text-gray-500 mt-1">
-              Conectado como: <span className="text-accent-purple">{user.email}</span>
-            </p>
-          )}
-        </div>
-        <Button
-          onClick={() => navigate('/admin/posts/new')}
+            </h1>
+          <p className="text-sm md:text-base text-gray-400 dark:text-gray-500">Gestiona los artículos de tu blog</p>
+            {user && (
+            <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                Conectado como: <span className="text-accent-purple">{user.email}</span>
+              </p>
+            )}
+          </div>
+            <Button
+              onClick={() => navigate('/admin/posts/new')}
           className="bg-accent-purple hover:bg-accent-purple/90 w-full md:w-auto"
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          Nuevo Artículo
-        </Button>
-      </div>
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Nuevo Artículo
+            </Button>
+        </div>
 
       {/* Filtros */}
       <div className="flex flex-col gap-3">
@@ -134,7 +134,7 @@ const Dashboard = () => {
           <Button
             variant={showOnlyMine ? "default" : "outline"}
             onClick={() => setShowOnlyMine(!showOnlyMine)}
-            className={`${showOnlyMine ? "bg-accent-purple hover:bg-accent-purple/90" : "border-white/10"} w-full sm:w-auto`}
+            className={`${showOnlyMine ? "bg-accent-purple hover:bg-accent-purple/90 text-white" : "border-gray-200 dark:border-white/10 bg-white dark:bg-transparent text-gray-900 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"} w-full sm:w-auto`}
           >
             <Filter className="mr-2 h-4 w-4" />
             {showOnlyMine ? 'Mostrar todos' : 'Solo mis artículos'}
@@ -145,14 +145,14 @@ const Dashboard = () => {
             <Button
               variant={postTypeFilter === 'all' ? "default" : "outline"}
               onClick={() => setPostTypeFilter('all')}
-              className={`${postTypeFilter === 'all' ? "bg-accent-purple hover:bg-accent-purple/90" : "border-white/10"} flex-1 sm:flex-none`}
+              className={`${postTypeFilter === 'all' ? "bg-accent-purple hover:bg-accent-purple/90 text-white" : "border-gray-200 dark:border-white/10 bg-white dark:bg-transparent text-gray-900 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"} flex-1 sm:flex-none`}
             >
               Todos
             </Button>
             <Button
               variant={postTypeFilter === 'article' ? "default" : "outline"}
               onClick={() => setPostTypeFilter('article')}
-              className={`${postTypeFilter === 'article' ? "bg-accent-purple hover:bg-accent-purple/90" : "border-white/10"} flex-1 sm:flex-none`}
+              className={`${postTypeFilter === 'article' ? "bg-accent-purple hover:bg-accent-purple/90 text-white" : "border-gray-200 dark:border-white/10 bg-white dark:bg-transparent text-gray-900 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"} flex-1 sm:flex-none`}
             >
               <BookOpen className="mr-2 h-4 w-4" />
               Artículos
@@ -160,7 +160,7 @@ const Dashboard = () => {
             <Button
               variant={postTypeFilter === 'news' ? "default" : "outline"}
               onClick={() => setPostTypeFilter('news')}
-              className={`${postTypeFilter === 'news' ? "bg-accent-purple hover:bg-accent-purple/90" : "border-white/10"} flex-1 sm:flex-none`}
+              className={`${postTypeFilter === 'news' ? "bg-accent-purple hover:bg-accent-purple/90 text-white" : "border-gray-200 dark:border-white/10 bg-white dark:bg-transparent text-gray-900 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"} flex-1 sm:flex-none`}
             >
               <Newspaper className="mr-2 h-4 w-4" />
               Noticias
@@ -168,40 +168,40 @@ const Dashboard = () => {
           </div>
         </div>
         {(showOnlyMine || postTypeFilter !== 'all') && (
-          <span className="text-xs sm:text-sm text-gray-400">
+          <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             Mostrando {posts.length} {postTypeFilter === 'article' ? 'artículo' : postTypeFilter === 'news' ? 'noticia' : 'contenido'}{posts.length !== 1 ? 's' : ''}
             {showOnlyMine ? ' tuyo' + (posts.length !== 1 ? 's' : '') : ''}
-          </span>
-        )}
-      </div>
+            </span>
+          )}
+        </div>
 
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-6 mb-4 md:mb-8">
-          <div className="bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-white/10">
+          <div className="bg-white dark:bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-gray-200 dark:border-white/10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-xs md:text-sm mb-1">Total Artículos</p>
-                <p className="text-2xl md:text-3xl font-bold">{posts.length}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-1">Total Artículos</p>
+                <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{posts.length}</p>
               </div>
               <FileText className="h-6 w-6 md:h-8 md:w-8 text-accent-purple" />
             </div>
           </div>
-          <div className="bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-white/10">
+          <div className="bg-white dark:bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-gray-200 dark:border-white/10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-xs md:text-sm mb-1">Publicados</p>
-                <p className="text-2xl md:text-3xl font-bold">
+                <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-1">Publicados</p>
+                <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
                   {posts.filter(p => p.published).length}
                 </p>
               </div>
               <Eye className="h-6 w-6 md:h-8 md:w-8 text-green-500" />
             </div>
           </div>
-          <div className="bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-white/10">
+          <div className="bg-white dark:bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-gray-200 dark:border-white/10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-xs md:text-sm mb-1">Borradores</p>
-                <p className="text-2xl md:text-3xl font-bold">
+                <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-1">Borradores</p>
+                <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
                   {posts.filter(p => !p.published).length}
                 </p>
               </div>
@@ -213,45 +213,45 @@ const Dashboard = () => {
         {/* Posts Table */}
         {loading ? (
           <div className="text-center py-16">
-            <p className="text-gray-400">Cargando artículos...</p>
+            <p className="text-gray-500 dark:text-gray-400">Cargando artículos...</p>
           </div>
         ) : (
           <>
             {/* Desktop Table View */}
-            <div className="hidden md:block bg-[#1E1E2A] rounded-xl border border-white/10 overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-[#0C0D0D] border-b border-white/10">
+            <div className="hidden md:block bg-white dark:bg-[#1E1E2A] rounded-xl border border-gray-200 dark:border-white/10 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 dark:bg-[#0C0D0D] border-b border-gray-200 dark:border-white/10">
+                  <tr>
+                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 w-[200px] max-w-[200px]">Título</th>
+                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 w-[140px]">Categoría</th>
+                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 w-[140px]">Autor</th>
+                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 w-[110px]">Estado</th>
+                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 w-[120px]">Fecha</th>
+                      <th className="px-4 py-4 text-right text-sm font-semibold text-gray-700 dark:text-gray-300 w-[100px]">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {posts.length === 0 ? (
                     <tr>
-                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[200px] max-w-[200px]">Título</th>
-                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[140px]">Categoría</th>
-                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[140px]">Autor</th>
-                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[110px]">Estado</th>
-                      <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[120px]">Fecha</th>
-                      <th className="px-4 py-4 text-right text-sm font-semibold text-gray-300 w-[100px]">Acciones</th>
+                      <td colSpan="6" className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                        {showOnlyMine ? 'No tienes artículos aún. Crea tu primer artículo.' : 'No hay artículos aún. Crea tu primer artículo.'}
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {posts.length === 0 ? (
-                      <tr>
-                        <td colSpan="6" className="px-6 py-12 text-center text-gray-400">
-                          {showOnlyMine ? 'No tienes artículos aún. Crea tu primer artículo.' : 'No hay artículos aún. Crea tu primer artículo.'}
-                        </td>
-                      </tr>
-                    ) : (
-                      posts.map((post) => {
-                        const isOwner = user && post.user_id === user.id
-                        return (
-                          <tr key={post.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                  ) : (
+                    posts.map((post) => {
+                      const isOwner = user && post.user_id === user.id
+                      return (
+                        <tr key={post.id} className="border-b border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                             <td className="px-4 py-4 w-[200px] max-w-[200px]">
-                              <p className="font-medium text-white line-clamp-2 text-sm">{post.title}</p>
-                              <p className="text-xs text-gray-400 line-clamp-1 mt-1">{post.excerpt}</p>
-                            </td>
+                              <p className="font-medium text-gray-900 dark:text-white line-clamp-2 text-sm">{post.title}</p>
+                              <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-1 mt-1">{post.excerpt}</p>
+                          </td>
                             <td className="px-4 py-4 w-[140px]">
                               <div className="flex flex-col gap-1">
-                                <span className="px-3 py-1 bg-accent-purple/20 text-accent-purple rounded-full text-xs font-medium">
-                                  {post.category}
-                                </span>
+                            <span className="px-3 py-1 bg-accent-purple/20 text-accent-purple rounded-full text-xs font-medium">
+                              {post.category}
+                            </span>
                                 <span className={`px-2 py-0.5 rounded text-xs ${
                                   post.post_type === 'news' 
                                     ? 'bg-blue-500/20 text-blue-400' 
@@ -260,33 +260,33 @@ const Dashboard = () => {
                                   {post.post_type === 'news' ? 'Noticia' : 'Artículo'}
                                 </span>
                               </div>
-                            </td>
+                          </td>
                             <td className="px-4 py-4 w-[140px]">
                               <div className="flex items-center gap-2 flex-wrap">
-                                <span className="text-sm text-gray-300">{post.author || 'Equipo rium'}</span>
-                                {isOwner && (
-                                  <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded text-xs">
-                                    Tuyo
-                                  </span>
-                                )}
-                              </div>
-                            </td>
-                            <td className="px-4 py-4 w-[110px]">
-                              {post.published ? (
-                                <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
-                                  Publicado
-                                </span>
-                              ) : (
-                                <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-medium">
-                                  Borrador
+                              <span className="text-sm text-gray-700 dark:text-gray-300">{post.author || 'Equipo rium'}</span>
+                              {isOwner && (
+                                <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded text-xs">
+                                  Tuyo
                                 </span>
                               )}
-                            </td>
-                            <td className="px-4 py-4 text-gray-400 text-sm w-[120px]">
-                              {formatDate(post.created_at)}
-                            </td>
+                            </div>
+                          </td>
+                            <td className="px-4 py-4 w-[110px]">
+                            {post.published ? (
+                              <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
+                                Publicado
+                              </span>
+                            ) : (
+                              <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-medium">
+                                Borrador
+                              </span>
+                            )}
+                          </td>
+                            <td className="px-4 py-4 text-gray-500 dark:text-gray-400 text-sm w-[120px]">
+                            {formatDate(post.created_at)}
+                          </td>
                             <td className="px-4 py-4 w-[100px]">
-                              <div className="flex justify-end gap-2">
+                            <div className="flex justify-end gap-2">
                                 {post.published && (
                                   <Button
                                     variant="ghost"
@@ -309,40 +309,40 @@ const Dashboard = () => {
                                       variant="ghost"
                                       size="sm"
                                       onClick={() => navigate(`/admin/posts/${post.id}`)}
-                                      className="text-accent-purple hover:text-accent-purple hover:bg-accent-purple/10"
+                                    className="text-accent-purple hover:text-accent-purple hover:bg-accent-purple/10"
                                       title="Editar artículo"
-                                    >
-                                      <Edit className="h-4 w-4" />
-                                    </Button>
-                                    <Button
-                                      variant="ghost"
-                                      size="sm"
-                                      onClick={() => handleDelete(post.id)}
-                                      className="text-red-400 hover:text-red-400 hover:bg-red-500/10"
+                                  >
+                                    <Edit className="h-4 w-4" />
+                                  </Button>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => handleDelete(post.id)}
+                                    className="text-red-400 hover:text-red-400 hover:bg-red-500/10"
                                       title="Eliminar artículo"
-                                    >
-                                      <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                  </>
-                                ) : (
-                                  <span className="text-xs text-gray-500">Solo lectura</span>
-                                )}
-                              </div>
-                            </td>
-                          </tr>
-                        )
-                      })
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </>
+                              ) : (
+                                <span className="text-xs text-gray-500">Solo lectura</span>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    })
+                  )}
+                </tbody>
+              </table>
             </div>
+          </div>
 
             {/* Mobile Card View */}
             <div className="block md:hidden space-y-3">
               {posts.length === 0 ? (
-                <div className="bg-[#1E1E2A] rounded-xl p-8 text-center border border-white/10">
-                  <p className="text-gray-400">
+                <div className="bg-white dark:bg-[#1E1E2A] rounded-xl p-8 text-center border border-gray-200 dark:border-white/10">
+                  <p className="text-gray-500 dark:text-gray-400">
                     {showOnlyMine ? 'No tienes artículos aún. Crea tu primer artículo.' : 'No hay artículos aún. Crea tu primer artículo.'}
                   </p>
                 </div>
@@ -352,12 +352,12 @@ const Dashboard = () => {
                   return (
                     <div
                       key={post.id}
-                      className="bg-[#1E1E2A] rounded-xl p-4 border border-white/10 space-y-3"
+                      className="bg-white dark:bg-[#1E1E2A] rounded-xl p-4 border border-gray-200 dark:border-white/10 space-y-3"
                     >
                       <div className="flex items-start gap-2">
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-white text-sm mb-1 line-clamp-2">{post.title}</h3>
-                          <p className="text-xs text-gray-400 line-clamp-2 mb-2">{post.excerpt}</p>
+                          <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1 line-clamp-2">{post.title}</h3>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-2">{post.excerpt}</p>
                         </div>
                       </div>
 
@@ -388,8 +388,8 @@ const Dashboard = () => {
                         )}
                       </div>
 
-                      <div className="flex items-center justify-between pt-2 border-t border-white/10">
-                        <span className="text-xs text-gray-500">{formatDate(post.created_at)}</span>
+                      <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-white/10">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">{formatDate(post.created_at)}</span>
                         <div className="flex gap-2">
                           {post.published && (
                             <Button

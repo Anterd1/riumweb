@@ -205,7 +205,7 @@ const WysiwygEditor = ({ value, onChange, placeholder = 'Escribe tu contenido aq
   return (
     <div className="space-y-2">
       {/* Toolbar */}
-      <div className="flex items-center gap-1 p-2 bg-[#0C0D0D] border border-white/10 rounded-t-lg flex-wrap">
+      <div className="flex items-center gap-1 p-2 bg-gray-100 dark:bg-[#0C0D0D] border border-gray-200 dark:border-white/10 rounded-t-lg flex-wrap">
         {toolbarButtons.map((button, idx) => {
           const ButtonIcon = button.icon
           return (
@@ -218,7 +218,7 @@ const WysiwygEditor = ({ value, onChange, placeholder = 'Escribe tu contenido aq
               className={`p-2 rounded transition-colors ${
                 button.isActive
                   ? 'bg-accent-purple/30 text-accent-purple'
-                  : 'text-gray-400 hover:text-white hover:bg-white/10'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-white/10'
               } ${button.disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               <ButtonIcon size={18} />
@@ -228,14 +228,18 @@ const WysiwygEditor = ({ value, onChange, placeholder = 'Escribe tu contenido aq
       </div>
 
       {/* Editor - Con los mismos estilos que la página publicada */}
-      <div className="bg-[#0C0D0D] border border-white/10 rounded-b-lg overflow-hidden">
-        <div className="prose prose-invert prose-lg max-w-none">
+      <div className="bg-white dark:bg-[#0C0D0D] border border-gray-200 dark:border-white/10 rounded-b-lg overflow-hidden">
+        <div className="prose dark:prose-invert prose-lg max-w-none">
           <style>{`
             .ProseMirror {
               min-height: 400px;
               padding: 1.5rem;
-              color: #d1d5db;
+              color: #374151;
               line-height: 1.75;
+            }
+            
+            .dark .ProseMirror {
+              color: #d1d5db;
             }
             
             .ProseMirror h1 {
@@ -243,6 +247,10 @@ const WysiwygEditor = ({ value, onChange, placeholder = 'Escribe tu contenido aq
               font-weight: 700;
               margin-bottom: 1.5rem;
               margin-top: 0;
+              color: #111827;
+            }
+            
+            .dark .ProseMirror h1 {
               color: #ffffff;
             }
             
@@ -251,6 +259,10 @@ const WysiwygEditor = ({ value, onChange, placeholder = 'Escribe tu contenido aq
               font-weight: 700;
               margin-bottom: 1.25rem;
               margin-top: 2rem;
+              color: #111827;
+            }
+            
+            .dark .ProseMirror h2 {
               color: #ffffff;
             }
             
@@ -259,19 +271,31 @@ const WysiwygEditor = ({ value, onChange, placeholder = 'Escribe tu contenido aq
               font-weight: 700;
               margin-bottom: 1rem;
               margin-top: 1.5rem;
+              color: #111827;
+            }
+            
+            .dark .ProseMirror h3 {
               color: #ffffff;
             }
             
             .ProseMirror p {
               margin-bottom: 1rem;
-              color: #d1d5db;
+              color: #374151;
               line-height: 1.75;
               font-size: 1.125rem;
+            }
+            
+            .dark .ProseMirror p {
+              color: #d1d5db;
             }
             
             .ProseMirror ul, .ProseMirror ol {
               margin-bottom: 1rem;
               padding-left: 1.5rem;
+              color: #374151;
+            }
+            
+            .dark .ProseMirror ul, .dark .ProseMirror ol {
               color: #d1d5db;
             }
             
@@ -304,10 +328,15 @@ const WysiwygEditor = ({ value, onChange, placeholder = 'Escribe tu contenido aq
               padding-top: 0.5rem;
               padding-bottom: 0.5rem;
               font-style: italic;
-              color: #9ca3af;
+              color: #6b7280;
               margin: 1.5rem 0;
-              background-color: rgba(255, 255, 255, 0.05);
+              background-color: rgba(0, 0, 0, 0.05);
               border-radius: 0 0.5rem 0.5rem 0;
+            }
+            
+            .dark .ProseMirror blockquote {
+              color: #9ca3af;
+              background-color: rgba(255, 255, 255, 0.05);
             }
             
             .ProseMirror img {
@@ -318,19 +347,28 @@ const WysiwygEditor = ({ value, onChange, placeholder = 'Escribe tu contenido aq
             }
             
             .ProseMirror code {
-              background-color: rgba(255, 255, 255, 0.1);
+              background-color: rgba(0, 0, 0, 0.1);
               padding: 0.25rem 0.5rem;
               border-radius: 0.25rem;
               color: #a855f7;
               font-size: 1rem;
             }
             
+            .dark .ProseMirror code {
+              background-color: rgba(255, 255, 255, 0.1);
+            }
+            
             .ProseMirror pre {
-              background-color: #0C0D0D;
+              background-color: #f3f4f6;
               padding: 1rem;
               border-radius: 0.5rem;
               overflow-x: auto;
               margin: 1rem 0;
+              border: 1px solid rgba(0, 0, 0, 0.1);
+            }
+            
+            .dark .ProseMirror pre {
+              background-color: #0C0D0D;
               border: 1px solid rgba(255, 255, 255, 0.1);
             }
             
@@ -342,16 +380,28 @@ const WysiwygEditor = ({ value, onChange, placeholder = 'Escribe tu contenido aq
             
             .ProseMirror strong {
               font-weight: 700;
+              color: #111827;
+            }
+            
+            .dark .ProseMirror strong {
               color: #ffffff;
             }
             
             .ProseMirror em {
               font-style: italic;
+              color: #374151;
+            }
+            
+            .dark .ProseMirror em {
               color: #e5e7eb;
             }
             
             .ProseMirror hr {
               margin: 2rem 0;
+              border-color: rgba(0, 0, 0, 0.2);
+            }
+            
+            .dark .ProseMirror hr {
               border-color: rgba(255, 255, 255, 0.2);
             }
             

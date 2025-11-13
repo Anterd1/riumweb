@@ -112,7 +112,7 @@ const Requests = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <p className="text-gray-400">Cargando solicitudes...</p>
+        <p className="text-gray-500 dark:text-gray-400">Cargando solicitudes...</p>
       </div>
     )
   }
@@ -125,7 +125,7 @@ const Requests = () => {
           <h1 className="text-2xl md:text-4xl font-bold mb-2">
             Solicitudes de <span className="text-accent-purple">Contacto</span>
           </h1>
-          <p className="text-sm md:text-base text-gray-400">
+          <p className="text-sm md:text-base text-gray-500 dark:text-gray-400">
             {messages.length} mensaje{messages.length !== 1 ? 's' : ''} recibido{messages.length !== 1 ? 's' : ''}
             {unreadCount > 0 && (
               <span className="ml-2 px-2 py-1 bg-accent-purple/20 text-accent-purple rounded-full text-xs md:text-sm">
@@ -140,9 +140,9 @@ const Requests = () => {
         {/* Lista de mensajes */}
         <div className={`lg:col-span-1 space-y-3 ${selectedMessage ? 'hidden lg:block' : ''}`}>
           {messages.length === 0 ? (
-            <div className="bg-[#1E1E2A] rounded-xl p-6 md:p-8 text-center border border-white/10">
-              <Mail className="w-10 h-10 md:w-12 md:h-12 text-gray-600 mx-auto mb-4" />
-              <p className="text-sm md:text-base text-gray-400">No hay mensajes aún</p>
+            <div className="bg-white dark:bg-[#1E1E2A] rounded-xl p-6 md:p-8 text-center border border-gray-200 dark:border-white/10">
+              <Mail className="w-10 h-10 md:w-12 md:h-12 text-gray-500 dark:text-gray-600 mx-auto mb-4" />
+              <p className="text-sm md:text-base text-gray-500 dark:text-gray-400">No hay mensajes aún</p>
             </div>
           ) : (
             messages.map((message) => (
@@ -153,25 +153,25 @@ const Requests = () => {
                   selectedMessage?.id === message.id
                     ? 'bg-accent-purple/20 border-accent-purple/50'
                     : message.read
-                    ? 'bg-[#1E1E2A] border-white/10 hover:border-white/20'
-                    : 'bg-[#1E1E2A] border-accent-purple/30 hover:border-accent-purple/50'
+                    ? 'bg-white dark:bg-[#1E1E2A] border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20'
+                    : 'bg-white dark:bg-[#1E1E2A] border-accent-purple/30 hover:border-accent-purple/50'
                 }`}
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1 min-w-0">
-                    <p className={`font-semibold text-sm md:text-base ${!message.read ? 'text-white' : 'text-gray-300'}`}>
+                    <p className={`font-semibold text-sm md:text-base ${!message.read ? 'text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-300'}`}>
                       {message.name}
                     </p>
-                    <p className="text-xs md:text-sm text-gray-400 truncate">{message.email}</p>
+                    <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 truncate">{message.email}</p>
                   </div>
                   {!message.read && (
                     <div className="w-2 h-2 bg-accent-purple rounded-full ml-2 flex-shrink-0 mt-1" />
                   )}
                 </div>
-                <p className="text-xs md:text-sm text-gray-400 line-clamp-2 mb-2">
+                <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-2">
                   {message.message}
                 </p>
-                <div className="flex items-center gap-2 text-xs text-gray-500">
+                <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                   <Calendar size={12} />
                   <span className="truncate">{formatDate(message.created_at)}</span>
                 </div>
@@ -191,12 +191,12 @@ const Requests = () => {
               >
                 ← Volver a la lista
               </button>
-            <div className="bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-white/10">
+            <div className="bg-white dark:bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-gray-200 dark:border-white/10">
               <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4 md:mb-6">
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-xl md:text-2xl font-bold mb-2 break-words">{selectedMessage.name}</h2>
+                  <h2 className="text-xl md:text-2xl font-bold mb-2 break-words text-gray-900 dark:text-white">{selectedMessage.name}</h2>
                   <p className="text-sm md:text-base text-accent-purple break-all">{selectedMessage.email}</p>
-                  <div className="flex items-center gap-2 mt-2 text-xs md:text-sm text-gray-400">
+                  <div className="flex items-center gap-2 mt-2 text-xs md:text-sm text-gray-500 dark:text-gray-400">
                     <Calendar size={14} />
                     {formatDate(selectedMessage.created_at)}
                   </div>
@@ -225,15 +225,15 @@ const Requests = () => {
 
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-xs md:text-sm font-semibold text-gray-400 mb-2">Mensaje</h3>
-                  <div className="bg-[#0C0D0D] rounded-lg p-3 md:p-4 border border-white/10">
-                    <p className="text-sm md:text-base text-gray-300 whitespace-pre-wrap leading-relaxed break-words">
+                  <h3 className="text-xs md:text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">Mensaje</h3>
+                  <div className="bg-gray-50 dark:bg-[#0C0D0D] rounded-lg p-3 md:p-4 border border-gray-200 dark:border-white/10">
+                    <p className="text-sm md:text-base text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed break-words">
                       {selectedMessage.message}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex gap-3 pt-4 border-t border-white/10">
+                <div className="flex gap-3 pt-4 border-t border-gray-200 dark:border-white/10">
                   <Button
                     onClick={() => window.open(`mailto:${selectedMessage.email}`, '_blank')}
                     className="bg-accent-purple hover:bg-accent-purple/90 w-full md:w-auto"
@@ -246,9 +246,9 @@ const Requests = () => {
             </div>
             </>
           ) : (
-            <div className="bg-[#1E1E2A] rounded-xl p-8 md:p-12 text-center border border-white/10">
-              <Mail className="w-12 h-12 md:w-16 md:h-16 text-gray-600 mx-auto mb-4" />
-              <p className="text-sm md:text-base text-gray-400">Selecciona un mensaje para ver los detalles</p>
+            <div className="bg-white dark:bg-[#1E1E2A] rounded-xl p-8 md:p-12 text-center border border-gray-200 dark:border-white/10">
+              <Mail className="w-12 h-12 md:w-16 md:h-16 text-gray-500 dark:text-gray-600 mx-auto mb-4" />
+              <p className="text-sm md:text-base text-gray-500 dark:text-gray-400">Selecciona un mensaje para ver los detalles</p>
             </div>
           )}
         </div>

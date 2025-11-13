@@ -105,9 +105,9 @@ const NewsDashboard = () => {
           <h1 className="text-2xl md:text-4xl font-bold mb-2">
             <span className="text-accent-purple">Noticias</span> Tech
           </h1>
-          <p className="text-sm md:text-base text-gray-400">Gestiona las noticias tech de tu sitio</p>
-          {user && (
-            <p className="text-xs md:text-sm text-gray-500 mt-1">
+          <p className="text-sm md:text-base text-gray-500 dark:text-gray-400">Gestiona las noticias tech de tu sitio</p>
+            {user && (
+            <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1">
               Conectado como: <span className="text-accent-purple">{user.email}</span>
             </p>
           )}
@@ -129,13 +129,13 @@ const NewsDashboard = () => {
         <Button
           variant={showOnlyMine ? "default" : "outline"}
           onClick={() => setShowOnlyMine(!showOnlyMine)}
-          className={`${showOnlyMine ? "bg-accent-purple hover:bg-accent-purple/90" : "border-white/10"} w-full sm:w-auto`}
+          className={`${showOnlyMine ? "bg-accent-purple hover:bg-accent-purple/90 text-white" : "border-gray-200 dark:border-white/10 bg-white dark:bg-transparent text-gray-900 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"} w-full sm:w-auto`}
         >
           <Filter className="mr-2 h-4 w-4" />
           {showOnlyMine ? 'Mostrar todas' : 'Solo mis noticias'}
         </Button>
         {showOnlyMine && (
-          <span className="text-xs sm:text-sm text-gray-400">
+          <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             Mostrando {posts.length} noticia{posts.length !== 1 ? 's' : ''} tuya{posts.length !== 1 ? 's' : ''}
           </span>
         )}
@@ -143,31 +143,31 @@ const NewsDashboard = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-6 mb-4 md:mb-8">
-        <div className="bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-white/10">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-400 text-xs md:text-sm mb-1">Total Noticias</p>
-              <p className="text-2xl md:text-3xl font-bold">{posts.length}</p>
+        <div className="bg-white dark:bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-gray-200 dark:border-white/10">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-1">Total Noticias</p>
+                <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{posts.length}</p>
+              </div>
+              <Newspaper className="h-6 w-6 md:h-8 md:w-8 text-accent-purple" />
             </div>
-            <Newspaper className="h-6 w-6 md:h-8 md:w-8 text-accent-purple" />
           </div>
-        </div>
-        <div className="bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-white/10">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-400 text-xs md:text-sm mb-1">Publicadas</p>
-              <p className="text-2xl md:text-3xl font-bold">
-                {posts.filter(p => p.published).length}
-              </p>
+          <div className="bg-white dark:bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-gray-200 dark:border-white/10">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-1">Publicadas</p>
+                <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+                  {posts.filter(p => p.published).length}
+                </p>
+              </div>
+              <Eye className="h-6 w-6 md:h-8 md:w-8 text-green-500" />
             </div>
-            <Eye className="h-6 w-6 md:h-8 md:w-8 text-green-500" />
           </div>
-        </div>
-        <div className="bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-white/10">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-400 text-xs md:text-sm mb-1">Borradores</p>
-              <p className="text-2xl md:text-3xl font-bold">
+          <div className="bg-white dark:bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-gray-200 dark:border-white/10">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-1">Borradores</p>
+                <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
                 {posts.filter(p => !p.published).length}
               </p>
             </div>
@@ -179,28 +179,28 @@ const NewsDashboard = () => {
       {/* Posts Table */}
       {loading ? (
         <div className="text-center py-16">
-          <p className="text-gray-400">Cargando noticias...</p>
+          <p className="text-gray-500 dark:text-gray-400">Cargando noticias...</p>
         </div>
       ) : (
-        <>
-          {/* Desktop Table View */}
-          <div className="hidden md:block bg-[#1E1E2A] rounded-xl border border-white/10 overflow-hidden">
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden md:block bg-white dark:bg-[#1E1E2A] rounded-xl border border-gray-200 dark:border-white/10 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-[#0C0D0D] border-b border-white/10">
+                <thead className="bg-gray-50 dark:bg-[#0C0D0D] border-b border-gray-200 dark:border-white/10">
                   <tr>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[200px] max-w-[200px]">Título</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[140px]">Categoría</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[140px]">Autor</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[110px]">Estado</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-300 w-[120px]">Fecha</th>
-                    <th className="px-4 py-4 text-right text-sm font-semibold text-gray-300 w-[100px]">Acciones</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 w-[200px] max-w-[200px]">Título</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 w-[140px]">Categoría</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 w-[140px]">Autor</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 w-[110px]">Estado</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 w-[120px]">Fecha</th>
+                    <th className="px-4 py-4 text-right text-sm font-semibold text-gray-700 dark:text-gray-300 w-[100px]">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {posts.length === 0 ? (
                     <tr>
-                      <td colSpan="6" className="px-6 py-12 text-center text-gray-400">
+                      <td colSpan="6" className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
                         {showOnlyMine ? 'No tienes noticias aún. Crea tu primera noticia.' : 'No hay noticias aún. Crea tu primera noticia.'}
                       </td>
                     </tr>
@@ -208,10 +208,10 @@ const NewsDashboard = () => {
                     posts.map((post) => {
                       const isOwner = user && post.user_id === user.id
                       return (
-                        <tr key={post.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                        <tr key={post.id} className="border-b border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                           <td className="px-4 py-4 w-[200px] max-w-[200px]">
-                            <p className="font-medium text-white line-clamp-2 text-sm">{post.title}</p>
-                            <p className="text-xs text-gray-400 line-clamp-1 mt-1">{post.excerpt}</p>
+                            <p className="font-medium text-gray-900 dark:text-white line-clamp-2 text-sm">{post.title}</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-1 mt-1">{post.excerpt}</p>
                           </td>
                           <td className="px-4 py-4 w-[140px]">
                             <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-medium">
@@ -220,7 +220,7 @@ const NewsDashboard = () => {
                           </td>
                           <td className="px-4 py-4 w-[140px]">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-sm text-gray-300">{post.author || 'Equipo rium'}</span>
+                              <span className="text-sm text-gray-700 dark:text-gray-300">{post.author || 'Equipo rium'}</span>
                               {isOwner && (
                                 <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded text-xs">
                                   Tuyo
@@ -239,7 +239,7 @@ const NewsDashboard = () => {
                               </span>
                             )}
                           </td>
-                          <td className="px-4 py-4 text-gray-400 text-sm w-[120px]">
+                          <td className="px-4 py-4 text-gray-500 dark:text-gray-400 text-sm w-[120px]">
                             {formatDate(post.created_at)}
                           </td>
                           <td className="px-4 py-4 w-[100px]">
@@ -293,8 +293,8 @@ const NewsDashboard = () => {
           {/* Mobile Card View */}
           <div className="block md:hidden space-y-3">
             {posts.length === 0 ? (
-              <div className="bg-[#1E1E2A] rounded-xl p-8 text-center border border-white/10">
-                <p className="text-gray-400">
+              <div className="bg-white dark:bg-[#1E1E2A] rounded-xl p-8 text-center border border-gray-200 dark:border-white/10">
+                <p className="text-gray-500 dark:text-gray-400">
                   {showOnlyMine ? 'No tienes noticias aún. Crea tu primera noticia.' : 'No hay noticias aún. Crea tu primera noticia.'}
                 </p>
               </div>
@@ -304,12 +304,12 @@ const NewsDashboard = () => {
                 return (
                   <div
                     key={post.id}
-                    className="bg-[#1E1E2A] rounded-xl p-4 border border-white/10 space-y-3"
+                    className="bg-white dark:bg-[#1E1E2A] rounded-xl p-4 border border-gray-200 dark:border-white/10 space-y-3"
                   >
                     <div className="flex items-start gap-2">
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-white text-sm mb-1 line-clamp-2">{post.title}</h3>
-                        <p className="text-xs text-gray-400 line-clamp-2 mb-2">{post.excerpt}</p>
+                        <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1 line-clamp-2">{post.title}</h3>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-2">{post.excerpt}</p>
                       </div>
                     </div>
 
@@ -333,8 +333,8 @@ const NewsDashboard = () => {
                       )}
                     </div>
 
-                    <div className="flex items-center justify-between pt-2 border-t border-white/10">
-                      <span className="text-xs text-gray-500">{formatDate(post.created_at)}</span>
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-white/10">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">{formatDate(post.created_at)}</span>
                       <div className="flex gap-2">
                         {post.published && (
                           <Button
