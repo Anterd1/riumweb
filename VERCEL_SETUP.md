@@ -23,6 +23,12 @@
 - **Value**: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9sbWx5Zmd6dWNlbW54aWRkZ2RhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyNjQ1MDUsImV4cCI6MjA3Nzg0MDUwNX0.oU3JQNUdFu-Ztip8V1FoRiHirSQP4T1mniEkseXJmlc`
 - **Environment**: Selecciona todas (Production, Preview, Development) ✅
 
+#### Variable 3:
+- **Name**: `VITE_SUPABASE_SERVICE_ROLE_KEY`
+- **Value**: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9sbWx5Zmd6dWNlbW54aWRkZ2RhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MjI2NDUwNSwiZXhwIjoyMDc3ODQwNTA1fQ.Sn91w8Xqi3AUANOdak3hwm8FCaERdql7UYBf4ZYlWu0`
+- **Environment**: Selecciona todas (Production, Preview, Development) ✅
+- **Nota**: Esta clave es necesaria para gestionar usuarios desde el panel de administración
+
 4. Click en **Save** para cada variable
 
 ### 3. Configurar Build Settings (si es necesario)
@@ -61,7 +67,10 @@ Después de agregar las variables de entorno:
 
 ### Método 1: Desde Vercel Dashboard
 1. Ve a **Settings** > **Environment Variables**
-2. Deberías ver ambas variables listadas
+2. Deberías ver las tres variables listadas:
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+   - `VITE_SUPABASE_SERVICE_ROLE_KEY`
 
 ### Método 2: Desde el Build Log
 1. Ve a **Deployments**
@@ -110,6 +119,7 @@ Después de agregar las variables de entorno:
 - ✅ Puedes tener diferentes valores para Production, Preview y Development
 - ✅ El `VITE_` prefix es necesario para que Vite exponga las variables al cliente
 - ⚠️ El `VITE_SUPABASE_ANON_KEY` es seguro de exponer (es la clave pública/anónima)
+- ⚠️ **IMPORTANTE**: El `VITE_SUPABASE_SERVICE_ROLE_KEY` es una clave de administrador. Aunque se expone al cliente con el prefijo `VITE_`, solo debe usarse en el panel de administración protegido. Nunca uses esta clave en código público o no protegido.
 
 ## 🔗 Enlaces Útiles
 
@@ -124,7 +134,8 @@ Una vez configuradas las variables y hecho el re-deploy:
 1. ✅ La página debería cargar correctamente
 2. ✅ El blog debería funcionar (con artículos de Supabase)
 3. ✅ El CMS debería funcionar (con login)
-4. ✅ No deberías ver pantalla negra
+4. ✅ El panel de gestión de usuarios debería funcionar correctamente
+5. ✅ No deberías ver pantalla negra ni mensajes de error sobre variables no configuradas
 
 Si aún tienes problemas, revisa la consola del navegador para ver errores específicos.
 
