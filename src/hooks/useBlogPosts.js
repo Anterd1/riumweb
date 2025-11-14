@@ -56,7 +56,18 @@ export const useBlogPosts = (category = null, postType = 'article') => {
 
         if (fetchError) throw fetchError
 
-        setPosts(data || [])
+        // Filtrar artículos programados que aún no deben publicarse
+        const now = new Date()
+        const publishedPosts = (data || []).filter(post => {
+          // Si tiene scheduled_at y está en el futuro, no mostrarlo aún
+          if (post.scheduled_at) {
+            const scheduledDate = new Date(post.scheduled_at)
+            return scheduledDate <= now
+          }
+          return true
+        })
+
+        setPosts(publishedPosts)
       } catch (err) {
         // Ignorar errores de cancelación
         if (err.name === 'AbortError' || signal.aborted) return

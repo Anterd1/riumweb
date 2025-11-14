@@ -34,6 +34,7 @@ const PostEditor = () => {
     read_time: '5 min',
     published: false,
     post_type: 'article', // 'article' o 'news'
+    scheduled_at: null, // Fecha/hora programada para publicar
   })
 
   useEffect(() => {
@@ -82,6 +83,7 @@ const PostEditor = () => {
         read_time: data.read_time || '5 min',
         published: data.published || false,
         post_type: data.post_type || 'article',
+        scheduled_at: data.scheduled_at || null,
       })
       // Establecer preview si hay imagen
       if (data.image) {
@@ -227,6 +229,24 @@ const PostEditor = () => {
         .map(tag => tag.trim())
         .filter(tag => tag.length > 0)
 
+      // Determinar el estado de publicación
+      let published = formData.published
+      let scheduled_at = formData.scheduled_at || null
+      
+      // Si hay fecha programada y está en el futuro, no publicar inmediatamente
+      if (scheduled_at) {
+        const scheduledDate = new Date(scheduled_at)
+        const now = new Date()
+        if (scheduledDate > now) {
+          // Programado para el futuro: mantener published=false hasta que llegue la fecha
+          published = false
+        } else {
+          // Fecha programada ya pasó: publicar y limpiar scheduled_at
+          published = true
+          scheduled_at = null
+        }
+      }
+
       const postData = {
         title: formData.title.trim(),
         excerpt: formData.excerpt.trim(),
@@ -236,8 +256,9 @@ const PostEditor = () => {
         image: formData.image?.trim() || '',
         tags: tagsArray,
         read_time: formData.read_time?.trim() || '5 min',
-        published: formData.published,
+        published: published,
         post_type: formData.post_type || 'article',
+        scheduled_at: scheduled_at,
         user_id: user.id, // Asignar automáticamente al usuario actual
       }
 
@@ -343,7 +364,7 @@ const PostEditor = () => {
       />
       <Toaster />
 
-      <div className="container mx-auto px-6 max-w-4xl">
+      <div className="container mx-auto px-6 max-w-7xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -363,7 +384,10 @@ const PostEditor = () => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="bg-white dark:bg-[#1E1E2A] border-gray-200 dark:border-white/10 rounded-xl p-6 border space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Columna Izquierda - Contenido Principal */}
+            <div className="lg:col-span-2 space-y-6">
+              <div className="bg-white dark:bg-[#1E1E2A] border-gray-200 dark:border-white/10 rounded-xl p-6 border space-y-6">
             {/* Title */}
             <div>
               <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
@@ -405,7 +429,14 @@ const PostEditor = () => {
                 placeholder="Escribe el contenido del artículo. Se verá exactamente como en la página publicada..."
               />
             </div>
+              </div>
+            </div>
 
+            {/* Columna Derecha - Configuración */}
+            <div className="lg:col-span-1 space-y-6">
+              <div className="bg-white dark:bg-[#1E1E2A] border-gray-200 dark:border-white/10 rounded-xl p-6 border space-y-6 sticky top-6">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Configuración</h2>
+                
             {/* Author */}
             <div>
               <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
@@ -572,23 +603,84 @@ const PostEditor = () => {
               />
             </div>
 
+            {/* Scheduled Publish */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="schedule"
+                  checked={!!formData.scheduled_at}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      // Establecer fecha/hora por defecto: mañana a las 9 AM
+                      const tomorrow = new Date()
+                      tomorrow.setDate(tomorrow.getDate() + 1)
+                      tomorrow.setHours(9, 0, 0, 0)
+                      setFormData({ ...formData, scheduled_at: tomorrow.toISOString().slice(0, 16) })
+                    } else {
+                      setFormData({ ...formData, scheduled_at: null })
+                    }
+                  }}
+                  className="w-4 h-4 text-accent-purple rounded focus:ring-accent-purple bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 border"
+                />
+                <label htmlFor="schedule" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Programar publicación
+                </label>
+              </div>
+              
+              {formData.scheduled_at && (
+                <div>
+                  <label htmlFor="scheduled_at" className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                    Fecha y hora de publicación
+                  </label>
+                  <Input
+                    id="scheduled_at"
+                    type="datetime-local"
+                    value={formData.scheduled_at ? new Date(formData.scheduled_at).toISOString().slice(0, 16) : ''}
+                    onChange={(e) => {
+                      const value = e.target.value
+                      setFormData({ 
+                        ...formData, 
+                        scheduled_at: value ? new Date(value).toISOString() : null 
+                      })
+                    }}
+                    min={new Date().toISOString().slice(0, 16)}
+                    className="bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
+                  />
+                  <p className="text-xs mt-1 text-gray-400 dark:text-gray-500">
+                    El artículo se publicará automáticamente en la fecha y hora seleccionada
+                  </p>
+                </div>
+              )}
+            </div>
+
             {/* Published */}
             <div className="flex items-center gap-3">
               <input
                 type="checkbox"
                 id="published"
                 checked={formData.published}
-                onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
+                onChange={(e) => {
+                  const newPublished = e.target.checked
+                  // Si se marca como publicado y hay fecha programada, limpiar la fecha programada
+                  if (newPublished && formData.scheduled_at) {
+                    setFormData({ ...formData, published: newPublished, scheduled_at: null })
+                  } else {
+                    setFormData({ ...formData, published: newPublished })
+                  }
+                }}
                 className="w-4 h-4 text-accent-purple rounded focus:ring-accent-purple bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 border"
               />
               <label htmlFor="published" className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Publicar artículo
+                Publicar ahora (inmediatamente)
               </label>
+            </div>
+              </div>
             </div>
           </div>
 
           {/* Actions */}
-          <div className="flex gap-4">
+          <div className="flex gap-4 pt-4 border-t border-gray-200 dark:border-white/10">
             <Button
               type="submit"
               disabled={loading}

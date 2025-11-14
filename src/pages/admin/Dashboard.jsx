@@ -19,6 +19,51 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchPosts()
+    
+    // Verificar artículos programados cada minuto
+    const checkScheduledPosts = async () => {
+      try {
+        const supabase = await getSupabase()
+        const now = new Date().toISOString()
+        
+        // Buscar artículos programados que deben publicarse
+        const { data: scheduledPosts, error } = await supabase
+          .from('blog_posts')
+          .select('id, scheduled_at')
+          .not('scheduled_at', 'is', null)
+          .lte('scheduled_at', now)
+          .eq('published', false)
+        
+        if (error) {
+          console.error('Error checking scheduled posts:', error)
+          return
+        }
+        
+        // Publicar artículos programados que ya pasaron su fecha
+        if (scheduledPosts && scheduledPosts.length > 0) {
+          for (const post of scheduledPosts) {
+            await supabase
+              .from('blog_posts')
+              .update({ 
+                published: true, 
+                scheduled_at: null 
+              })
+              .eq('id', post.id)
+          }
+          
+          // Recargar la lista de posts
+          fetchPosts()
+        }
+      } catch (error) {
+        console.error('Error in scheduled posts check:', error)
+      }
+    }
+    
+    // Verificar inmediatamente y luego cada minuto
+    checkScheduledPosts()
+    const interval = setInterval(checkScheduledPosts, 60000) // Cada minuto
+    
+    return () => clearInterval(interval)
   }, [showOnlyMine, user, postTypeFilter])
 
   const fetchPosts = async () => {
@@ -272,15 +317,30 @@ const Dashboard = () => {
                             </div>
                           </td>
                             <td className="px-4 py-4 w-[110px]">
-                            {post.published ? (
-                              <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
-                                Publicado
-                              </span>
-                            ) : (
-                              <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-medium">
-                                Borrador
-                              </span>
-                            )}
+                            {(() => {
+                              const now = new Date()
+                              const isScheduled = post.scheduled_at && new Date(post.scheduled_at) > now
+                              
+                              if (post.published && !isScheduled) {
+                                return (
+                                  <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
+                                    Publicado
+                                  </span>
+                                )
+                              } else if (isScheduled) {
+                                return (
+                                  <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-medium">
+                                    Programado
+                                  </span>
+                                )
+                              } else {
+                                return (
+                                  <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-medium">
+                                    Borrador
+                                  </span>
+                                )
+                              }
+                            })()}
                           </td>
                             <td className="px-4 py-4 text-gray-500 dark:text-gray-400 text-sm w-[120px]">
                             {formatDate(post.created_at)}
@@ -372,15 +432,30 @@ const Dashboard = () => {
                         }`}>
                           {post.post_type === 'news' ? 'Noticia' : 'Artículo'}
                         </span>
-                        {post.published ? (
-                          <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
-                            Publicado
-                          </span>
-                        ) : (
-                          <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-medium">
-                            Borrador
-                          </span>
-                        )}
+                        {(() => {
+                          const now = new Date()
+                          const isScheduled = post.scheduled_at && new Date(post.scheduled_at) > now
+                          
+                          if (post.published && !isScheduled) {
+                            return (
+                              <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
+                                Publicado
+                              </span>
+                            )
+                          } else if (isScheduled) {
+                            return (
+                              <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-medium">
+                                Programado
+                              </span>
+                            )
+                          } else {
+                            return (
+                              <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-medium">
+                                Borrador
+                              </span>
+                            )
+                          }
+                        })()}
                         {isOwner && (
                           <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">
                             Tuyo
