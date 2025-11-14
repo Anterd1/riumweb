@@ -209,19 +209,36 @@ const NewsPost = () => {
     keywords: postTags.length > 0 ? postTags.join(', ') : post.category,
   }
 
+  // URL absoluta de la imagen
+  const ogImageUrl = post.image 
+    ? (post.image.startsWith('http') ? post.image : `https://rium.com.mx${post.image}`)
+    : 'https://rium.com.mx/images/HERO.png'
+  
+  const articleUrl = `https://rium.com.mx/noticias/${post?.slug || post?.id || slug}`
+
   return (
     <div className="bg-[#0C0D0D] text-white min-h-screen pt-24">
-      <SEO
-        title={post.title}
-        description={post.excerpt}
-        keywords={`${post.category}, ${postTags.join(', ')}, noticias tech, tecnología`}
-        url={`https://rium.com.mx/noticias/${post?.slug || post?.id || slug}`}
-        type="article"
-        image={post.image}
-      />
-      <Helmet>
-        {/* Open Graph adicionales para noticias */}
+      <Helmet prioritizeSeoTags>
+        {/* Meta tags básicos */}
+        <title>{post.title} | rium - Noticias Tech</title>
+        <meta name="description" content={post.excerpt || post.title} />
+        <link rel="canonical" href={articleUrl} />
+        
+        {/* Open Graph - Sobrescribir con datos específicos de la noticia */}
         <meta property="og:type" content="article" />
+        <meta property="og:url" content={articleUrl} />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.excerpt || post.title} />
+        <meta property="og:image" content={ogImageUrl} />
+        <meta property="og:image:secure_url" content={ogImageUrl} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={post.title} />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:site_name" content="rium - Agencia de diseño UI/UX" />
+        <meta property="og:locale" content="es_ES" />
+        
+        {/* Open Graph Article específicos */}
         <meta property="og:article:published_time" content={post.created_at} />
         {post.updated_at && (
           <meta property="og:article:modified_time" content={post.updated_at} />
@@ -234,22 +251,29 @@ const NewsPost = () => {
           ))
         )}
         
-        {/* Asegurar que la imagen sea URL absoluta con dimensiones */}
-        {post.image && (
-          <>
-            <meta property="og:image" content={post.image.startsWith('http') ? post.image : `https://rium.com.mx${post.image}`} />
-            <meta property="og:image:width" content="1200" />
-            <meta property="og:image:height" content="630" />
-            <meta property="og:image:alt" content={post.title} />
-            <meta property="og:image:type" content="image/jpeg" />
-          </>
-        )}
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={articleUrl} />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.excerpt || post.title} />
+        <meta name="twitter:image" content={ogImageUrl} />
         
+        {/* Structured Data JSON-LD */}
         <script 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(newsArticleData) }}
         />
       </Helmet>
+      
+      {/* SEO genérico (se renderiza después pero los meta tags específicos tienen prioridad) */}
+      <SEO
+        title={post.title}
+        description={post.excerpt}
+        keywords={`${post.category}, ${postTags.join(', ')}, noticias tech, tecnología`}
+        url={articleUrl}
+        type="article"
+        image={ogImageUrl}
+      />
 
       <main>
         {/* Header */}
