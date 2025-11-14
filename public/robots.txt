@@ -1,8 +1,26 @@
+# robots.txt para rium.com.mx
+# Última actualización: 2024
+
+# Permitir todos los bots
 User-agent: *
 Allow: /
+
+# Bloquear rutas administrativas y privadas
 Disallow: /admin
+Disallow: /admin/
+Disallow: /admin/*
 Disallow: /tienda
+Disallow: /tienda/
+
+# Permitir acceso a recursos públicos importantes
+Allow: /blog
+Allow: /noticias
+Allow: /contact
+Allow: /images/
+Allow: /assets/
 
 # Sitemap
 Sitemap: https://rium.com.mx/sitemap.xml
 
+# Crawl-delay (opcional, para ser amigable con los servidores)
+# Crawl-delay: 1

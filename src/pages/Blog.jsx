@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useBlogPosts } from '@/hooks/useBlogPosts';
 import NewsletterSubscription from '@/components/NewsletterSubscription';
 import { Toaster } from '@/components/ui/toaster';
+import OptimizedImage from '@/components/OptimizedImage';
 
 const Blog = () => {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
@@ -136,11 +137,9 @@ const Blog = () => {
                   >
                   {/* Image - Optimizado para móvil con aspect-ratio */}
                   <div className="relative aspect-video overflow-hidden">
-                    <img
+                    <OptimizedImage
                       src={post.image}
                       alt={post.title}
-                      loading="lazy"
-                      decoding="async"
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>

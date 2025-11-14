@@ -58,9 +58,9 @@ const Sitemap = () => {
 `
         })
 
-        // Agregar URLs de artículos y noticias
+        // Agregar URLs de artículos y noticias con prioridades dinámicas
         if (blogPosts && blogPosts.length > 0) {
-          blogPosts.forEach((post) => {
+          blogPosts.forEach((post, index) => {
             const lastmod = post.updated_at 
               ? new Date(post.updated_at).toISOString().split('T')[0]
               : new Date(post.created_at).toISOString().split('T')[0]
@@ -69,11 +69,35 @@ const Sitemap = () => {
             const path = post.post_type === 'news' ? '/noticias' : '/blog'
             const slug = post.slug || post.id
             
+            // Prioridad dinámica: más alta para posts recientes
+            // Los primeros 10 posts tienen prioridad 0.8, luego 0.7, y finalmente 0.6
+            let priority = '0.6'
+            if (index < 10) {
+              priority = '0.8'
+            } else if (index < 30) {
+              priority = '0.7'
+            }
+            
+            // Frecuencia de actualización según tipo y antigüedad
+            // Noticias se actualizan más frecuentemente que artículos del blog
+            let changefreq = 'monthly'
+            const daysSinceUpdate = Math.floor(
+              (new Date() - new Date(post.updated_at || post.created_at)) / (1000 * 60 * 60 * 24)
+            )
+            
+            if (post.post_type === 'news') {
+              // Noticias recientes se actualizan semanalmente
+              changefreq = daysSinceUpdate < 30 ? 'weekly' : 'monthly'
+            } else {
+              // Artículos del blog se actualizan mensualmente o menos frecuentemente
+              changefreq = daysSinceUpdate < 90 ? 'monthly' : 'yearly'
+            }
+            
             xml += `  <url>
     <loc>${baseUrl}${path}/${slug}</loc>
     <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
   </url>
 `
           })

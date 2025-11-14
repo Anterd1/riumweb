@@ -23,7 +23,20 @@ export default defineConfig({
             '@radix-ui/react-slot',
             '@radix-ui/react-toast',
           ],
+          'tiptap': [
+            '@tiptap/react',
+            '@tiptap/starter-kit',
+            '@tiptap/extension-image',
+            '@tiptap/extension-link',
+            '@tiptap/extension-placeholder',
+            '@tiptap/extension-color',
+            '@tiptap/extension-text-style',
+          ],
         },
+        // Optimizar nombres de archivos de chunks
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
       },
     },
     // Chunk size warnings
@@ -34,8 +47,18 @@ export default defineConfig({
       compress: {
         drop_console: true, // Remover console.log en producción
         drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info'],
       },
     },
+    // Generar source maps solo en desarrollo
+    sourcemap: false,
+    // Optimizar CSS
+    cssCodeSplit: true,
+    cssMinify: true,
+  },
+  // Optimizar dependencias
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom'],
   },
   // Optimizar caché
   server: {
@@ -51,4 +74,5 @@ export default defineConfig({
     },
   },
 })
+
 

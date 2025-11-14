@@ -4,10 +4,10 @@ import { Helmet } from 'react-helmet-async'
 import { Calendar, Clock, ArrowLeft, Tag, TrendingUp, Facebook, Twitter, Linkedin, MessageCircle, Link2, Check } from 'lucide-react'
 import { getSupabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
-import SEO from '@/components/SEO'
 import SectionAnimator from '@/components/SectionAnimator'
 import { toast } from '@/components/ui/use-toast'
 import { Toaster } from '@/components/ui/toaster'
+import OptimizedImage from '@/components/OptimizedImage'
 
 const NewsPost = () => {
   const { slug } = useParams()
@@ -264,16 +264,6 @@ const NewsPost = () => {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(newsArticleData) }}
         />
       </Helmet>
-      
-      {/* SEO genérico (se renderiza después pero los meta tags específicos tienen prioridad) */}
-      <SEO
-        title={post.title}
-        description={post.excerpt}
-        keywords={`${post.category}, ${postTags.join(', ')}, noticias tech, tecnología`}
-        url={articleUrl}
-        type="article"
-        image={ogImageUrl}
-      />
 
       <main>
         {/* Header */}
@@ -406,13 +396,13 @@ const NewsPost = () => {
             <div className="container mx-auto px-6 mb-12">
               <div className="max-w-4xl mx-auto">
                 <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl">
-                  <img
+                  <OptimizedImage
                     src={post.image}
                     alt={post.title}
-                    loading="lazy"
-                    decoding="async"
                     className="w-full h-full object-cover"
-                    style={{ aspectRatio: '16/9' }}
+                    width={1200}
+                    height={675}
+                    priority
                   />
                 </div>
               </div>

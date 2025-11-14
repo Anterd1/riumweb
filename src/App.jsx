@@ -1,33 +1,39 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import Home from '@/pages/Home';
 import Contact from '@/pages/Contact';
-import Project from '@/pages/Project';
-import Blog from '@/pages/Blog';
-import BlogPost from '@/pages/BlogPost';
-import News from '@/pages/News';
-import NewsPost from '@/pages/NewsPost';
-import Sitemap from '@/pages/Sitemap';
-import NotFound from '@/pages/NotFound';
-import DisenoTuPaginaWeb from '@/pages/DisenoTuPaginaWeb';
 import Login from '@/pages/admin/Login';
-import Dashboard from '@/pages/admin/Dashboard';
-import NewsDashboard from '@/pages/admin/NewsDashboard';
-import PostEditor from '@/pages/admin/PostEditor';
-import Requests from '@/pages/admin/Requests';
-import Users from '@/pages/admin/Users';
-import Settings from '@/pages/admin/Settings';
-import NewsletterSubscriptions from '@/pages/admin/NewsletterSubscriptions';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import AdminLayout from '@/components/AdminLayout';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import PageLoader from '@/components/PageLoader';
+
+// Lazy load de páginas públicas
+const Blog = lazy(() => import('@/pages/Blog'));
+const BlogPost = lazy(() => import('@/pages/BlogPost'));
+const News = lazy(() => import('@/pages/News'));
+const NewsPost = lazy(() => import('@/pages/NewsPost'));
+const Project = lazy(() => import('@/pages/Project'));
+const DisenoTuPaginaWeb = lazy(() => import('@/pages/DisenoTuPaginaWeb'));
+const Sitemap = lazy(() => import('@/pages/Sitemap'));
+const NotFound = lazy(() => import('@/pages/NotFound'));
+
+// Lazy load de páginas admin
+const Dashboard = lazy(() => import('@/pages/admin/Dashboard'));
+const NewsDashboard = lazy(() => import('@/pages/admin/NewsDashboard'));
+const PostEditor = lazy(() => import('@/pages/admin/PostEditor'));
+const Requests = lazy(() => import('@/pages/admin/Requests'));
+const Users = lazy(() => import('@/pages/admin/Users'));
+const Settings = lazy(() => import('@/pages/admin/Settings'));
+const NewsletterSubscriptions = lazy(() => import('@/pages/admin/NewsletterSubscriptions'));
 
 function App() {
   return (
     <>
       <GoogleAnalytics />
-      <Routes>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="contact" element={<Contact />} />
@@ -78,7 +84,8 @@ function App() {
       
       {/* 404 - Catch all route */}
       <Route path="*" element={<NotFound />} />
-    </Routes>
+        </Routes>
+      </Suspense>
     </>
   );
 }

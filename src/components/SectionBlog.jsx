@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
 import { useBlogPosts } from '@/hooks/useBlogPosts';
+import OptimizedImage from '@/components/OptimizedImage';
 import { Button } from '@/components/ui/button';
 import SectionAnimator from '@/components/SectionAnimator';
 
@@ -75,11 +76,9 @@ const SectionBlog = React.memo(() => {
                     >
                       {/* Image - Optimizado para móvil con aspect-ratio */}
                       <div className="relative aspect-video overflow-hidden">
-                        <img
+                        <OptimizedImage
                           src={post.image}
                           alt={post.title}
-                          loading="lazy"
-                          decoding="async"
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
