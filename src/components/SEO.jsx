@@ -92,7 +92,7 @@ const SEO = React.memo(({
       '@type': 'ContactPoint',
       telephone: '+52-556-774-8659',
       contactType: 'customer service',
-      email: 'hectorhugo359@gmail.com',
+      email: 'contacto@rium.com.mx',
       availableLanguage: 'Spanish',
       areaServed: {
         '@type': 'Country',
@@ -420,7 +420,7 @@ const SEO = React.memo(({
     image: 'https://rium.com.mx/images/HERO.png',
     url: 'https://rium.com.mx',
     telephone: '+52-556-774-8659',
-    email: 'hectorhugo359@gmail.com',
+    email: 'contacto@rium.com.mx',
     address: {
       '@type': 'PostalAddress',
       addressCountry: 'MX',

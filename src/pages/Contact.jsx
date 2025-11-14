@@ -153,7 +153,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">Correo</h3>
-                      <p className="text-gray-400">hectorhugo359@gmail.com</p>
+                      <p className="text-gray-400">contacto@rium.com.mx</p>
                     </div>
                   </div>
 
