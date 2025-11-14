@@ -15,6 +15,7 @@ const BlogPost = () => {
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     fetchPost()
@@ -138,12 +139,10 @@ const BlogPost = () => {
     )
   }
 
-  const postTags = parseTags(post.tags)
-  const [copied, setCopied] = useState(false)
-
-  // URL completa del artículo
-  const articleUrl = `https://rium.com.mx/blog/${post.slug || post.id}`
-  const shareText = `${post.title} - rium`
+  // Estas variables solo se calculan cuando post existe
+  const postTags = parseTags(post?.tags || [])
+  const articleUrl = `https://rium.com.mx/blog/${post?.slug || post?.id || slug}`
+  const shareText = `${post?.title || ''} - rium`
 
   // Funciones de compartir
   const handleShare = (platform) => {
