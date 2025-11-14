@@ -64,7 +64,7 @@ const SectionBlog = React.memo(() => {
                 return (
                   <Link
                     key={post.id}
-                    to={`/blog/${post.id}`}
+                    to={`/blog/${post.slug || post.id}`}
                     className="block"
                   >
                     <motion.article

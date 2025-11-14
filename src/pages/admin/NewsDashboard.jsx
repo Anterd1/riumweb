@@ -248,7 +248,7 @@ const NewsDashboard = () => {
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  onClick={() => window.open(`/noticias/${post.id}`, '_blank')}
+                                  onClick={() => window.open(`/noticias/${post.slug || post.id}`, '_blank')}
                                   className="text-blue-400 hover:text-blue-400 hover:bg-blue-500/10"
                                   title="Ver noticia publicada"
                                 >

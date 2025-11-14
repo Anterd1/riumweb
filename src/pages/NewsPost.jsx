@@ -10,7 +10,7 @@ import { toast } from '@/components/ui/use-toast'
 import { Toaster } from '@/components/ui/toaster'
 
 const NewsPost = () => {
-  const { id } = useParams()
+  const { slug } = useParams()
   const navigate = useNavigate()
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -18,7 +18,7 @@ const NewsPost = () => {
 
   useEffect(() => {
     fetchPost()
-  }, [id])
+  }, [slug])
 
   const fetchPost = async () => {
     try {
@@ -26,13 +26,35 @@ const NewsPost = () => {
       setError(null)
 
       const supabase = await getSupabase()
-      const { data, error: fetchError } = await supabase
-        .from('blog_posts')
-        .select('*')
-        .eq('id', id)
-        .eq('published', true)
-        .eq('post_type', 'news') // Solo noticias
-        .single()
+      
+      // Detectar si el parámetro es un UUID o un slug
+      const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug)
+      
+      let data, fetchError
+      
+      if (isUUID) {
+        // Buscar por ID (compatibilidad con URLs antiguas)
+        const result = await supabase
+          .from('blog_posts')
+          .select('*')
+          .eq('id', slug)
+          .eq('published', true)
+          .eq('post_type', 'news')
+          .single()
+        data = result.data
+        fetchError = result.error
+      } else {
+        // Buscar por slug
+        const result = await supabase
+          .from('blog_posts')
+          .select('*')
+          .eq('slug', slug)
+          .eq('published', true)
+          .eq('post_type', 'news')
+          .single()
+        data = result.data
+        fetchError = result.error
+      }
 
       if (fetchError) throw fetchError
 
@@ -101,7 +123,7 @@ const NewsPost = () => {
   const [copied, setCopied] = useState(false)
 
   // URL completa del artículo
-  const articleUrl = `https://rium.com.mx/noticias/${id}`
+  const articleUrl = `https://rium.com.mx/noticias/${post.slug || post.id}`
   const shareText = `${post.title} - rium`
 
   // Funciones de compartir
@@ -160,7 +182,7 @@ const NewsPost = () => {
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://rium.com.mx/noticias/${id}`,
+      '@id': `https://rium.com.mx/noticias/${post.slug || post.id}`,
     },
     articleSection: post.category,
     keywords: postTags.length > 0 ? postTags.join(', ') : post.category,
@@ -172,7 +194,7 @@ const NewsPost = () => {
         title={post.title}
         description={post.excerpt}
         keywords={`${post.category}, ${postTags.join(', ')}, noticias tech, tecnología`}
-        url={`https://rium.com.mx/noticias/${id}`}
+        url={`https://rium.com.mx/noticias/${post?.slug || post?.id || slug}`}
         type="article"
         image={post.image}
       />

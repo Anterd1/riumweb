@@ -353,8 +353,8 @@ const Dashboard = () => {
                                     size="sm"
                                     onClick={() => {
                                       const url = post.post_type === 'news' 
-                                        ? `/noticias/${post.id}` 
-                                        : `/blog/${post.id}`
+                                        ? `/noticias/${post.slug || post.id}` 
+                                        : `/blog/${post.slug || post.id}`
                                       window.open(url, '_blank')
                                     }}
                                     className="text-blue-400 hover:text-blue-400 hover:bg-blue-500/10"
@@ -472,8 +472,8 @@ const Dashboard = () => {
                               size="sm"
                               onClick={() => {
                                 const url = post.post_type === 'news' 
-                                  ? `/noticias/${post.id}` 
-                                  : `/blog/${post.id}`
+                                  ? `/noticias/${post.slug || post.id}` 
+                                  : `/blog/${post.slug || post.id}`
                                 window.open(url, '_blank')
                               }}
                               className="text-blue-400 hover:text-blue-400 hover:bg-blue-500/10"

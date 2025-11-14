@@ -16,11 +16,11 @@ const Sitemap = () => {
   useEffect(() => {
     const generateSitemap = async () => {
       try {
-        // Obtener artículos publicados del blog
+        // Obtener artículos y noticias publicados
         const supabase = await getSupabase()
         const { data: blogPosts, error } = await supabase
           .from('blog_posts')
-          .select('id, created_at, updated_at')
+          .select('id, slug, post_type, created_at, updated_at')
           .eq('published', true)
           .order('created_at', { ascending: false })
 
@@ -36,6 +36,7 @@ const Sitemap = () => {
           { loc: '/', priority: '1.0', changefreq: 'weekly' },
           { loc: '/contact', priority: '0.8', changefreq: 'monthly' },
           { loc: '/blog', priority: '0.8', changefreq: 'weekly' },
+          { loc: '/noticias', priority: '0.8', changefreq: 'weekly' },
           { loc: '/project/social-media-app', priority: '0.7', changefreq: 'monthly' },
           { loc: '/project/fintech-dashboard', priority: '0.7', changefreq: 'monthly' },
           { loc: '/project/digital-marketing-agency-site', priority: '0.7', changefreq: 'monthly' },
@@ -57,15 +58,19 @@ const Sitemap = () => {
 `
         })
 
-        // Agregar URLs de artículos del blog
+        // Agregar URLs de artículos y noticias
         if (blogPosts && blogPosts.length > 0) {
           blogPosts.forEach((post) => {
             const lastmod = post.updated_at 
               ? new Date(post.updated_at).toISOString().split('T')[0]
               : new Date(post.created_at).toISOString().split('T')[0]
             
+            // Determinar la ruta según el tipo de post
+            const path = post.post_type === 'news' ? '/noticias' : '/blog'
+            const slug = post.slug || post.id
+            
             xml += `  <url>
-    <loc>${baseUrl}/blog/${post.id}</loc>
+    <loc>${baseUrl}${path}/${slug}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>

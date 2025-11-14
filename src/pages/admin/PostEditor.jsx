@@ -11,6 +11,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { Toaster } from '@/components/ui/toaster'
 import SEO from '@/components/SEO'
 import WysiwygEditor from '@/components/WysiwygEditor'
+import { generateUniqueSlug } from '@/lib/slug'
 
 const PostEditor = () => {
   const { id } = useParams()
@@ -35,6 +36,7 @@ const PostEditor = () => {
     published: false,
     post_type: 'article', // 'article' o 'news'
     scheduled_at: null, // Fecha/hora programada para publicar
+    slug: null, // Slug generado automáticamente
   })
 
   useEffect(() => {
@@ -247,6 +249,14 @@ const PostEditor = () => {
         }
       }
 
+      const supabase = await getSupabase()
+      
+      // Generar slug único si no existe (siempre para nuevos posts, solo si falta para ediciones)
+      let slug = formData.slug
+      if (!slug) {
+        slug = await generateUniqueSlug(formData.title.trim(), isEdit ? id : null, supabase)
+      }
+
       const postData = {
         title: formData.title.trim(),
         excerpt: formData.excerpt.trim(),
@@ -259,12 +269,11 @@ const PostEditor = () => {
         published: published,
         post_type: formData.post_type || 'article',
         scheduled_at: scheduled_at,
+        slug: slug, // Slug generado automáticamente
         user_id: user.id, // Asignar automáticamente al usuario actual
       }
 
       console.log('Guardando artículo:', { ...postData, content: postData.content.substring(0, 50) + '...' })
-
-      const supabase = await getSupabase()
       let result
       let error
       

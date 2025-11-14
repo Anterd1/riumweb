@@ -126,7 +126,7 @@ const News = () => {
                     return (
                       <Link
                         key={post.id}
-                        to={`/noticias/${post.id}`}
+                        to={`/noticias/${post.slug || post.id}`}
                         className="block"
                       >
                         <motion.article

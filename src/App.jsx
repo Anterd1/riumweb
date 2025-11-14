@@ -32,9 +32,9 @@ function App() {
         <Route index element={<Home />} />
         <Route path="contact" element={<Contact />} />
         <Route path="blog" element={<Blog />} />
-        <Route path="blog/:id" element={<BlogPost />} />
+        <Route path="blog/:slug" element={<BlogPost />} />
         <Route path="noticias" element={<News />} />
-        <Route path="noticias/:id" element={<NewsPost />} />
+        <Route path="noticias/:slug" element={<NewsPost />} />
         <Route path="project/:projectId" element={<Project />} />
         <Route path="diseno-tu-pagina-web" element={<DisenoTuPaginaWeb />} />
       </Route>
