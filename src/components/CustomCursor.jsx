@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import useMousePosition from '@/hooks/useMousePosition';
 import { motion } from 'framer-motion';
 
-const CustomCursor = () => {
+const CustomCursor = memo(() => {
   const { x, y } = useMousePosition();
 
   const variants = {
@@ -24,6 +24,8 @@ const CustomCursor = () => {
       className="fixed top-0 left-0 rounded-full pointer-events-none z-[9999]"
     />
   );
-};
+});
+
+CustomCursor.displayName = 'CustomCursor';
 
 export default CustomCursor;

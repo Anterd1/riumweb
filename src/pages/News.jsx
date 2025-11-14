@@ -6,6 +6,8 @@ import SEO from '@/components/SEO';
 import SectionAnimator from '@/components/SectionAnimator';
 import { Button } from '@/components/ui/button';
 import { useBlogPosts } from '@/hooks/useBlogPosts';
+import NewsletterSubscription from '@/components/NewsletterSubscription';
+import { Toaster } from '@/components/ui/toaster';
 
 const News = () => {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
@@ -221,23 +223,16 @@ const News = () => {
         {/* CTA Section */}
         <SectionAnimator>
           <div className="container mx-auto px-6 pb-24">
-            <div className="bg-gradient-to-r from-accent-purple/20 to-accent-purple/10 rounded-3xl p-12 text-center border border-accent-purple/20">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 uppercase">
-                ¿Quieres Más Noticias?
-              </h2>
-              <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-                Suscríbete a nuestro newsletter para recibir las últimas noticias tech directamente en tu correo.
-              </p>
-              <Button
-                size="lg"
-                className="bg-accent-purple hover:bg-accent-purple/90 text-white font-bold px-8 py-6 text-lg rounded-full"
-              >
-                Suscribirse
-                <ArrowRight className="ml-2" />
-              </Button>
-            </div>
+            <NewsletterSubscription
+              title="¿Quieres Más Noticias?"
+              description="Suscríbete a nuestro newsletter para recibir las últimas noticias tech directamente en tu correo."
+              source="news"
+              key="news-newsletter"
+            />
           </div>
         </SectionAnimator>
+        
+        <Toaster />
       </main>
     </div>
   );

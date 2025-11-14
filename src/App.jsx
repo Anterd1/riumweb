@@ -18,6 +18,7 @@ import PostEditor from '@/pages/admin/PostEditor';
 import Requests from '@/pages/admin/Requests';
 import Users from '@/pages/admin/Users';
 import Settings from '@/pages/admin/Settings';
+import NewsletterSubscriptions from '@/pages/admin/NewsletterSubscriptions';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import AdminLayout from '@/components/AdminLayout';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
@@ -54,6 +55,7 @@ function App() {
         <Route index element={<Dashboard />} />
         <Route path="news" element={<NewsDashboard />} />
         <Route path="requests" element={<Requests />} />
+        <Route path="newsletter" element={<NewsletterSubscriptions />} />
         <Route path="users" element={<Users />} />
         <Route path="settings" element={<Settings />} />
       </Route>

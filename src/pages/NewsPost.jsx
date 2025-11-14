@@ -137,6 +137,31 @@ const NewsPost = () => {
         image={post.image}
       />
       <Helmet>
+        {/* Open Graph adicionales para noticias */}
+        <meta property="og:type" content="article" />
+        <meta property="og:article:published_time" content={post.created_at} />
+        {post.updated_at && (
+          <meta property="og:article:modified_time" content={post.updated_at} />
+        )}
+        <meta property="og:article:author" content={post.author || 'Equipo rium'} />
+        <meta property="og:article:section" content={post.category} />
+        {postTags.length > 0 && (
+          postTags.map((tag, index) => (
+            <meta key={index} property="og:article:tag" content={tag} />
+          ))
+        )}
+        
+        {/* Asegurar que la imagen sea URL absoluta con dimensiones */}
+        {post.image && (
+          <>
+            <meta property="og:image" content={post.image.startsWith('http') ? post.image : `https://rium.com.mx${post.image}`} />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+            <meta property="og:image:alt" content={post.title} />
+            <meta property="og:image:type" content="image/jpeg" />
+          </>
+        )}
+        
         <script 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(newsArticleData) }}

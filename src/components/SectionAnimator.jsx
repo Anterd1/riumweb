@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 
-const SectionAnimator = ({ children, className }) => {
+const SectionAnimator = memo(({ children, className }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -13,7 +13,9 @@ const SectionAnimator = ({ children, className }) => {
       {children}
     </motion.div>
   );
-};
+});
+
+SectionAnimator.displayName = 'SectionAnimator';
 
 export default SectionAnimator;
 

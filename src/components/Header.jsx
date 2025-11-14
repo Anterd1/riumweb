@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown, BookOpen, Newspaper } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const Header = () => {
+const Header = memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isBlogMenuOpen, setIsBlogMenuOpen] = useState(false);
@@ -17,7 +17,8 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    // Usar passive para mejor rendimiento
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -321,6 +322,8 @@ const Header = () => {
       </nav>
     </header>
   );
-};
+});
+
+Header.displayName = 'Header';
 
 export default Header;

@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 import { useLocation } from 'react-router-dom';
 
 // Google Analytics Measurement ID (GA4)
 const GA_MEASUREMENT_ID = 'G-JNM19SJQR8';
 
-const GoogleAnalytics = () => {
+const GoogleAnalytics = memo(() => {
   const location = useLocation();
 
   useEffect(() => {
@@ -17,10 +17,12 @@ const GoogleAnalytics = () => {
         page_title: document.title
       });
     }
-  }, [location]);
+  }, [location.pathname, location.search]);
 
   return null;
-};
+});
+
+GoogleAnalytics.displayName = 'GoogleAnalytics';
 
 export default GoogleAnalytics;
 

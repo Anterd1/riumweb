@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Toaster } from '@/components/ui/toaster';
 import CustomCursor from '@/components/CustomCursor';
 
-const Layout = () => {
+const Layout = memo(() => {
   return (
     <>
       <CustomCursor />
@@ -33,6 +33,8 @@ const Layout = () => {
       </div>
     </>
   );
-};
+});
+
+Layout.displayName = 'Layout';
 
 export default Layout;
