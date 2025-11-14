@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
-import { Calendar, Clock, ArrowLeft, Tag, TrendingUp } from 'lucide-react'
+import { Calendar, Clock, ArrowLeft, Tag, TrendingUp, Facebook, Twitter, Linkedin, MessageCircle, Link2, Check } from 'lucide-react'
 import { getSupabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import SEO from '@/components/SEO'
 import SectionAnimator from '@/components/SectionAnimator'
+import { toast } from '@/components/ui/use-toast'
+import { Toaster } from '@/components/ui/toaster'
 
 const NewsPost = () => {
   const { id } = useParams()
@@ -96,6 +98,44 @@ const NewsPost = () => {
   }
 
   const postTags = parseTags(post.tags)
+  const [copied, setCopied] = useState(false)
+
+  // URL completa del artículo
+  const articleUrl = `https://rium.com.mx/noticias/${id}`
+  const shareText = `${post.title} - rium`
+
+  // Funciones de compartir
+  const handleShare = (platform) => {
+    const encodedUrl = encodeURIComponent(articleUrl)
+    const encodedText = encodeURIComponent(shareText)
+    
+    switch (platform) {
+      case 'facebook':
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`, '_blank', 'width=600,height=400')
+        break
+      case 'twitter':
+        window.open(`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`, '_blank', 'width=600,height=400')
+        break
+      case 'linkedin':
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`, '_blank', 'width=600,height=400')
+        break
+      case 'whatsapp':
+        window.open(`https://wa.me/?text=${encodedText}%20${encodedUrl}`, '_blank')
+        break
+      case 'copy':
+        navigator.clipboard.writeText(articleUrl).then(() => {
+          setCopied(true)
+          toast({
+            title: 'Enlace copiado',
+            description: 'El enlace se ha copiado al portapapeles',
+          })
+          setTimeout(() => setCopied(false), 2000)
+        })
+        break
+      default:
+        break
+    }
+  }
 
   // Structured Data para NewsArticle
   const newsArticleData = {
@@ -216,7 +256,7 @@ const NewsPost = () => {
 
               {/* Tags */}
               {postTags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-8">
+                <div className="flex flex-wrap gap-2 mb-6">
                   {postTags.map((tag, index) => (
                     <span
                       key={index}
@@ -228,6 +268,67 @@ const NewsPost = () => {
                   ))}
                 </div>
               )}
+
+              {/* Share Buttons */}
+              <div className="mb-8 pt-6 border-t border-white/10">
+                <p className="text-sm text-gray-400 mb-4 uppercase tracking-wider">Compartir esta noticia</p>
+                <div className="flex flex-wrap gap-3">
+                  <Button
+                    onClick={() => handleShare('facebook')}
+                    variant="outline"
+                    size="sm"
+                    className="bg-white/5 border-white/20 text-white hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all"
+                  >
+                    <Facebook size={18} className="mr-2" />
+                    Facebook
+                  </Button>
+                  <Button
+                    onClick={() => handleShare('twitter')}
+                    variant="outline"
+                    size="sm"
+                    className="bg-white/5 border-white/20 text-white hover:bg-blue-400 hover:border-blue-400 hover:text-white transition-all"
+                  >
+                    <Twitter size={18} className="mr-2" />
+                    Twitter
+                  </Button>
+                  <Button
+                    onClick={() => handleShare('linkedin')}
+                    variant="outline"
+                    size="sm"
+                    className="bg-white/5 border-white/20 text-white hover:bg-blue-700 hover:border-blue-700 hover:text-white transition-all"
+                  >
+                    <Linkedin size={18} className="mr-2" />
+                    LinkedIn
+                  </Button>
+                  <Button
+                    onClick={() => handleShare('whatsapp')}
+                    variant="outline"
+                    size="sm"
+                    className="bg-white/5 border-white/20 text-white hover:bg-green-600 hover:border-green-600 hover:text-white transition-all"
+                  >
+                    <MessageCircle size={18} className="mr-2" />
+                    WhatsApp
+                  </Button>
+                  <Button
+                    onClick={() => handleShare('copy')}
+                    variant="outline"
+                    size="sm"
+                    className="bg-white/5 border-white/20 text-white hover:bg-accent-purple hover:border-accent-purple hover:text-white transition-all"
+                  >
+                    {copied ? (
+                      <>
+                        <Check size={18} className="mr-2" />
+                        Copiado
+                      </>
+                    ) : (
+                      <>
+                        <Link2 size={18} className="mr-2" />
+                        Copiar enlace
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </SectionAnimator>
@@ -424,6 +525,7 @@ const NewsPost = () => {
           </div>
         </SectionAnimator>
       </main>
+      <Toaster />
     </div>
   )
 }
