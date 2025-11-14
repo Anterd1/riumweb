@@ -16,6 +16,13 @@ const Dashboard = () => {
   const { user } = useAuth()
   const { toast } = useToast()
   const navigate = useNavigate()
+  const nowRef = new Date()
+  const getPublicationState = (post) => {
+    const publishAt = post.publish_at ? new Date(post.publish_at) : null
+    const isScheduled = post.published && publishAt && publishAt.getTime() > nowRef.getTime()
+    const isPublished = post.published && (!publishAt || publishAt.getTime() <= nowRef.getTime())
+    return { publishAt, isScheduled, isPublished }
+  }
 
   useEffect(() => {
     fetchPosts()
@@ -102,6 +109,21 @@ const Dashboard = () => {
     })
   }
 
+  const formatDateTime = (dateString) => {
+    if (!dateString) return ''
+    return new Date(dateString).toLocaleString('es-ES', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+  }
+
+  const publishedNowCount = posts.filter((post) => getPublicationState(post).isPublished).length
+  const scheduledCount = posts.filter((post) => getPublicationState(post).isScheduled).length
+  const draftCount = posts.filter((post) => !post.published).length
+
   return (
     <div className="space-y-4 md:space-y-6">
       <Toaster />
@@ -176,7 +198,7 @@ const Dashboard = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-6 mb-4 md:mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-6 mb-4 md:mb-8">
           <div className="bg-white dark:bg-[#1E1E2A] rounded-xl p-4 md:p-6 border border-gray-200 dark:border-white/10">
             <div className="flex items-center justify-between">
               <div>
@@ -190,9 +212,12 @@ const Dashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-1">Publicados</p>
-                <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-                  {posts.filter(p => p.published).length}
-                </p>
+                  <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+                    {publishedNowCount}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    Programados: {scheduledCount}
+                  </p>
               </div>
               <Eye className="h-6 w-6 md:h-8 md:w-8 text-green-500" />
             </div>
@@ -202,7 +227,7 @@ const Dashboard = () => {
               <div>
                 <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-1">Borradores</p>
                 <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-                  {posts.filter(p => !p.published).length}
+                    {draftCount}
                 </p>
               </div>
               <FileText className="h-6 w-6 md:h-8 md:w-8 text-yellow-500" />
@@ -239,9 +264,10 @@ const Dashboard = () => {
                       </td>
                     </tr>
                   ) : (
-                    posts.map((post) => {
-                      const isOwner = user && post.user_id === user.id
-                      return (
+                      posts.map((post) => {
+                        const isOwner = user && post.user_id === user.id
+                        const { isScheduled, isPublished } = getPublicationState(post)
+                        return (
                         <tr key={post.id} className="border-b border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                             <td className="px-4 py-4 w-[200px] max-w-[200px]">
                               <p className="font-medium text-gray-900 dark:text-white line-clamp-2 text-sm">{post.title}</p>
@@ -271,23 +297,34 @@ const Dashboard = () => {
                               )}
                             </div>
                           </td>
-                            <td className="px-4 py-4 w-[110px]">
-                            {post.published ? (
-                              <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
-                                Publicado
-                              </span>
-                            ) : (
-                              <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-medium">
-                                Borrador
-                              </span>
-                            )}
+                              <td className="px-4 py-4 w-[110px]">
+                              {!post.published ? (
+                                <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-medium">
+                                  Borrador
+                                </span>
+                              ) : isScheduled ? (
+                                <span className="px-3 py-1 bg-orange-500/20 text-orange-400 rounded-full text-xs font-medium">
+                                  Programado
+                                </span>
+                              ) : (
+                                <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
+                                  Publicado
+                                </span>
+                              )}
                           </td>
-                            <td className="px-4 py-4 text-gray-500 dark:text-gray-400 text-sm w-[120px]">
-                            {formatDate(post.created_at)}
+                              <td className="px-4 py-4 text-gray-500 dark:text-gray-400 text-sm w-[120px]">
+                              {isScheduled ? (
+                                <div>
+                                  <p className="font-medium text-gray-800 dark:text-gray-200 text-xs">{formatDateTime(post.publish_at)}</p>
+                                  <p className="text-xs text-orange-400">Programado</p>
+                                </div>
+                              ) : (
+                                formatDate(post.publish_at || post.created_at)
+                              )}
                           </td>
                             <td className="px-4 py-4 w-[100px]">
                             <div className="flex justify-end gap-2">
-                                {post.published && (
+                                  {isPublished && (
                                   <Button
                                     variant="ghost"
                                     size="sm"
@@ -347,9 +384,10 @@ const Dashboard = () => {
                   </p>
                 </div>
               ) : (
-                posts.map((post) => {
-                  const isOwner = user && post.user_id === user.id
-                  return (
+                      posts.map((post) => {
+                    const isOwner = user && post.user_id === user.id
+                    const { isScheduled, isPublished } = getPublicationState(post)
+                    return (
                     <div
                       key={post.id}
                       className="bg-white dark:bg-[#1E1E2A] rounded-xl p-4 border border-gray-200 dark:border-white/10 space-y-3"
@@ -372,15 +410,19 @@ const Dashboard = () => {
                         }`}>
                           {post.post_type === 'news' ? 'Noticia' : 'Artículo'}
                         </span>
-                        {post.published ? (
-                          <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
-                            Publicado
-                          </span>
-                        ) : (
-                          <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-medium">
-                            Borrador
-                          </span>
-                        )}
+                          {!post.published ? (
+                            <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-medium">
+                              Borrador
+                            </span>
+                          ) : isScheduled ? (
+                            <span className="px-2 py-1 bg-orange-500/20 text-orange-400 rounded-full text-xs font-medium">
+                              Programado
+                            </span>
+                          ) : (
+                            <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
+                              Publicado
+                            </span>
+                          )}
                         {isOwner && (
                           <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">
                             Tuyo
@@ -389,9 +431,11 @@ const Dashboard = () => {
                       </div>
 
                       <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-white/10">
-                        <span className="text-xs text-gray-500 dark:text-gray-400">{formatDate(post.created_at)}</span>
+                          <span className="text-xs text-gray-500 dark:text-gray-400">
+                            {isScheduled ? `Programado: ${formatDateTime(post.publish_at)}` : formatDate(post.publish_at || post.created_at)}
+                          </span>
                         <div className="flex gap-2">
-                          {post.published && (
+                            {isPublished && (
                             <Button
                               variant="ghost"
                               size="sm"

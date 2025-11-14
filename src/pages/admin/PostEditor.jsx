@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Save, ArrowLeft, Eye, Upload, X, Loader2 } from 'lucide-react'
+import { Save, ArrowLeft, Eye, Upload, X, Loader2, CalendarClock } from 'lucide-react'
 import { getSupabase } from '@/lib/supabase'
 import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
@@ -34,7 +34,24 @@ const PostEditor = () => {
     read_time: '5 min',
     published: false,
     post_type: 'article', // 'article' o 'news'
+    publish_at: '',
   })
+  const [isScheduleEnabled, setIsScheduleEnabled] = useState(false)
+
+  const toLocalInputValue = (isoString) => {
+    if (!isoString) return ''
+    const date = new Date(isoString)
+    if (Number.isNaN(date.getTime())) return ''
+    const tzOffset = date.getTimezoneOffset() * 60000
+    return new Date(date.getTime() - tzOffset).toISOString().slice(0, 16)
+  }
+
+  const fromLocalInputValue = (value) => {
+    if (!value) return ''
+    const date = new Date(value)
+    if (Number.isNaN(date.getTime())) return ''
+    return date.toISOString()
+  }
 
   useEffect(() => {
     // Verificar si hay un parámetro type en la URL para establecer el tipo de post
@@ -71,7 +88,7 @@ const PostEditor = () => {
         return
       }
 
-      setFormData({
+        setFormData({
         title: data.title || '',
         excerpt: data.excerpt || '',
         content: data.content || '',
@@ -82,7 +99,14 @@ const PostEditor = () => {
         read_time: data.read_time || '5 min',
         published: data.published || false,
         post_type: data.post_type || 'article',
+          publish_at: data.publish_at || '',
       })
+        if (data.publish_at && data.published) {
+          const isFuture = new Date(data.publish_at).getTime() > Date.now()
+          setIsScheduleEnabled(isFuture)
+        } else {
+          setIsScheduleEnabled(false)
+        }
       // Establecer preview si hay imagen
       if (data.image) {
         setImagePreview(data.image)
@@ -177,7 +201,7 @@ const PostEditor = () => {
   }
 
   const handleRemoveImage = () => {
-    setFormData({ ...formData, image: '' })
+      setFormData({ ...formData, image: '' })
     setImagePreview(null)
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
@@ -220,14 +244,39 @@ const PostEditor = () => {
       return
     }
 
-    try {
+      try {
       // Parse tags
       const tagsArray = formData.tags
         .split(',')
         .map(tag => tag.trim())
         .filter(tag => tag.length > 0)
 
-      const postData = {
+        const nowIso = new Date().toISOString()
+        const scheduleDate = formData.publish_at ? new Date(formData.publish_at) : null
+        const isFutureSchedule = scheduleDate ? scheduleDate.getTime() > Date.now() : false
+
+        if (isScheduleEnabled) {
+          if (!formData.publish_at) {
+            toast({
+              title: 'Fecha requerida',
+              description: 'Debes elegir una fecha y hora para programar la publicación.',
+              variant: 'destructive',
+            })
+            setLoading(false)
+            return
+          }
+          if (!isFutureSchedule) {
+            toast({
+              title: 'Fecha inválida',
+              description: 'La fecha programada debe ser posterior al momento actual.',
+              variant: 'destructive',
+            })
+            setLoading(false)
+            return
+          }
+        }
+
+        const postData = {
         title: formData.title.trim(),
         excerpt: formData.excerpt.trim(),
         content: formData.content?.trim() || '',
@@ -236,9 +285,12 @@ const PostEditor = () => {
         image: formData.image?.trim() || '',
         tags: tagsArray,
         read_time: formData.read_time?.trim() || '5 min',
-        published: formData.published,
+          published: isScheduleEnabled ? true : formData.published,
         post_type: formData.post_type || 'article',
         user_id: user.id, // Asignar automáticamente al usuario actual
+          publish_at: formData.published || isScheduleEnabled
+            ? (formData.publish_at || nowIso)
+            : null,
       }
 
       console.log('Guardando artículo:', { ...postData, content: postData.content.substring(0, 50) + '...' })
@@ -572,19 +624,105 @@ const PostEditor = () => {
               />
             </div>
 
-            {/* Published */}
-            <div className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                id="published"
-                checked={formData.published}
-                onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
-                className="w-4 h-4 text-accent-purple rounded focus:ring-accent-purple bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 border"
-              />
-              <label htmlFor="published" className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Publicar artículo
-              </label>
-            </div>
+              {/* Published & Scheduling */}
+              <div className="space-y-4 rounded-lg border border-dashed border-gray-200 dark:border-white/10 p-4 bg-gray-50/60 dark:bg-white/5">
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    id="published"
+                    checked={formData.published}
+                    onChange={(e) => {
+                      const checked = e.target.checked
+                      setFormData((prev) => ({
+                        ...prev,
+                        published: checked,
+                        publish_at: checked ? (prev.publish_at || '') : '',
+                      }))
+                      if (!checked) {
+                        setIsScheduleEnabled(false)
+                      }
+                    }}
+                    className="w-4 h-4 text-accent-purple rounded focus:ring-accent-purple bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 border"
+                  />
+                  <label htmlFor="published" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Publicar artículo
+                  </label>
+                </div>
+
+                {formData.published && (
+                  <div className="space-y-3 rounded-lg border border-gray-200 dark:border-white/10 p-4 bg-white dark:bg-[#0C0D0D]">
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                          Programar publicación
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          Define una fecha futura para publicar automáticamente.
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          id="schedule"
+                          checked={isScheduleEnabled}
+                          onChange={(e) => {
+                            const enabled = e.target.checked
+                            setIsScheduleEnabled(enabled)
+                            setFormData((prev) => {
+                              let publishAtValue = prev.publish_at
+                              if (enabled) {
+                                const hasFutureDate =
+                                  prev.publish_at && new Date(prev.publish_at).getTime() > Date.now()
+                                publishAtValue = hasFutureDate
+                                  ? prev.publish_at
+                                  : new Date(Date.now() + 60 * 60 * 1000).toISOString()
+                              } else {
+                                publishAtValue = ''
+                              }
+                              return {
+                                ...prev,
+                                published: true,
+                                publish_at: publishAtValue,
+                              }
+                            })
+                          }}
+                          className="w-4 h-4 text-accent-purple rounded focus:ring-accent-purple bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 border"
+                        />
+                        <label htmlFor="schedule" className="text-sm text-gray-700 dark:text-gray-300">
+                          Activar programación
+                        </label>
+                      </div>
+                    </div>
+
+                    {isScheduleEnabled && (
+                      <div className="space-y-2">
+                        <label
+                          htmlFor="publish_at"
+                          className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 flex items-center gap-2"
+                        >
+                          <CalendarClock className="h-4 w-4 text-accent-purple" />
+                          Fecha y hora de publicación
+                        </label>
+                        <Input
+                          id="publish_at"
+                          type="datetime-local"
+                          value={toLocalInputValue(formData.publish_at)}
+                          min={toLocalInputValue(new Date(Date.now() + 5 * 60 * 1000).toISOString())}
+                          onChange={(e) => {
+                            const isoValue = fromLocalInputValue(e.target.value)
+                            setFormData((prev) => ({ ...prev, publish_at: isoValue }))
+                          }}
+                          required
+                          className="bg-gray-50 dark:bg-[#0C0D0D] border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
+                        />
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          El artículo se publicará automáticamente en la fecha y hora seleccionadas.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
           </div>
 
           {/* Actions */}

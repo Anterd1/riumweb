@@ -46,6 +46,7 @@ VITE_SUPABASE_ANON_KEY=tu_anon_key
 | image | text | - | Yes | No |
 | tags | jsonb | - | Yes | No |
 | read_time | text | - | Yes | No |
+| publish_at | timestamptz | now() | Yes | No |
 | published | boolean | false | No | No |
 | user_id | uuid | - | Yes | No |
 | created_at | timestamptz | now() | No | No |
@@ -65,16 +66,18 @@ CREATE TABLE blog_posts (
   category TEXT NOT NULL,
   image TEXT,
   tags JSONB DEFAULT '[]'::jsonb,
-  read_time TEXT,
+    read_time TEXT,
+    publish_at TIMESTAMPTZ DEFAULT now(),
   published BOOLEAN DEFAULT false NOT NULL,
   user_id UUID REFERENCES auth.users(id),
   created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
   updated_at TIMESTAMPTZ DEFAULT now() NOT NULL
 );
 
--- Crear índices para mejorar búsquedas
+  -- Crear índices para mejorar búsquedas
 CREATE INDEX idx_blog_posts_category ON blog_posts(category);
 CREATE INDEX idx_blog_posts_published ON blog_posts(published);
+  CREATE INDEX idx_blog_posts_publish_at ON blog_posts(publish_at DESC);
 CREATE INDEX idx_blog_posts_user_id ON blog_posts(user_id);
 
 -- Crear función para actualizar updated_at automáticamente
@@ -86,12 +89,16 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
--- Crear trigger para actualizar updated_at
+  -- Crear trigger para actualizar updated_at
 CREATE TRIGGER update_blog_posts_updated_at
   BEFORE UPDATE ON blog_posts
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 ```
+
+  ### ¿Ya tienes la tabla creada?
+
+  Si tu tabla `blog_posts` ya existía antes de agregar la funcionalidad de programación, ejecuta el script `scripts/add-publish-at-column.sql` en el SQL Editor de Supabase para crear la columna `publish_at`, poblarla con datos reales y generar el índice correspondiente.
 
 ## 5. Configurar políticas de seguridad (RLS)
 

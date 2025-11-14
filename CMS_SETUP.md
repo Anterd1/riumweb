@@ -93,6 +93,7 @@ Puedes crear un usuario directamente con SQL en el SQL Editor de Supabase:
 - Tags (separados por comas)
 - Tiempo de lectura
 - Checkbox para publicar/guardar como borrador
+- Programar publicación futura (fecha y hora con recordatorio visual)
 
 **Categorías disponibles:**
 - Diseño UI/UX
@@ -110,8 +111,9 @@ Puedes crear un usuario directamente con SQL en el SQL Editor de Supabase:
 1. Inicia sesión en `/admin/login`
 2. En el Dashboard, click en **"Nuevo Artículo"**
 3. Completa el formulario
-4. Marca **"Publicar artículo"** si quieres que sea visible
-5. Click en **"Crear Artículo"**
+4. Marca **"Publicar artículo"** si quieres que sea visible.
+5. (Opcional) Activa **"Programar publicación"** y elige fecha/hora para que se publique automáticamente. El sistema evitará que aparezca en el sitio hasta llegar a esa fecha.
+6. Click en **"Crear Artículo"**
 
 ### Editar un Artículo:
 
@@ -143,6 +145,7 @@ Puedes crear un usuario directamente con SQL en el SQL Editor de Supabase:
 - Verifica tu conexión a internet
 - Revisa la consola del navegador
 - Verifica que las políticas RLS permiten escritura para usuarios autenticados
+- Confirma que la columna `publish_at` existe en la tabla `blog_posts`. Si no, ejecuta `scripts/add-publish-at-column.sql` en Supabase.
 
 ## 📚 Próximos Pasos (Opcional)
 

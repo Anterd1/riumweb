@@ -43,15 +43,27 @@ async function checkPosts() {
     }
 
     // Mostrar todos los artículos
-    allPosts.forEach((post, index) => {
+      const now = new Date()
+
+      allPosts.forEach((post, index) => {
+        const publishAtDate = post.publish_at ? new Date(post.publish_at) : null
+        const isScheduled = post.published && publishAtDate && publishAtDate.getTime() > now.getTime()
+        const statusLabel = !post.published
+          ? '📝 Borrador'
+          : isScheduled
+            ? '⏱️ Programado'
+            : '✅ Publicado'
       console.log(`\n📄 Artículo ${index + 1}:`)
       console.log(`   ID: ${post.id}`)
       console.log(`   Título: ${post.title || '(sin título)'}`)
       console.log(`   Autor: ${post.author || 'N/A'}`)
       console.log(`   Categoría: ${post.category || 'N/A'}`)
-      console.log(`   Estado: ${post.published ? '✅ Publicado' : '📝 Borrador'}`)
+        console.log(`   Estado: ${statusLabel}`)
       console.log(`   Creado: ${post.created_at ? new Date(post.created_at).toLocaleString('es-ES') : 'N/A'}`)
       console.log(`   Actualizado: ${post.updated_at ? new Date(post.updated_at).toLocaleString('es-ES') : 'N/A'}`)
+        if (post.publish_at) {
+          console.log(`   Publish at: ${new Date(post.publish_at).toLocaleString('es-ES')}`)
+        }
       console.log(`   User ID: ${post.user_id || 'N/A'}`)
       if (post.excerpt) {
         console.log(`   Resumen: ${post.excerpt.substring(0, 100)}...`)
@@ -59,11 +71,20 @@ async function checkPosts() {
     })
 
     // Estadísticas
-    const published = allPosts.filter(p => p.published).length
+      const published = allPosts.filter(p => {
+        if (!p.published) return false
+        if (!p.publish_at) return true
+        return new Date(p.publish_at) <= now
+      }).length
+      const scheduled = allPosts.filter(p => {
+        if (!p.published || !p.publish_at) return false
+        return new Date(p.publish_at) > now
+      }).length
     const drafts = allPosts.filter(p => !p.published).length
 
     console.log(`\n\n📊 Estadísticas:`)
     console.log(`   ✅ Publicados: ${published}`)
+      console.log(`   ⏱️ Programados: ${scheduled}`)
     console.log(`   📝 Borradores: ${drafts}`)
 
     // Verificar artículos recientes (últimas 24 horas)
