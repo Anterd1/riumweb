@@ -106,12 +106,15 @@ async function generateSitemap() {
   let blogPostsCount = 0
   if (supabase) {
     try {
-      console.log('📚 Obteniendo artículos del blog desde Supabase...')
+    console.log('📚 Obteniendo artículos del blog desde Supabase...')
+    const nowIso = new Date().toISOString()
       const { data: blogPosts, error } = await supabase
         .from('blog_posts')
-        .select('id, created_at, updated_at, image, title')
+      .select('id, created_at, updated_at, publish_at, image, title')
         .eq('published', true)
-        .order('created_at', { ascending: false })
+      .or(`publish_at.is.null,publish_at.lte.${nowIso}`)
+      .order('publish_at', { ascending: false, nullsFirst: false })
+      .order('created_at', { ascending: false })
 
       if (error) {
         console.error('❌ Error al obtener artículos del blog:', error.message)
@@ -119,9 +122,10 @@ async function generateSitemap() {
       } else if (blogPosts && blogPosts.length > 0) {
         console.log(`✓ Encontrados ${blogPosts.length} artículo(s) publicados`)
         
-        blogPosts.forEach((post) => {
-          const lastmod = formatDate(post.updated_at || post.created_at)
-          const priority = calculatePriority(post.created_at)
+          blogPosts.forEach((post) => {
+            const referenceDate = post.publish_at || post.created_at
+            const lastmod = formatDate(post.updated_at || referenceDate)
+            const priority = calculatePriority(referenceDate || post.created_at)
           
           xml += `  <url>
     <loc>${escapeXml(`${baseUrl}/blog/${post.id}`)}</loc>

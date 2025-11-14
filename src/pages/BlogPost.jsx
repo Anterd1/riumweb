@@ -24,11 +24,13 @@ const BlogPost = () => {
       setError(null)
 
       const supabase = await getSupabase()
-      const { data, error: fetchError } = await supabase
+        const nowIso = new Date().toISOString()
+        const { data, error: fetchError } = await supabase
         .from('blog_posts')
         .select('*')
         .eq('id', id)
         .eq('published', true)
+          .or(`publish_at.is.null,publish_at.lte.${nowIso}`)
         .single()
 
       if (fetchError) throw fetchError

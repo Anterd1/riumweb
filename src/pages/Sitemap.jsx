@@ -18,11 +18,14 @@ const Sitemap = () => {
       try {
         // Obtener artículos publicados del blog
         const supabase = await getSupabase()
-        const { data: blogPosts, error } = await supabase
-          .from('blog_posts')
-          .select('id, created_at, updated_at')
-          .eq('published', true)
-          .order('created_at', { ascending: false })
+          const nowIso = new Date().toISOString()
+          const { data: blogPosts, error } = await supabase
+            .from('blog_posts')
+            .select('id, created_at, updated_at, publish_at')
+            .eq('published', true)
+            .or(`publish_at.is.null,publish_at.lte.${nowIso}`)
+            .order('publish_at', { ascending: false, nullsFirst: false })
+            .order('created_at', { ascending: false })
 
         if (error) {
           console.error('Error fetching blog posts:', error)
@@ -60,9 +63,10 @@ const Sitemap = () => {
         // Agregar URLs de artículos del blog
         if (blogPosts && blogPosts.length > 0) {
           blogPosts.forEach((post) => {
-            const lastmod = post.updated_at 
-              ? new Date(post.updated_at).toISOString().split('T')[0]
-              : new Date(post.created_at).toISOString().split('T')[0]
+              const sourceDate = post.updated_at || post.publish_at || post.created_at
+              const lastmod = sourceDate
+                ? new Date(sourceDate).toISOString().split('T')[0]
+                : today
             
             xml += `  <url>
     <loc>${baseUrl}/blog/${post.id}</loc>

@@ -34,11 +34,15 @@ export const useBlogPosts = (category = null, postType = 'article') => {
           return
         }
 
-        let query = supabase
-          .from('blog_posts')
-          .select('*')
-          .eq('published', true)
-          .order('created_at', { ascending: false })
+          const nowIso = new Date().toISOString()
+
+          let query = supabase
+            .from('blog_posts')
+            .select('*')
+            .eq('published', true)
+            .or(`publish_at.is.null,publish_at.lte.${nowIso}`)
+            .order('publish_at', { ascending: false, nullsFirst: false })
+            .order('created_at', { ascending: false })
 
         // Filtrar por tipo de post (article o news)
         if (postType) {
