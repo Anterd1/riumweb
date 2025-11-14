@@ -44,19 +44,41 @@ const NewsPost = () => {
         data = result.data
         fetchError = result.error
       } else {
-        // Buscar por slug
+        // Buscar por slug (limpiar guiones finales por si acaso)
+        const cleanSlug = slug.replace(/-+$/, '').trim()
+        
         const result = await supabase
           .from('blog_posts')
           .select('*')
-          .eq('slug', slug)
+          .eq('slug', cleanSlug)
           .eq('published', true)
           .eq('post_type', 'news')
           .single()
         data = result.data
         fetchError = result.error
+        
+        // Si no se encuentra por slug, intentar buscar por ID como fallback
+        if (fetchError && fetchError.code === 'PGRST116') {
+          // PGRST116 = no rows returned, intentar buscar por ID si el slug parece un UUID
+          const fallbackResult = await supabase
+            .from('blog_posts')
+            .select('*')
+            .eq('id', slug)
+            .eq('published', true)
+            .eq('post_type', 'news')
+            .single()
+          
+          if (fallbackResult.data) {
+            data = fallbackResult.data
+            fetchError = null
+          }
+        }
       }
 
-      if (fetchError) throw fetchError
+      if (fetchError && fetchError.code !== 'PGRST116') {
+        console.error('Error fetching post:', fetchError)
+        throw fetchError
+      }
 
       if (!data) {
         setError('Noticia no encontrada')
