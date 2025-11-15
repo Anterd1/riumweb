@@ -332,7 +332,7 @@ const Users = () => {
           </p>
           {!import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY && (
             <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
-              Obtén el SERVICE_ROLE_KEY desde Supabase Dashboard > Settings > API
+              Obtén el SERVICE_ROLE_KEY desde Supabase Dashboard {'>'} Settings {'>'} API
             </p>
           )}
         </div>

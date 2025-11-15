@@ -21,11 +21,16 @@ interface Post {
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const { type = 'article', slug } = req.query
+    // Normalizar query params (pueden venir como string o string[])
+    const typeParam = req.query.type
+    const slugParam = req.query.slug
+    const type = Array.isArray(typeParam) ? typeParam[0] : (typeParam || 'article')
+    const slug = Array.isArray(slugParam) ? slugParam[0] : slugParam
     
     // Detectar si es un bot de redes sociales
     const userAgent = req.headers['user-agent'] || ''
-    const isBot = /(?i)(facebookexternalhit|LinkedInBot|Twitterbot|Slackbot|WhatsApp|TelegramBot|SkypeUriPreview|Applebot|Googlebot|Bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Exabot|facebot|ia_archiver)/.test(userAgent)
+    // Usar flag 'i' para case-insensitive en lugar de (?i) que no existe en JavaScript
+    const isBot = /(facebookexternalhit|LinkedInBot|Twitterbot|Slackbot|WhatsApp|TelegramBot|SkypeUriPreview|Applebot|Googlebot|Bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Exabot|facebot|ia_archiver)/i.test(userAgent)
     
     // Logging para debug (solo en desarrollo o para debugging)
     console.log('🔍 share-preview called:', {
@@ -104,8 +109,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Crear cliente de Supabase
     const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
+    // Asegurarse de que slug sea string
+    const slugString = typeof slug === 'string' ? slug : (slug ? String(slug) : '')
+    
+    if (!slugString) {
+      res.status(400)
+      res.setHeader('Content-Type', 'text/html')
+      res.send(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Error - rium</title>
+            <meta property="og:title" content="Error - rium" />
+          </head>
+          <body>
+            <h1>Slug no proporcionado</h1>
+          </body>
+        </html>
+      `)
+      return
+    }
+
     // Detectar si el slug es un UUID o un slug legible
-    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug)
+    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slugString)
 
     let post: Post | null = null
     let fetchError: any = null
@@ -115,14 +141,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const result = await supabase
         .from('blog_posts')
         .select('*')
-        .eq('id', slug)
+        .eq('id', slugString)
         .eq('published', true)
         .single()
       post = result.data as Post | null
       fetchError = result.error
     } else {
       // Buscar por slug (limpiar guiones finales por si acaso)
-      const cleanSlug = slug.replace(/-+$/, '').trim()
+      const cleanSlug = slugString.replace(/-+$/, '').trim()
       
       const result = await supabase
         .from('blog_posts')
@@ -138,7 +164,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const fallbackResult = await supabase
           .from('blog_posts')
           .select('*')
-          .eq('id', slug)
+          .eq('id', slugString)
           .eq('published', true)
           .single()
         
@@ -162,7 +188,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             <title>Artículo no encontrado | rium</title>
             <meta name="description" content="El artículo que buscas no está disponible." />
             <meta property="og:type" content="website" />
-            <meta property="og:url" content="https://rium.com.mx/${type === 'news' ? 'noticias' : 'blog'}/${slug}" />
+            <meta property="og:url" content="https://rium.com.mx/${type === 'news' ? 'noticias' : 'blog'}/${slugString}" />
             <meta property="og:title" content="Artículo no encontrado | rium" />
             <meta property="og:description" content="El artículo que buscas no está disponible." />
             <meta property="og:image" content="https://rium.com.mx/images/HERO.png" />
