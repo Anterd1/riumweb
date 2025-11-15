@@ -222,10 +222,37 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ? (post.image.startsWith('http') ? post.image : `${baseUrl}${post.image}`)
       : `${baseUrl}/images/HERO.png`
 
-    // Generar HTML con meta tags Open Graph
+    // Formatear fechas a ISO 8601 según la especificación Open Graph
+    const formatDate = (dateString: string | null): string => {
+      if (!dateString) return ''
+      try {
+        const date = new Date(dateString)
+        return date.toISOString()
+      } catch {
+        return dateString
+      }
+    }
+
+    const publishedTime = formatDate(post.created_at)
+    const modifiedTime = post.updated_at ? formatDate(post.updated_at) : null
+
+    // Detectar tipo MIME de la imagen
+    const getImageType = (imageUrl: string): string => {
+      const ext = imageUrl.toLowerCase().split('.').pop() || ''
+      if (ext === 'png') return 'image/png'
+      if (ext === 'gif') return 'image/gif'
+      if (ext === 'webp') return 'image/webp'
+      return 'image/jpeg' // default
+    }
+
+    const imageType = getImageType(ogImageUrl)
+
+    // Generar HTML con meta tags Open Graph según la especificación oficial
+    // Referencia: https://ogp.me
+    // Para artículos, también necesitamos el namespace de article
     const html = `
 <!DOCTYPE html>
-<html lang="es">
+<html prefix="og: https://ogp.me/ns# article: https://ogp.me/ns/article#" lang="es">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -235,26 +262,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     <meta name="description" content="${escapeHtml(post.excerpt || post.title)}" />
     <link rel="canonical" href="${articleUrl}" />
     
-    <!-- Open Graph -->
+    <!-- Open Graph - Campos requeridos según https://ogp.me -->
     <meta property="og:type" content="article" />
     <meta property="og:url" content="${articleUrl}" />
     <meta property="og:title" content="${escapeHtml(post.title)}" />
-    <meta property="og:description" content="${escapeHtml(post.excerpt || post.title)}" />
     <meta property="og:image" content="${ogImageUrl}" />
-    <meta property="og:image:secure_url" content="${ogImageUrl}" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="${escapeHtml(post.title)}" />
-    <meta property="og:image:type" content="image/jpeg" />
+    
+    <!-- Open Graph - Campos opcionales recomendados -->
+    <meta property="og:description" content="${escapeHtml(post.excerpt || post.title)}" />
     <meta property="og:site_name" content="rium - Agencia de diseño UI/UX" />
     <meta property="og:locale" content="es_ES" />
     
-    <!-- Open Graph Article específicos -->
-    <meta property="og:article:published_time" content="${post.created_at}" />
-    ${post.updated_at ? `<meta property="og:article:modified_time" content="${post.updated_at}" />` : ''}
-    <meta property="og:article:author" content="${escapeHtml(post.author || 'Equipo rium')}" />
-    <meta property="og:article:section" content="${escapeHtml(post.category)}" />
-    ${postTags.map(tag => `<meta property="og:article:tag" content="${escapeHtml(tag)}" />`).join('\n    ')}
+    <!-- Open Graph - Propiedades estructuradas de imagen según https://ogp.me -->
+    <meta property="og:image:secure_url" content="${ogImageUrl.replace('http://', 'https://')}" />
+    <meta property="og:image:type" content="${imageType}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="${escapeHtml(post.title)}" />
+    
+    <!-- Open Graph Article - Propiedades específicas según https://ogp.me/ns/article# -->
+    <meta property="article:published_time" content="${publishedTime}" />
+    ${modifiedTime ? `<meta property="article:modified_time" content="${modifiedTime}" />` : ''}
+    <meta property="article:author" content="${escapeHtml(post.author || 'Equipo rium')}" />
+    <meta property="article:section" content="${escapeHtml(post.category)}" />
+    ${postTags.map(tag => `<meta property="article:tag" content="${escapeHtml(tag)}" />`).join('\n    ')}
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
