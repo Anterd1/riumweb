@@ -135,13 +135,13 @@ const Services = () => {
   const filterTags = ['Diseño UI/UX', 'Auditorías UX', 'Investigación', 'SEO/SEM', 'Diseño Web', 'Retail Marketing'];
 
   return (
-    <section id="services" className="py-24 bg-[#0C0D0D]" itemScope itemType="https://schema.org/Service">
+    <section id="services" className="py-24 bg-white dark:bg-[#0C0D0D]" itemScope itemType="https://schema.org/Service">
       <div className="container mx-auto px-6 relative z-10">
         <header className="mb-16">
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight text-white uppercase">
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight text-gray-900 dark:text-white uppercase">
             Nuestros <span className="text-accent-purple">Servicios</span>
           </h2>
-          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mt-4" itemProp="description">
+          <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 max-w-3xl mt-4" itemProp="description">
             Especialistas en diseño UI/UX, auditorías de experiencia de usuario, investigación de mercado y consultoría UX. Ofrecemos servicios completos de diseño de interfaces, pruebas de usabilidad, arquitectura de información, wireframes, user personas, journey mapping y más para empresas en México y Latinoamérica.
           </p>
           <div className="flex flex-wrap gap-3 mt-8">
@@ -149,7 +149,7 @@ const Services = () => {
               <button 
                 key={tag} 
                 onClick={() => handleFilterClick(tag)}
-                className="px-5 py-2 border border-gray-600 rounded-full text-gray-400 hover:text-white hover:border-accent-purple/50 hover:bg-accent-purple/10 transition-all cursor-pointer uppercase text-sm md:text-base"
+                className="px-5 py-2 border border-gray-300 dark:border-gray-600 rounded-full text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:border-accent-purple/50 hover:bg-accent-purple/10 transition-all cursor-pointer uppercase text-sm md:text-base"
               >
                 {tag}
               </button>
@@ -157,18 +157,18 @@ const Services = () => {
           </div>
         </header>
 
-        <div className="border-t border-gray-800" itemScope itemType="https://schema.org/ItemList">
+        <div className="border-t border-gray-200 dark:border-gray-800" itemScope itemType="https://schema.org/ItemList">
           {services.map((service, index) => (
             <article 
               key={service.title} 
               id={`service-${index}`}
-              className="border-b border-gray-800 scroll-mt-24" 
+              className="border-b border-gray-200 dark:border-gray-800 scroll-mt-24" 
               itemScope 
               itemType="https://schema.org/Service"
             >
               <div className="flex justify-between items-center cursor-pointer py-8 group" onClick={() => handleServiceClick(index)}>
                 <div className="flex items-center gap-4">
-                  <h3 className={`text-3xl md:text-5xl font-bold transition-colors duration-300 ${activeIndex === index ? 'text-white' : 'text-gray-600 group-hover:text-gray-400'}`} itemProp="name">
+                  <h3 className={`text-3xl md:text-5xl font-bold transition-colors duration-300 ${activeIndex === index ? 'text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-600 group-hover:text-gray-800 dark:group-hover:text-gray-400'}`} itemProp="name">
                     {service.title}
                   </h3>
                   {activeIndex === index && (
@@ -185,7 +185,7 @@ const Services = () => {
                   animate={{ rotate: activeIndex === index ? 45 : 0 }} // Rotate Plus for open state
                   transition={{ duration: 0.3 }}
                 >
-                  <Plus size={40} className={`${activeIndex === index ? 'text-accent-purple' : 'text-gray-600 group-hover:text-gray-400'} transition-colors`} />
+                  <Plus size={40} className={`${activeIndex === index ? 'text-accent-purple' : 'text-gray-700 dark:text-gray-600 group-hover:text-gray-900 dark:group-hover:text-gray-400'} transition-colors`} />
                 </motion.div>
               </div>
               
@@ -199,7 +199,7 @@ const Services = () => {
                     className="overflow-hidden"
                   >
                     <div className="pb-8 pr-16">
-                      <p className="text-lg text-gray-400 max-w-2xl mb-6" itemProp="description">{service.description}</p>
+                      <p className="text-lg text-gray-700 dark:text-gray-400 max-w-2xl mb-6" itemProp="description">{service.description}</p>
                       {service.points && service.points.length > 0 && (
                         <ul className="space-y-4 mt-6" itemScope itemType="https://schema.org/ItemList">
                           {service.points.map((point, pointIndex) => {
@@ -210,9 +210,9 @@ const Services = () => {
                               <li key={pointIndex} className="flex items-start gap-3" itemScope itemType="https://schema.org/Service">
                                 <div className="w-4 h-4 rounded-full bg-accent-purple mt-1 flex-shrink-0"></div>
                                 <div className="flex-1">
-                                  <span className="text-lg text-gray-300 font-medium" itemProp="name">{pointTitle}</span>
+                                  <span className="text-lg text-gray-800 dark:text-gray-300 font-medium" itemProp="name">{pointTitle}</span>
                                   {pointDescription && (
-                                    <p className="text-base text-gray-400 mt-1" itemProp="description">{pointDescription}</p>
+                                    <p className="text-base text-gray-700 dark:text-gray-400 mt-1" itemProp="description">{pointDescription}</p>
                                   )}
                                 </div>
                               </li>

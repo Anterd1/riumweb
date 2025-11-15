@@ -5,10 +5,11 @@ import Footer from '@/components/Footer';
 import { Toaster } from '@/components/ui/toaster';
 import CustomCursor from '@/components/CustomCursor';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import ThemeProvider from '@/components/ThemeProvider';
 
 const Layout = memo(() => {
   return (
-    <>
+    <ThemeProvider>
       <GoogleAnalytics />
       <CustomCursor />
       
@@ -25,7 +26,7 @@ const Layout = memo(() => {
         </p>
       </div>
 
-      <div className="min-h-screen bg-[#0C0D0D] text-white overflow-x-hidden flex flex-col">
+      <div className="min-h-screen bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white overflow-x-hidden flex flex-col">
         <Header />
         <main className="flex-grow">
           <Outlet />
@@ -33,7 +34,7 @@ const Layout = memo(() => {
         <Footer />
         <Toaster />
       </div>
-    </>
+    </ThemeProvider>
   );
 });
 

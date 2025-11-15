@@ -30,14 +30,14 @@ const TrustedClients = () => {
   };
 
   return (
-    <section className="py-20 bg-[#0C0D0D] border-t border-b border-[#1E1E2A] overflow-hidden">
+    <section className="py-20 bg-white dark:bg-[#0C0D0D] border-t border-b border-gray-200 dark:border-[#1E1E2A] overflow-hidden">
       <div className="container mx-auto px-6 text-center">
-        <p className="text-lg text-gray-400 mb-12 uppercase">Hemos trabajado con más de 13 empresas en todo latinoamerica</p>
+        <p className="text-lg text-gray-700 dark:text-gray-400 mb-12 uppercase">Hemos trabajado con más de 13 empresas en todo latinoamerica</p>
         <div className="relative w-full">
           <motion.div className="flex" variants={marqueeVariants} animate="animate">
             {marqueeLogos.map((logo, index) => (
               <div key={index} className="flex-shrink-0 w-48 mx-12 flex justify-center items-center">
-                <span className="text-white text-2xl md:text-3xl font-semibold opacity-70">
+                <span className="text-gray-800 dark:text-white text-2xl md:text-3xl font-semibold opacity-70 dark:opacity-70">
                   {logo.name}
                 </span>
               </div>

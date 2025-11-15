@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const THEME_STORAGE_KEY = 'admin-theme'
+const THEME_STORAGE_KEY = 'app-theme'
 const THEMES = {
   SYSTEM: 'system',
   LIGHT: 'light',

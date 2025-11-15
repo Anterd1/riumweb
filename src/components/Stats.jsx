@@ -67,17 +67,17 @@ const Stats = ({ customStats }) => {
   const isProjectPage = !!customStats;
 
   return (
-    <section id="stats-section" className="py-24 bg-[#0C0D0D]">
+    <section id="stats-section" className="py-24 bg-white dark:bg-[#0C0D0D]">
       <div className="container mx-auto px-6">
         {!isProjectPage && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             <div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white uppercase">
                 NUESTROS <span className="text-accent-purple">RESULTADOS</span>
               </h2>
             </div>
             <div className="flex items-end">
-              <p className="text-lg text-gray-400 max-w-md">
+              <p className="text-lg text-gray-700 dark:text-gray-400 max-w-md">
                 Construimos herramientas eficientes, que escalan, optimiza, y ahorra horas valiosas
               </p>
             </div>
@@ -86,7 +86,7 @@ const Stats = ({ customStats }) => {
         
         {isProjectPage && (
             <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase">
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white uppercase">
                     Impacto del <span className="text-accent-purple">Proyecto</span>
                 </h2>
             </div>
@@ -96,14 +96,14 @@ const Stats = ({ customStats }) => {
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="bg-[#1E1E2A] p-8 rounded-2xl h-full"
+              className="bg-gray-50 dark:bg-[#1E1E2A] p-8 rounded-2xl h-full"
             >
-              <div className="text-5xl md:text-6xl font-bold text-white mb-6">
+              <div className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
                 <AnimatedCounter to={stat.value} suffix={stat.suffix} />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white mb-2">{stat.label}</h3>
-                <p className="text-gray-400">{stat.description}</p>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{stat.label}</h3>
+                <p className="text-gray-700 dark:text-gray-400">{stat.description}</p>
               </div>
             </div>
           ))}

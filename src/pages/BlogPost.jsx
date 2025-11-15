@@ -114,10 +114,10 @@ const BlogPost = () => {
 
   if (loading) {
     return (
-      <div className="bg-[#0C0D0D] text-white min-h-screen pt-24 flex items-center justify-center">
+      <div className="bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white min-h-screen pt-24 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent-purple"></div>
-          <p className="text-gray-400">Cargando artículo...</p>
+          <p className="text-gray-600 dark:text-gray-400">Cargando artículo...</p>
         </div>
       </div>
     )
@@ -125,11 +125,11 @@ const BlogPost = () => {
 
   if (error || !post) {
     return (
-      <div className="bg-[#0C0D0D] text-white min-h-screen pt-24">
+      <div className="bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white min-h-screen pt-24">
         <div className="container mx-auto px-6 py-16">
           <div className="bg-red-500/10 border border-red-500/50 rounded-2xl p-8 text-center">
             <p className="text-red-400 mb-4">Error al cargar el artículo</p>
-            <p className="text-gray-400 text-sm mb-6">{error || 'Artículo no encontrado'}</p>
+            <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">{error || 'Artículo no encontrado'}</p>
             <Button onClick={() => navigate('/blog')} className="bg-accent-purple hover:bg-accent-purple/90">
               Volver al Blog
             </Button>
@@ -212,7 +212,7 @@ const BlogPost = () => {
     : 'https://rium.com.mx/images/HERO.png'
 
   return (
-    <div className="bg-[#0C0D0D] text-white min-h-screen pt-24">
+    <div className="bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white min-h-screen pt-24">
       <Helmet prioritizeSeoTags>
         {/* Meta tags básicos */}
         <title>{post.title} | rium - Blog</title>
@@ -266,7 +266,7 @@ const BlogPost = () => {
           <div className="container mx-auto px-6 pt-16 pb-8">
             <Link
               to="/blog"
-              className="inline-flex items-center gap-2 text-gray-400 hover:text-accent-purple transition-colors mb-8"
+              className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-accent-purple transition-colors mb-8"
             >
               <ArrowLeft size={20} />
               Volver al Blog
@@ -281,12 +281,12 @@ const BlogPost = () => {
               </div>
 
               {/* Title */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900 dark:text-white">
                 {post.title}
               </h1>
 
               {/* Meta Info */}
-              <div className="flex flex-wrap items-center gap-6 text-gray-400 mb-8">
+              <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-8">
                 {post.author && (
                   <span className="text-lg">Por {post.author}</span>
                 )}
@@ -308,7 +308,7 @@ const BlogPost = () => {
                   {postTags.map((tag, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-white/10 rounded-full text-sm text-gray-300 flex items-center gap-1"
+                      className="px-3 py-1 bg-gray-200 dark:bg-white/10 rounded-full text-sm text-gray-700 dark:text-gray-300 flex items-center gap-1"
                     >
                       <Tag size={14} />
                       {tag}
@@ -318,14 +318,14 @@ const BlogPost = () => {
               )}
 
               {/* Share Buttons */}
-              <div className="mb-8 pt-6 border-t border-white/10">
-                <p className="text-sm text-gray-400 mb-4 uppercase tracking-wider">Compartir este artículo</p>
+              <div className="mb-8 pt-6 border-t border-gray-200 dark:border-white/10">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 uppercase tracking-wider">Compartir este artículo</p>
                 <div className="flex flex-wrap gap-3">
                   <Button
                     onClick={() => handleShare('facebook')}
                     variant="outline"
                     size="sm"
-                    className="bg-white/5 border-white/20 text-white hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all"
+                    className="bg-gray-100 dark:bg-white/5 border-gray-300 dark:border-white/20 text-gray-900 dark:text-white hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all"
                   >
                     <Facebook size={18} className="mr-2" />
                     Facebook
@@ -334,7 +334,7 @@ const BlogPost = () => {
                     onClick={() => handleShare('twitter')}
                     variant="outline"
                     size="sm"
-                    className="bg-white/5 border-white/20 text-white hover:bg-blue-400 hover:border-blue-400 hover:text-white transition-all"
+                    className="bg-gray-100 dark:bg-white/5 border-gray-300 dark:border-white/20 text-gray-900 dark:text-white hover:bg-blue-400 hover:border-blue-400 hover:text-white transition-all"
                   >
                     <Twitter size={18} className="mr-2" />
                     Twitter
@@ -343,7 +343,7 @@ const BlogPost = () => {
                     onClick={() => handleShare('linkedin')}
                     variant="outline"
                     size="sm"
-                    className="bg-white/5 border-white/20 text-white hover:bg-blue-700 hover:border-blue-700 hover:text-white transition-all"
+                    className="bg-gray-100 dark:bg-white/5 border-gray-300 dark:border-white/20 text-gray-900 dark:text-white hover:bg-blue-700 hover:border-blue-700 hover:text-white transition-all"
                   >
                     <Linkedin size={18} className="mr-2" />
                     LinkedIn
@@ -352,7 +352,7 @@ const BlogPost = () => {
                     onClick={() => handleShare('whatsapp')}
                     variant="outline"
                     size="sm"
-                    className="bg-white/5 border-white/20 text-white hover:bg-green-600 hover:border-green-600 hover:text-white transition-all"
+                    className="bg-gray-100 dark:bg-white/5 border-gray-300 dark:border-white/20 text-gray-900 dark:text-white hover:bg-green-600 hover:border-green-600 hover:text-white transition-all"
                   >
                     <MessageCircle size={18} className="mr-2" />
                     WhatsApp
@@ -361,7 +361,7 @@ const BlogPost = () => {
                     onClick={() => handleShare('copy')}
                     variant="outline"
                     size="sm"
-                    className="bg-white/5 border-white/20 text-white hover:bg-accent-purple hover:border-accent-purple hover:text-white transition-all"
+                    className="bg-gray-100 dark:bg-white/5 border-gray-300 dark:border-white/20 text-gray-900 dark:text-white hover:bg-accent-purple hover:border-accent-purple hover:text-white transition-all"
                   >
                     {copied ? (
                       <>
@@ -406,18 +406,27 @@ const BlogPost = () => {
           <div className="container mx-auto px-6 pb-24">
             <div className="max-w-4xl mx-auto">
               <div 
-                className="prose prose-invert prose-lg max-w-none blog-content"
+                className="prose prose-lg max-w-none blog-content"
                 dangerouslySetInnerHTML={{ __html: post.content || post.excerpt }}
-                style={{
-                  color: '#d1d5db',
-                }}
               />
               <style>{`
+                .blog-content {
+                  color: #374151;
+                }
+                
+                .dark .blog-content {
+                  color: #d1d5db;
+                }
+                
                 .blog-content h1 {
                   font-size: 2.25rem;
                   font-weight: 700;
                   margin-bottom: 1.5rem;
                   margin-top: 0;
+                  color: #111827;
+                }
+                
+                .dark .blog-content h1 {
                   color: #ffffff;
                 }
                 
@@ -426,6 +435,10 @@ const BlogPost = () => {
                   font-weight: 700;
                   margin-bottom: 1.25rem;
                   margin-top: 2rem;
+                  color: #111827;
+                }
+                
+                .dark .blog-content h2 {
                   color: #ffffff;
                 }
                 
@@ -434,19 +447,31 @@ const BlogPost = () => {
                   font-weight: 700;
                   margin-bottom: 1rem;
                   margin-top: 1.5rem;
+                  color: #111827;
+                }
+                
+                .dark .blog-content h3 {
                   color: #ffffff;
                 }
                 
                 .blog-content p {
                   margin-bottom: 1rem;
-                  color: #d1d5db;
+                  color: #374151;
                   line-height: 1.75;
                   font-size: 1.125rem;
+                }
+                
+                .dark .blog-content p {
+                  color: #d1d5db;
                 }
                 
                 .blog-content ul, .blog-content ol {
                   margin-bottom: 1rem;
                   padding-left: 1.5rem;
+                  color: #374151;
+                }
+                
+                .dark .blog-content ul, .dark .blog-content ol {
                   color: #d1d5db;
                 }
                 
@@ -464,25 +489,39 @@ const BlogPost = () => {
                 }
                 
                 .blog-content a {
-                  color: #a855f7;
+                  color: #3B82F6;
                   text-decoration: underline;
                   transition: color 0.2s;
                 }
                 
+                .dark .blog-content a {
+                  color: #a855f7;
+                }
+                
                 .blog-content a:hover {
+                  color: #2563eb;
+                }
+                
+                .dark .blog-content a:hover {
                   color: rgba(168, 85, 247, 0.8);
                 }
                 
                 .blog-content blockquote {
-                  border-left: 4px solid #a855f7;
+                  border-left: 4px solid #3B82F6;
                   padding-left: 1.5rem;
                   padding-top: 0.5rem;
                   padding-bottom: 0.5rem;
                   font-style: italic;
-                  color: #9ca3af;
+                  color: #6b7280;
                   margin: 1.5rem 0;
-                  background-color: rgba(255, 255, 255, 0.05);
+                  background-color: #f3f4f6;
                   border-radius: 0 0.5rem 0.5rem 0;
+                }
+                
+                .dark .blog-content blockquote {
+                  border-left-color: #a855f7;
+                  color: #9ca3af;
+                  background-color: rgba(255, 255, 255, 0.05);
                 }
                 
                 .blog-content img {
@@ -493,19 +532,29 @@ const BlogPost = () => {
                 }
                 
                 .blog-content code {
-                  background-color: rgba(255, 255, 255, 0.1);
+                  background-color: #f3f4f6;
                   padding: 0.25rem 0.5rem;
                   border-radius: 0.25rem;
-                  color: #a855f7;
+                  color: #3B82F6;
                   font-size: 1rem;
                 }
                 
+                .dark .blog-content code {
+                  background-color: rgba(255, 255, 255, 0.1);
+                  color: #a855f7;
+                }
+                
                 .blog-content pre {
-                  background-color: #0C0D0D;
+                  background-color: #f9fafb;
                   padding: 1rem;
                   border-radius: 0.5rem;
                   overflow-x: auto;
                   margin: 1rem 0;
+                  border: 1px solid #e5e7eb;
+                }
+                
+                .dark .blog-content pre {
+                  background-color: #0C0D0D;
                   border: 1px solid rgba(255, 255, 255, 0.1);
                 }
                 
@@ -517,16 +566,28 @@ const BlogPost = () => {
                 
                 .blog-content strong {
                   font-weight: 700;
+                  color: #111827;
+                }
+                
+                .dark .blog-content strong {
                   color: #ffffff;
                 }
                 
                 .blog-content em {
                   font-style: italic;
+                  color: #374151;
+                }
+                
+                .dark .blog-content em {
                   color: #e5e7eb;
                 }
                 
                 .blog-content hr {
                   margin: 2rem 0;
+                  border-color: #e5e7eb;
+                }
+                
+                .dark .blog-content hr {
                   border-color: rgba(255, 255, 255, 0.2);
                 }
                 
@@ -537,15 +598,28 @@ const BlogPost = () => {
                 }
                 
                 .blog-content th {
-                  border: 1px solid rgba(255, 255, 255, 0.2);
+                  border: 1px solid #e5e7eb;
                   padding: 0.5rem 1rem;
-                  background-color: rgba(255, 255, 255, 0.05);
+                  background-color: #f9fafb;
                   text-align: left;
+                  color: #111827;
+                }
+                
+                .dark .blog-content th {
+                  border: 1px solid rgba(255, 255, 255, 0.2);
+                  background-color: rgba(255, 255, 255, 0.05);
+                  color: #ffffff;
                 }
                 
                 .blog-content td {
-                  border: 1px solid rgba(255, 255, 255, 0.2);
+                  border: 1px solid #e5e7eb;
                   padding: 0.5rem 1rem;
+                  color: #374151;
+                }
+                
+                .dark .blog-content td {
+                  border: 1px solid rgba(255, 255, 255, 0.2);
+                  color: #d1d5db;
                 }
               `}</style>
             </div>
@@ -556,9 +630,9 @@ const BlogPost = () => {
         <SectionAnimator>
           <div className="container mx-auto px-6 pb-24">
             <div className="max-w-4xl mx-auto">
-              <div className="bg-[#1E1E2A] rounded-2xl p-8 border border-white/10 text-center">
+              <div className="bg-gray-50 dark:bg-[#1E1E2A] rounded-2xl p-8 border border-gray-200 dark:border-white/10 text-center">
                 <h2 className="text-2xl font-bold mb-4">¿Te gustó este artículo?</h2>
-                <p className="text-gray-400 mb-6">
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
                   Explora más artículos sobre diseño UI/UX y experiencia de usuario.
                 </p>
                 <Button

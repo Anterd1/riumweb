@@ -35,17 +35,17 @@ const SectionBlog = React.memo(() => {
 
   return (
     <SectionAnimator>
-      <section className="py-24 bg-[#0C0D0D]">
+      <section className="py-24 bg-white dark:bg-[#0C0D0D]">
         <div className="container mx-auto px-6">
           {/* Header */}
           <div className="text-center mb-16">
-            <div className="inline-block px-4 py-1.5 border border-white/20 rounded-full text-sm mb-4 uppercase">
+            <div className="inline-block px-4 py-1.5 border border-gray-300 dark:border-white/20 rounded-full text-sm mb-4 uppercase text-gray-700 dark:text-white">
               Blog
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 uppercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 uppercase text-gray-900 dark:text-white">
               Últimos <span className="text-accent-purple">Artículos</span>
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-700 dark:text-gray-400 max-w-2xl mx-auto">
               Descubre nuestros artículos sobre diseño UI/UX, experiencia de usuario y mejores prácticas.
             </p>
           </div>
@@ -72,7 +72,7 @@ const SectionBlog = React.memo(() => {
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="bg-[#1E1E2A] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-accent-purple/10 transition-all duration-300 group cursor-pointer h-full"
+                      className="bg-gray-50 dark:bg-[#1E1E2A] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-accent-purple/10 transition-all duration-300 group cursor-pointer h-full"
                     >
                       {/* Image - Optimizado para móvil con aspect-ratio */}
                       <div className="relative aspect-video overflow-hidden">
@@ -107,17 +107,17 @@ const SectionBlog = React.memo(() => {
                         )}
 
                         {/* Title */}
-                        <h3 className="text-xl font-bold mb-3 text-white group-hover:text-accent-purple transition-colors line-clamp-2">
+                        <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-accent-purple transition-colors line-clamp-2">
                           {post.title}
                         </h3>
 
                         {/* Excerpt */}
-                        <p className="text-gray-400 mb-4 line-clamp-3 text-sm">
+                        <p className="text-gray-700 dark:text-gray-400 mb-4 line-clamp-3 text-sm">
                           {post.excerpt}
                         </p>
 
                         {/* Meta Info */}
-                        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                        <div className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-500 mb-4">
                           <div className="flex items-center gap-4">
                             <span className="flex items-center gap-1">
                               <Calendar size={14} />
@@ -151,11 +151,11 @@ const SectionBlog = React.memo(() => {
           {/* Empty State */}
           {!loading && latestPosts.length === 0 && (
             <div className="text-center py-16">
-              <p className="text-gray-400 text-xl mb-6">No hay artículos disponibles aún.</p>
+              <p className="text-gray-700 dark:text-gray-400 text-xl mb-6">No hay artículos disponibles aún.</p>
               <Button
                 asChild
                 variant="outline"
-                className="border-white/10"
+                className="border-gray-300 dark:border-white/10 text-gray-900 dark:text-white"
               >
                 <Link to="/blog">
                   Ver Blog

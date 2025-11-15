@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 const About = () => {
-  return <section id="about" className="py-24 bg-[#0C0D0D] overflow-hidden">
+  return <section id="about" className="py-24 bg-white dark:bg-[#0C0D0D] overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div initial={{
@@ -35,24 +35,24 @@ const About = () => {
           duration: 0.8,
           ease: 'easeOut'
         }}>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white uppercase">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-gray-900 dark:text-white uppercase">
               ¿Cuales son los beneficios de mejorar la <span className="text-accent-purple">Experiencia del usuario?</span>
             </h2>
             <div className="space-y-6">
               <div>
-                <h3 className="text-2xl font-bold text-white">Mayor conversión y ROI</h3>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Mayor conversión y ROI</h3>
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-white">Reducción de costos de desarrollo</h3>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Reducción de costos de desarrollo</h3>
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-white">Mayor satisfacción y retención de usuarios</h3>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Mayor satisfacción y retención de usuarios</h3>
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-white">Ventaja competitiva sostenible</h3>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Ventaja competitiva sostenible</h3>
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-white">Mejora la imagen de marca</h3>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Mejora la imagen de marca</h3>
               </div>
             </div>
           </motion.div>

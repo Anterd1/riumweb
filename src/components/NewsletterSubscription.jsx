@@ -117,16 +117,16 @@ const NewsletterSubscription = memo(({
   }
 
   return (
-    <div className={`bg-gradient-to-r from-accent-purple/20 to-accent-purple/10 rounded-3xl p-8 md:p-12 text-center border border-accent-purple/20 ${className}`}>
-      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 uppercase text-white">
+    <div className={`bg-gray-50 dark:bg-gradient-to-r dark:from-accent-purple/20 dark:to-accent-purple/10 rounded-3xl p-8 md:p-12 text-center border border-gray-200 dark:border-accent-purple/20 ${className}`}>
+      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 uppercase text-gray-900 dark:text-white">
         {title}
       </h2>
-      <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+      <p className="text-lg md:text-xl text-gray-700 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
         {description}
       </p>
       
       {subscribed ? (
-        <div className="flex items-center justify-center gap-2 text-green-400">
+        <div className="flex items-center justify-center gap-2 text-green-600 dark:text-green-400">
           <Check className="h-5 w-5" />
           <span className="text-lg font-semibold">¡Suscrito exitosamente!</span>
         </div>
@@ -145,7 +145,7 @@ const NewsletterSubscription = memo(({
               placeholder="tu@email.com"
               required
               disabled={loading}
-              className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:bg-white/20"
+              className="flex-1 bg-white dark:bg-white/10 border-gray-300 dark:border-white/20 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:bg-white dark:focus:bg-white/20 focus:border-accent-purple dark:focus:border-white/30"
             />
             <Button
               type="submit"

@@ -109,26 +109,40 @@ const Header = memo(() => {
     return location.pathname.startsWith('/blog') || location.pathname.startsWith('/noticias');
   };
 
+  // Detectar si estamos en una página de artículo/noticia individual o listado
+  const isPostPage = () => {
+    const path = location.pathname;
+    // Verificar si es una ruta de artículo/noticia o páginas de listado
+    return path.startsWith('/blog') || path.startsWith('/noticias');
+  };
+
   return (
     <>
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div 
-          className="fixed inset-0 bg-[#0C0D0D]/85 backdrop-blur-md z-[99] md:hidden"
+          className="fixed inset-0 bg-white/85 dark:bg-[#0C0D0D]/85 backdrop-blur-md z-[99] md:hidden"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
       
       <header
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-          isScrolled || isMobileMenuOpen
-            ? 'bg-[#0C0D0D]/95 backdrop-blur-md border-b border-white/10'
-            : 'bg-transparent'
+          isScrolled || isMobileMenuOpen || isPostPage()
+            ? 'bg-white/95 dark:bg-[#0C0D0D]/95 backdrop-blur-md border-b border-gray-200 dark:border-white/10'
+            : 'bg-transparent dark:bg-transparent'
         }`}
       >
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold text-white tracking-wider">
+          <Link 
+            to="/" 
+            className={`text-2xl font-bold tracking-wider transition-colors ${
+              isScrolled || isMobileMenuOpen || isPostPage()
+                ? 'text-gray-900 dark:text-white'
+                : 'text-white'
+            }`}
+          >
             rium
           </Link>
 
@@ -141,7 +155,9 @@ const Header = memo(() => {
                 className={`text-sm font-medium transition-colors uppercase tracking-wider ${
                   isActive(link.href)
                     ? 'text-accent-purple'
-                    : 'text-gray-300 hover:text-white'
+                    : isScrolled || isMobileMenuOpen || isPostPage()
+                      ? 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                      : 'text-white hover:text-gray-200'
                 }`}
               >
                 {link.name}
@@ -159,7 +175,9 @@ const Header = memo(() => {
                 className={`text-sm font-medium transition-colors uppercase tracking-wider flex items-center gap-1 ${
                   isBlogActive()
                     ? 'text-accent-purple'
-                    : 'text-gray-300 hover:text-white'
+                    : isScrolled || isMobileMenuOpen || isPostPage()
+                      ? 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                      : 'text-white hover:text-gray-200'
                 }`}
               >
                 Blog
@@ -184,7 +202,7 @@ const Header = memo(() => {
                       top: `${dropdownPosition.top}px`,
                       left: `${dropdownPosition.left}px`,
                     }}
-                    className="w-64 bg-[#1E1E2A]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-[110]"
+                    className="w-64 bg-white/95 dark:bg-[#1E1E2A]/95 backdrop-blur-xl border border-gray-200 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden z-[110]"
                   >
                     <div className="p-2">
                       {blogSubmenu.map((item) => {
@@ -201,22 +219,22 @@ const Header = memo(() => {
                             className={`flex items-start gap-3 p-3 rounded-xl transition-all group ${
                               isItemActive
                                 ? 'bg-accent-purple/20 text-accent-purple'
-                                : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
                             }`}
                           >
                             <Icon 
                               size={20} 
                               className={`mt-0.5 flex-shrink-0 ${
-                                isItemActive ? 'text-accent-purple' : 'text-gray-400 group-hover:text-white'
+                                isItemActive ? 'text-accent-purple' : 'text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'
                               }`}
                             />
                             <div className="flex-1 min-w-0">
                               <div className={`font-medium text-sm ${
-                                isItemActive ? 'text-accent-purple' : 'text-white group-hover:text-white'
+                                isItemActive ? 'text-accent-purple' : 'text-gray-900 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white'
                               }`}>
                                 {item.name}
                               </div>
-                              <div className="text-xs text-gray-400 mt-0.5">
+                              <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
                                 {item.description}
                               </div>
                             </div>
@@ -240,7 +258,11 @@ const Header = memo(() => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white p-2"
+            className={`md:hidden p-2 transition-colors ${
+              isScrolled || isMobileMenuOpen || isPostPage()
+                ? 'text-gray-900 dark:text-white'
+                : 'text-white'
+            }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -256,7 +278,7 @@ const Header = memo(() => {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden overflow-hidden bg-[#0C0D0D]/98 backdrop-blur-md relative z-[101]"
+              className="md:hidden overflow-hidden bg-white/98 dark:bg-[#0C0D0D]/98 backdrop-blur-md relative z-[101]"
             >
               <div className="py-4 space-y-2">
                 {navLinks.map((link) => (
@@ -266,7 +288,7 @@ const Header = memo(() => {
                     className={`block text-left w-full text-lg font-medium transition-colors uppercase ${
                       isActive(link.href)
                         ? 'text-accent-purple'
-                        : 'text-gray-300 hover:text-white'
+                        : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                     }`}
                   >
                     {link.name}
@@ -280,7 +302,7 @@ const Header = memo(() => {
                     className={`flex items-center justify-between w-full text-left text-lg font-medium transition-colors uppercase ${
                       isBlogActive()
                         ? 'text-accent-purple'
-                        : 'text-gray-300 hover:text-white'
+                        : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                     }`}
                   >
                     Blog
@@ -318,22 +340,22 @@ const Header = memo(() => {
                               className={`flex items-center gap-3 p-3 rounded-xl transition-all ${
                                 isItemActive
                                   ? 'bg-accent-purple/20 text-accent-purple'
-                                  : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
                               }`}
                             >
                               <Icon 
                                 size={18} 
                                 className={`flex-shrink-0 ${
-                                  isItemActive ? 'text-accent-purple' : 'text-gray-400'
+                                  isItemActive ? 'text-accent-purple' : 'text-gray-600 dark:text-gray-400'
                                 }`}
                               />
                               <div className="flex-1">
                                 <div className={`font-medium text-sm ${
-                                  isItemActive ? 'text-accent-purple' : 'text-white'
+                                  isItemActive ? 'text-accent-purple' : 'text-gray-900 dark:text-white'
                                 }`}>
                                   {item.name}
                                 </div>
-                                <div className="text-xs text-gray-400 mt-0.5">
+                                <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
                                   {item.description}
                                 </div>
                               </div>

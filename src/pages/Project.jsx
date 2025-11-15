@@ -190,7 +190,7 @@ const Project = () => {
     window.scrollTo(0, 0);
   }, [projectId]);
 
-  return <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition} className="bg-[#0C0D0D] text-white">
+  return <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition} className="bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white">
       <SEO
         title={project.title}
         description={project.description}
@@ -205,7 +205,7 @@ const Project = () => {
           <header className="pt-48 pb-16"> {/* Increased padding-top */}
             <div className="container mx-auto px-6 text-center max-w-4xl">
               <h1 className="text-4xl md:text-6xl font-bold uppercase mb-4">{project.title}</h1>
-              <p className="text-lg md:text-xl text-gray-400">{project.description}</p>
+              <p className="text-lg md:text-xl text-gray-700 dark:text-gray-400">{project.description}</p>
             </div>
           </header>
         </SectionAnimator>
@@ -261,11 +261,11 @@ const Project = () => {
                 <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-start">
                     <div>
                         <h2 className="text-3xl md:text-4xl font-bold mb-6">El Desafío</h2>
-                        <p className="text-lg text-gray-400">{project.challenge}</p>
+                        <p className="text-lg text-gray-700 dark:text-gray-400">{project.challenge}</p>
                     </div>
                      <div>
                         <h2 className="text-3xl md:text-4xl font-bold mb-6">La Solución</h2>
-                        <p className="text-lg text-gray-400">{project.solution}</p>
+                        <p className="text-lg text-gray-700 dark:text-gray-400">{project.solution}</p>
                     </div>
                 </div>
             </section>
@@ -294,7 +294,7 @@ const Project = () => {
             <section className="py-24 text-center">
                 <div className="container mx-auto px-6">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4">¿Listo para Trabajar Juntos?</h2>
-                    <p className="text-lg text-gray-400 mb-8">Hablemos sobre tu próxima gran idea y cómo podemos hacerla realidad.</p>
+                    <p className="text-lg text-gray-700 dark:text-gray-400 mb-8">Hablemos sobre tu próxima gran idea y cómo podemos hacerla realidad.</p>
                      <Button asChild size="lg" className="bg-accent-purple text-white hover:bg-accent-purple/90 group rounded-full text-lg py-7 px-10">
                         <Link to="/contact">
                             Hablemos <ArrowRight className="ml-2 h-5 w-5 transform transition-transform duration-300 group-hover:translate-x-1" />

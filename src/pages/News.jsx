@@ -44,7 +44,7 @@ const News = () => {
   };
 
   return (
-    <div className="bg-[#0C0D0D] text-white min-h-screen pt-24">
+    <div className="bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white min-h-screen pt-24">
       <SEO
         title="Noticias Tech - rium"
         description="Últimas noticias sobre diseño, desarrollo, tecnología, herramientas y tendencias en el mundo tech."
@@ -57,14 +57,14 @@ const News = () => {
         <SectionAnimator>
           <header className="pt-32 pb-16 text-center">
             <div className="container mx-auto px-6 max-w-4xl">
-              <div className="inline-block px-4 py-1.5 border border-white/20 rounded-full text-sm mb-4 uppercase flex items-center gap-2 justify-center">
+              <div className="inline-block px-4 py-1.5 border border-gray-300 dark:border-white/20 rounded-full text-sm mb-4 uppercase flex items-center gap-2 justify-center text-gray-700 dark:text-white">
                 <TrendingUp size={14} />
                 Noticias Tech
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 uppercase">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 uppercase text-gray-900 dark:text-white">
                 Noticias <span className="text-accent-purple">Tech</span>
               </h1>
-              <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              <p className="text-xl text-gray-700 dark:text-gray-400 max-w-2xl mx-auto">
                 Mantente al día con las últimas noticias sobre diseño, desarrollo, tecnología, herramientas y tendencias en el mundo tech.
               </p>
             </div>
@@ -82,7 +82,7 @@ const News = () => {
                   className={`px-6 py-2 rounded-full text-sm font-medium transition-all uppercase tracking-wider ${
                     selectedCategory === category
                       ? 'bg-accent-purple text-white'
-                      : 'bg-[#1E1E2A] text-gray-400 hover:text-white border border-white/10'
+                      : 'bg-gray-100 dark:bg-[#1E1E2A] text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-white/10'
                   }`}
                 >
                   {category}
@@ -97,7 +97,7 @@ const News = () => {
           <div className="container mx-auto px-6 pb-24 flex justify-center items-center min-h-[400px]">
             <div className="flex flex-col items-center gap-4">
               <Loader2 className="h-12 w-12 animate-spin text-accent-purple" />
-              <p className="text-gray-400">Cargando noticias...</p>
+              <p className="text-gray-700 dark:text-gray-400">Cargando noticias...</p>
             </div>
           </div>
         )}
@@ -107,7 +107,7 @@ const News = () => {
           <div className="container mx-auto px-6 pb-24">
             <div className="bg-red-500/10 border border-red-500/50 rounded-2xl p-8 text-center">
               <p className="text-red-400 mb-4">Error al cargar las noticias</p>
-              <p className="text-gray-400 text-sm">{error}</p>
+              <p className="text-gray-700 dark:text-gray-400 text-sm">{error}</p>
             </div>
           </div>
         )}
@@ -118,7 +118,7 @@ const News = () => {
             <div className="container mx-auto px-6 pb-24">
               {posts.length === 0 ? (
                 <div className="text-center py-16">
-                  <p className="text-gray-400 text-xl">No hay noticias disponibles aún.</p>
+                  <p className="text-gray-700 dark:text-gray-400 text-xl">No hay noticias disponibles aún.</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -134,7 +134,7 @@ const News = () => {
                           initial={{ opacity: 0, y: 30 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.5, delay: index * 0.1 }}
-                          className="bg-[#1E1E2A] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-accent-purple/10 transition-all duration-300 group cursor-pointer h-full"
+                          className="bg-gray-50 dark:bg-[#1E1E2A] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-accent-purple/10 transition-all duration-300 group cursor-pointer h-full"
                         >
                           {/* Image */}
                           <div className="relative aspect-video overflow-hidden">
@@ -165,7 +165,7 @@ const News = () => {
                                 {postTags.map((tag, tagIndex) => (
                                   <span
                                     key={tagIndex}
-                                    className="flex items-center gap-1 text-xs text-gray-400"
+                                    className="flex items-center gap-1 text-xs text-gray-700 dark:text-gray-400"
                                   >
                                     <Tag size={12} />
                                     {tag}
@@ -175,17 +175,17 @@ const News = () => {
                             )}
 
                             {/* Title */}
-                            <h2 className="text-xl font-bold mb-3 text-white group-hover:text-accent-purple transition-colors line-clamp-2">
+                            <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-accent-purple transition-colors line-clamp-2">
                               {post.title}
                             </h2>
 
                             {/* Excerpt */}
-                            <p className="text-gray-400 mb-4 line-clamp-3">
+                            <p className="text-gray-700 dark:text-gray-400 mb-4 line-clamp-3">
                               {post.excerpt}
                             </p>
 
                             {/* Meta Info */}
-                            <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                            <div className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-500 mb-4">
                               <div className="flex items-center gap-4">
                                 <span className="flex items-center gap-1">
                                   <Calendar size={14} />

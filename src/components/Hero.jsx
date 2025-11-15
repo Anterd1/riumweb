@@ -20,7 +20,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 bg-black">
       {/* Background Video - Optimizado para móvil */}
       <video
         autoPlay
@@ -33,8 +33,8 @@ const Hero = () => {
       >
         <source src="/video/videocover.mp4" type="video/mp4" />
       </video>
-      {/* Overlay para mejor legibilidad del texto */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/80"></div>
+      {/* Overlay para mejor legibilidad del texto - Más oscuro para mejor contraste */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/85 to-black/90"></div>
       {/* Animated Background Elements */}
       <AnimatedHeroBackground />
 
@@ -55,7 +55,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed" // Centered on desktop
+            className="text-xl md:text-2xl text-gray-100 mb-12 max-w-3xl mx-auto leading-relaxed" // Centered on desktop - Más claro para mejor legibilidad
           >
             Mejoramos productos digitales que no convierten.<br className="hidden md:block" />
             Diseñamos interfaces que aumentan ventas, reducen costos de desarrollo<br className="hidden md:block" />

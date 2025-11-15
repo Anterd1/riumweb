@@ -90,17 +90,17 @@ const Testimonials = () => {
   };
 
   return (
-    <section id="testimonials" className="py-24 bg-[#0C0D0D] overflow-hidden">
+    <section id="testimonials" className="py-24 bg-white dark:bg-[#0C0D0D] overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="flex justify-between items-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight uppercase max-w-lg">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight uppercase max-w-lg">
             People who <span className="text-accent-purple">changed</span> how they do business
           </h2>
           <div className="hidden md:flex gap-4">
             <button
               onClick={() => scroll('left')}
               disabled={!canScrollLeft}
-              className="p-3 rounded-full bg-[#1E1E2A] border border-white/10 text-white hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-3 rounded-full bg-gray-100 dark:bg-[#1E1E2A] border border-gray-300 dark:border-white/10 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label="Scroll left"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -108,7 +108,7 @@ const Testimonials = () => {
             <button
               onClick={() => scroll('right')}
               disabled={!canScrollRight}
-              className="p-3 rounded-full bg-[#1E1E2A] border border-white/10 text-white hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-3 rounded-full bg-gray-100 dark:bg-[#1E1E2A] border border-gray-300 dark:border-white/10 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label="Scroll right"
             >
               <ArrowRight className="w-5 h-5" />
@@ -127,15 +127,15 @@ const Testimonials = () => {
               // Adjusting width to be responsive to the parent's padding
               className="flex-shrink-0 w-[calc(100%-48px)] md:w-[calc(50%-16px)] snap-start"
             >
-              <div className="bg-[#1E1E2A] p-8 rounded-2xl h-full flex flex-col border border-white/10">
+              <div className="bg-gray-50 dark:bg-[#1E1E2A] p-8 rounded-2xl h-full flex flex-col border border-gray-200 dark:border-white/10">
                 <div className="flex items-center mb-6">
                   <img className="w-12 h-12 rounded-full mr-4 object-cover" alt={testimonial.name} src={testimonial.avatar} loading="lazy" decoding="async" style={{ aspectRatio: '1/1' }} />
                   <div>
-                    <p className="font-bold text-white">{testimonial.name}</p>
-                    <p className="text-sm text-gray-400">{testimonial.role}</p>
+                    <p className="font-bold text-gray-900 dark:text-white">{testimonial.name}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{testimonial.role}</p>
                   </div>
                 </div>
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                   "{testimonial.content}"
                 </p>
               </div>
@@ -148,7 +148,7 @@ const Testimonials = () => {
             <button
               onClick={() => scroll('left')}
               disabled={!canScrollLeft}
-              className="p-3 rounded-full bg-[#1E1E2A] border border-white/10 text-white hover:bg-white/10 transition-colors disabled:opacity-50"
+              className="p-3 rounded-full bg-gray-100 dark:bg-[#1E1E2A] border border-gray-300 dark:border-white/10 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 transition-colors disabled:opacity-50"
               aria-label="Scroll left"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -156,7 +156,7 @@ const Testimonials = () => {
             <button
               onClick={() => scroll('right')}
               disabled={!canScrollRight}
-              className="p-3 rounded-full bg-[#1E1E2A] border border-white/10 text-white hover:bg-white/10 transition-colors disabled:opacity-50"
+              className="p-3 rounded-full bg-gray-100 dark:bg-[#1E1E2A] border border-gray-300 dark:border-white/10 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 transition-colors disabled:opacity-50"
               aria-label="Scroll right"
             >
               <ArrowRight className="w-5 h-5" />
