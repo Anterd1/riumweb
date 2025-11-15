@@ -65,6 +65,14 @@
       "destination": "/api/share-preview?type=news&slug=:slug*"
     },
     {
+      "source": "/blog/:slug*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/noticias/:slug*",
+      "destination": "/index.html"
+    },
+    {
       "source": "/:path((?!.*\\.).*)",
       "destination": "/index.html"
     }
