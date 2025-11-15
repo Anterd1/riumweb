@@ -210,8 +210,6 @@ const BlogPost = () => {
   const ogImageUrl = post.image 
     ? (post.image.startsWith('http') ? post.image : `https://rium.com.mx${post.image}`)
     : 'https://rium.com.mx/images/HERO.png'
-  
-  const articleUrl = `https://rium.com.mx/blog/${post?.slug || post?.id || slug}`
 
   return (
     <div className="bg-[#0C0D0D] text-white min-h-screen pt-24">
