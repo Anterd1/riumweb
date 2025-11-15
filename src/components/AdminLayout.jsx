@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/toaster'
 import SEO from '@/components/SEO'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 const AdminLayout = () => {
   const navigate = useNavigate()
@@ -60,6 +61,7 @@ const AdminLayout = () => {
 
   return (
     <div className="admin-page min-h-screen bg-gray-50 dark:bg-[#0C0D0D] text-gray-900 dark:text-white">
+      <GoogleAnalytics />
       <SEO
         title="Panel de Administración"
         description="Panel de administración del blog de rium"

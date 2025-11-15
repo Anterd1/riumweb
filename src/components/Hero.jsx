@@ -55,9 +55,11 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto" // Centered on desktop
+            className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed" // Centered on desktop
           >
-            Somos una agencia de diseño UI/UX especializada en traducir lo complejo en experiencias fluidas. Entre las mejores agencias de diseño UI/UX en México y Latinoamérica.
+            Mejoramos productos digitales que no convierten.<br className="hidden md:block" />
+            Diseñamos interfaces que aumentan ventas, reducen costos de desarrollo<br className="hidden md:block" />
+            y mejoran la satisfacción de tus usuarios.
           </motion.p>
 
           <motion.div

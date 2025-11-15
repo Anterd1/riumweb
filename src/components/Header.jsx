@@ -9,6 +9,7 @@ const Header = memo(() => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isBlogMenuOpen, setIsBlogMenuOpen] = useState(false);
   const [isMobileBlogExpanded, setIsMobileBlogExpanded] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const blogMenuRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,6 +22,30 @@ const Header = memo(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Calcular posición del dropdown
+  useEffect(() => {
+    const updateDropdownPosition = () => {
+      if (blogMenuRef.current && isBlogMenuOpen) {
+        const rect = blogMenuRef.current.getBoundingClientRect();
+        setDropdownPosition({
+          top: rect.bottom + 8,
+          left: rect.left + (rect.width / 2) - 128, // 128 = mitad del ancho del dropdown (256px / 2)
+        });
+      }
+    };
+
+    if (isBlogMenuOpen) {
+      updateDropdownPosition();
+      window.addEventListener('scroll', updateDropdownPosition, true);
+      window.addEventListener('resize', updateDropdownPosition);
+    }
+
+    return () => {
+      window.removeEventListener('scroll', updateDropdownPosition, true);
+      window.removeEventListener('resize', updateDropdownPosition);
+    };
+  }, [isBlogMenuOpen]);
 
   // Cerrar menú de blog al hacer click fuera
   useEffect(() => {
@@ -85,13 +110,22 @@ const Header = memo(() => {
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-[#0C0D0D]/95 backdrop-blur-md border-b border-white/10'
-          : 'bg-transparent'
-      }`}
-    >
+    <>
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-[#0C0D0D]/85 backdrop-blur-md z-[99] md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+      
+      <header
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
+          isScrolled || isMobileMenuOpen
+            ? 'bg-[#0C0D0D]/95 backdrop-blur-md border-b border-white/10'
+            : 'bg-transparent'
+        }`}
+      >
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="text-2xl font-bold text-white tracking-wider">
@@ -145,7 +179,12 @@ const Header = memo(() => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-[#1E1E2A]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+                    style={{
+                      position: 'fixed',
+                      top: `${dropdownPosition.top}px`,
+                      left: `${dropdownPosition.left}px`,
+                    }}
+                    className="w-64 bg-[#1E1E2A]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-[110]"
                   >
                     <div className="p-2">
                       {blogSubmenu.map((item) => {
@@ -217,7 +256,7 @@ const Header = memo(() => {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden overflow-hidden"
+              className="md:hidden overflow-hidden bg-[#0C0D0D]/98 backdrop-blur-md relative z-[101]"
             >
               <div className="py-4 space-y-2">
                 {navLinks.map((link) => (
@@ -321,6 +360,7 @@ const Header = memo(() => {
         </AnimatePresence>
       </nav>
     </header>
+    </>
   );
 });
 

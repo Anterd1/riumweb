@@ -20,8 +20,13 @@ const CustomCursor = memo(() => {
     <motion.div
       variants={variants}
       animate="default"
-      transition={{ type: "spring", stiffness: 500, damping: 28 }}
+      transition={{ 
+        type: "tween", 
+        duration: 0.1,
+        ease: "easeOut"
+      }}
       className="fixed top-0 left-0 rounded-full pointer-events-none z-[9999]"
+      style={{ willChange: 'transform' }}
     />
   );
 });

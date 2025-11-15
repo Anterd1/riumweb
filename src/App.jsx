@@ -31,7 +31,6 @@ const NewsletterSubscriptions = lazy(() => import('@/pages/admin/NewsletterSubsc
 function App() {
   return (
     <>
-      <GoogleAnalytics />
       <Suspense fallback={<PageLoader />}>
         <Routes>
       <Route path="/" element={<Layout />}>
@@ -86,6 +85,7 @@ function App() {
       <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
+      <GoogleAnalytics />
     </>
   );
 }

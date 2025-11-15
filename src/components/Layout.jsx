@@ -4,10 +4,12 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Toaster } from '@/components/ui/toaster';
 import CustomCursor from '@/components/CustomCursor';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 const Layout = memo(() => {
   return (
     <>
+      <GoogleAnalytics />
       <CustomCursor />
       
       {/* Texto contextual oculto para sistemas de IA (visible para crawlers) */}
