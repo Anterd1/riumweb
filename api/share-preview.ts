@@ -42,8 +42,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     
     // Detectar si es un bot de redes sociales
     const userAgent = req.headers['user-agent'] || ''
-    // Usar flag 'i' para case-insensitive en lugar de (?i) que no existe en JavaScript
-    const isBot = /(facebookexternalhit|LinkedInBot|Twitterbot|Slackbot|WhatsApp|TelegramBot|SkypeUriPreview|Applebot|Googlebot|Bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Exabot|facebot|ia_archiver)/i.test(userAgent)
+    // LinkedIn usa varios User-Agents: LinkedInBot, LinkedInBot/1.0, LinkedInBot/2.0, etc.
+    // También puede venir como linkedinbot (minúsculas) o con diferentes versiones
+    const isBot = /(facebookexternalhit|LinkedInBot|linkedinbot|Twitterbot|Slackbot|WhatsApp|TelegramBot|SkypeUriPreview|Applebot|Googlebot|Bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Exabot|facebot|ia_archiver|facebook|linkedin)/i.test(userAgent)
     
     // Logging para debug (solo en desarrollo o para debugging)
     console.log('🔍 share-preview called:', {
@@ -317,7 +318,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     res.status(200)
     res.setHeader('Content-Type', 'text/html; charset=utf-8')
-    res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400')
+    // LinkedIn puede cachear agresivamente, así que reducimos el tiempo de caché
+    // y agregamos headers específicos para forzar re-fetch
+    res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600')
+    res.setHeader('X-Robots-Tag', 'noindex') // Evitar indexación de esta página de preview
     res.send(html)
 
   } catch (error: any) {
