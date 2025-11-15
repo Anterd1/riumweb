@@ -55,19 +55,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       url: req.url,
     })
     
-    // Si NO es un bot, hacer rewrite interno a index.html
-    // Esto permite que Vercel sirva index.html y la SPA maneje el routing
+    // Si NO es un bot (no debería llegar aquí gracias a los rewrites condicionales),
+    // pero por seguridad, redirigir a la URL original para que Vercel maneje el routing
     if (!isBot) {
-      console.log('👤 Usuario normal detectado, haciendo rewrite interno a index.html')
-      // En Vercel, podemos usar res.rewrite() para hacer rewrite interno
-      // Si no está disponible, usar el método estándar de Vercel
-      if (typeof (res as any).rewrite === 'function') {
-        (res as any).rewrite('/index.html')
-        return
-      }
-      // Fallback: redirigir a la raíz y dejar que el rewrite genérico maneje
+      console.log('⚠️ Usuario normal llegó a función serverless (no debería pasar)')
+      // Los rewrites condicionales deberían evitar que usuarios normales lleguen aquí
+      // Pero por si acaso, hacer un redirect a la URL original
       res.writeHead(302, {
-        'Location': '/',
+        'Location': req.url || '/',
         'Cache-Control': 'no-cache',
       })
       res.end()

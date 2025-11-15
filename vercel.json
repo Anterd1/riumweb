@@ -44,10 +44,24 @@
   "rewrites": [
     {
       "source": "/blog/:slug*",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i)(facebookexternalhit|LinkedInBot|linkedinbot|Twitterbot|Slackbot|WhatsApp|TelegramBot|SkypeUriPreview|Applebot|Googlebot|Bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Exabot|facebot|ia_archiver|facebook|linkedin)"
+        }
+      ],
       "destination": "/api/share-preview?type=article&slug=:slug*"
     },
     {
       "source": "/noticias/:slug*",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i)(facebookexternalhit|LinkedInBot|linkedinbot|Twitterbot|Slackbot|WhatsApp|TelegramBot|SkypeUriPreview|Applebot|Googlebot|Bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Exabot|facebot|ia_archiver|facebook|linkedin)"
+        }
+      ],
       "destination": "/api/share-preview?type=news&slug=:slug*"
     },
     {
