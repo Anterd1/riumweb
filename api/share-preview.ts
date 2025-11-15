@@ -1,5 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 // Tipos para TypeScript
 interface Post {
@@ -20,6 +22,31 @@ interface Post {
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const { type = 'article', slug } = req.query
+    
+    // Detectar si es un bot de redes sociales
+    const userAgent = req.headers['user-agent'] || ''
+    const isBot = /(?i)(facebookexternalhit|LinkedInBot|Twitterbot|Slackbot|WhatsApp|TelegramBot|SkypeUriPreview|Applebot|Googlebot|Bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Exabot|facebot|ia_archiver)/.test(userAgent)
+    
+    // Si NO es un bot, servir index.html directamente (la SPA manejará el routing)
+    if (!isBot) {
+      try {
+        // Leer index.html desde el directorio dist
+        const indexPath = join(process.cwd(), 'dist', 'index.html')
+        const indexHtml = readFileSync(indexPath, 'utf-8')
+        res.status(200)
+        res.setHeader('Content-Type', 'text/html; charset=utf-8')
+        res.send(indexHtml)
+        return
+      } catch (error) {
+        // Si no se puede leer index.html, redirigir a la raíz
+        res.writeHead(302, {
+          'Location': '/',
+          'Cache-Control': 'no-cache',
+        })
+        res.end()
+        return
+      }
+    }
 
     // Validar que tenemos el slug
     if (!slug) {
