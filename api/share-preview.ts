@@ -24,8 +24,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Normalizar query params (pueden venir como string o string[])
     const typeParam = req.query.type
     const slugParam = req.query.slug
-    const type = Array.isArray(typeParam) ? typeParam[0] : (typeParam || 'article')
-    const slug = Array.isArray(slugParam) ? slugParam[0] : slugParam
+    
+    // Normalizar type
+    const type: string = Array.isArray(typeParam) 
+      ? (typeParam[0] || 'article') 
+      : (typeParam || 'article')
+    
+    // Normalizar slug a string o undefined
+    let slug: string | undefined
+    if (Array.isArray(slugParam)) {
+      slug = slugParam[0] || undefined
+    } else if (typeof slugParam === 'string') {
+      slug = slugParam
+    } else {
+      slug = undefined
+    }
     
     // Detectar si es un bot de redes sociales
     const userAgent = req.headers['user-agent'] || ''
@@ -63,7 +76,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.log('🤖 Bot detectado, generando preview específico')
 
     // Validar que tenemos el slug
-    if (!slug) {
+    if (!slug || typeof slug !== 'string') {
       res.status(400)
       res.setHeader('Content-Type', 'text/html')
       res.send(`
@@ -80,6 +93,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       `)
       return
     }
+
+    // slug ahora es garantizado como string
+    const slugString: string = slug
 
     // Obtener variables de entorno
     // En funciones serverless, Vercel expone todas las variables de entorno
@@ -108,27 +124,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Crear cliente de Supabase
     const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
-    // Asegurarse de que slug sea string
-    const slugString = typeof slug === 'string' ? slug : (slug ? String(slug) : '')
-    
-    if (!slugString) {
-      res.status(400)
-      res.setHeader('Content-Type', 'text/html')
-      res.send(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title>Error - rium</title>
-            <meta property="og:title" content="Error - rium" />
-          </head>
-          <body>
-            <h1>Slug no proporcionado</h1>
-          </body>
-        </html>
-      `)
-      return
-    }
 
     // Detectar si el slug es un UUID o un slug legible
     const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slugString)
