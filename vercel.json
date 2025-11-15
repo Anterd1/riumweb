@@ -43,12 +43,12 @@
   ],
   "rewrites": [
     {
-      "source": "/blog/:slug",
-      "destination": "/api/share-preview?type=article&slug=:slug"
+      "source": "/blog/:slug*",
+      "destination": "/api/share-preview?type=article&slug=:slug*"
     },
     {
-      "source": "/noticias/:slug",
-      "destination": "/api/share-preview?type=news&slug=:slug"
+      "source": "/noticias/:slug*",
+      "destination": "/api/share-preview?type=news&slug=:slug*"
     },
     {
       "source": "/:path((?!.*\\.).*)",

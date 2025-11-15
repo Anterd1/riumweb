@@ -27,26 +27,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const userAgent = req.headers['user-agent'] || ''
     const isBot = /(?i)(facebookexternalhit|LinkedInBot|Twitterbot|Slackbot|WhatsApp|TelegramBot|SkypeUriPreview|Applebot|Googlebot|Bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Exabot|facebot|ia_archiver)/.test(userAgent)
     
-    // Si NO es un bot, servir index.html directamente (la SPA manejará el routing)
+    // Logging para debug (solo en desarrollo o para debugging)
+    console.log('🔍 share-preview called:', {
+      slug,
+      type,
+      userAgent: userAgent.substring(0, 100),
+      isBot,
+      url: req.url,
+    })
+    
+    // Si NO es un bot, hacer rewrite interno a index.html
+    // Esto permite que Vercel sirva index.html y la SPA maneje el routing
     if (!isBot) {
-      try {
-        // Leer index.html desde el directorio dist
-        const indexPath = join(process.cwd(), 'dist', 'index.html')
-        const indexHtml = readFileSync(indexPath, 'utf-8')
-        res.status(200)
-        res.setHeader('Content-Type', 'text/html; charset=utf-8')
-        res.send(indexHtml)
-        return
-      } catch (error) {
-        // Si no se puede leer index.html, redirigir a la raíz
-        res.writeHead(302, {
-          'Location': '/',
-          'Cache-Control': 'no-cache',
-        })
-        res.end()
+      console.log('👤 Usuario normal detectado, haciendo rewrite interno a index.html')
+      // En Vercel, podemos usar res.rewrite() para hacer rewrite interno
+      // Si no está disponible, usar el método estándar de Vercel
+      if (typeof (res as any).rewrite === 'function') {
+        (res as any).rewrite('/index.html')
         return
       }
+      // Fallback: redirigir a la raíz y dejar que el rewrite genérico maneje
+      res.writeHead(302, {
+        'Location': '/',
+        'Cache-Control': 'no-cache',
+      })
+      res.end()
+      return
     }
+    
+    console.log('🤖 Bot detectado, generando preview específico')
 
     // Validar que tenemos el slug
     if (!slug) {
