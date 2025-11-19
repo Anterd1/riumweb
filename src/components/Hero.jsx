@@ -4,6 +4,7 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import AnimatedHeroBackground from '@/components/AnimatedHeroBackground';
+import MaskedText from '@/components/MaskedText';
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -41,31 +42,34 @@ const Hero = () => {
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-5xl mx-auto text-left md:text-center"> {/* Responsive alignment */}
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight text-white uppercase"
-          >
-            Somos la agencia líder de diseño UI/UX en 
-            <span className="block text-accent-purple">Latinoamérica</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xl md:text-2xl text-gray-100 mb-12 max-w-3xl mx-auto leading-relaxed" // Centered on desktop - Más claro para mejor legibilidad
-          >
-            Mejoramos productos digitales que no convierten.<br className="hidden md:block" />
-            Diseñamos interfaces que aumentan ventas, reducen costos de desarrollo<br className="hidden md:block" />
-            y mejoran la satisfacción de tus usuarios.
-          </motion.p>
+          <div className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-[1.1] text-white uppercase tracking-tight">
+            <MaskedText delay={0.2}>
+              {[
+                "Somos la agencia líder",
+                "de diseño UI/UX en",
+                <span key="latam" className="text-accent-purple">Latinoamérica</span>
+              ]}
+            </MaskedText>
+          </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            transition={{ duration: 0.8, delay: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+          >
+            <p
+              className="text-xl md:text-2xl text-gray-100 mb-12 max-w-3xl mx-auto leading-relaxed" // Centered on desktop - Más claro para mejor legibilidad
+            >
+              Mejoramos productos digitales que no convierten.<br className="hidden md:block" />
+              Diseñamos interfaces que aumentan ventas, reducen costos de desarrollo<br className="hidden md:block" />
+              y mejoran la satisfacción de tus usuarios.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.0, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="flex flex-col sm:flex-row gap-4 justify-start md:justify-center" // Responsive justification
           >
             <Button
