@@ -1,387 +1,302 @@
-import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown, BookOpen, Newspaper } from 'lucide-react';
+import { Menu, X, ChevronDown, ArrowRight, Sparkles, Briefcase, Users, Mail, Monitor, Smartphone, Search, FileText, Newspaper } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Header = memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isBlogMenuOpen, setIsBlogMenuOpen] = useState(false);
-  const [isMobileBlogExpanded, setIsMobileBlogExpanded] = useState(false);
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
-  const blogMenuRef = useRef(null);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const headerRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Detectar scroll
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    // Usar passive para mejor rendimiento
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Calcular posición del dropdown
-  useEffect(() => {
-    const updateDropdownPosition = () => {
-      if (blogMenuRef.current && isBlogMenuOpen) {
-        const rect = blogMenuRef.current.getBoundingClientRect();
-        setDropdownPosition({
-          top: rect.bottom + 8,
-          left: rect.left + (rect.width / 2) - 128, // 128 = mitad del ancho del dropdown (256px / 2)
-        });
-      }
-    };
-
-    if (isBlogMenuOpen) {
-      updateDropdownPosition();
-      window.addEventListener('scroll', updateDropdownPosition, true);
-      window.addEventListener('resize', updateDropdownPosition);
-    }
-
-    return () => {
-      window.removeEventListener('scroll', updateDropdownPosition, true);
-      window.removeEventListener('resize', updateDropdownPosition);
-    };
-  }, [isBlogMenuOpen]);
-
-  // Cerrar menú de blog al hacer click fuera
+  // Cerrar dropdown al hacer click fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (blogMenuRef.current && !blogMenuRef.current.contains(event.target)) {
-        setIsBlogMenuOpen(false);
+      if (headerRef.current && !headerRef.current.contains(event.target)) {
+        setActiveDropdown(null);
       }
     };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
-    if (isBlogMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+  // Cerrar menú móvil al cambiar de ruta
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    setActiveDropdown(null);
+  }, [location.pathname]);
+
+  // Estructura del Mega Menu
+  const menuStructure = [
+    {
+      title: 'Servicios',
+      id: 'services',
+      items: [
+        { name: 'Diseño UI/UX', href: '/#services', icon: Monitor, description: 'Interfaces intuitivas y atractivas' },
+        { name: 'Desarrollo Web', href: '/#services', icon: Smartphone, description: 'Sitios rápidos y escalables' },
+        { name: 'Auditoría UX', href: '/#services', icon: Search, description: 'Optimización de experiencia' },
+      ]
+    },
+    {
+      title: 'Explora',
+      id: 'explore',
+      items: [
+        { name: 'Artículos', href: '/blog', icon: FileText, description: 'Pensamiento y estrategia' },
+        { name: 'Noticias Tech', href: '/noticias', icon: Newspaper, description: 'Actualidad y tendencias' },
+      ]
+    },
+    {
+      title: 'Agencia',
+      id: 'agency',
+      items: [
+        { name: 'Nosotros', href: '/#about', icon: Users, description: 'Nuestro equipo y cultura' },
+        { name: 'Portafolio', href: '/#portfolio', icon: Briefcase, description: 'Casos de éxito' },
+        { name: 'Contacto', href: '/contact', icon: Mail, description: 'Inicia tu proyecto' },
+      ]
     }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isBlogMenuOpen]);
-
-  const navLinks = [
-    { name: 'Inicio', href: '/', id: 'home' },
-    { name: 'Servicios', href: '/#services', id: 'services' },
-    { name: 'Portafolio', href: '/#portfolio', id: 'portfolio' },
-    { name: 'Acerca', href: '/#about', id: 'about' },
-  ];
-
-  const blogSubmenu = [
-    { name: 'Artículos', href: '/blog', icon: BookOpen, description: 'Artículos sobre diseño UI/UX' },
-    { name: 'Noticias', href: '/noticias', icon: Newspaper, description: 'Noticias tech y tendencias' },
   ];
 
   const handleNavClick = (e, href) => {
-    e.preventDefault();
-    const [path, id] = href.split('#');
-    
-    if (path === '/' || path === '') {
-      navigate('/');
-      setTimeout(() => {
-        if (id) {
-          const targetElement = document.getElementById(id);
-          if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-          }
+    // Si es un enlace interno con hash, manejar scroll
+    if (href.includes('#')) {
+      e.preventDefault();
+      const [path, id] = href.split('#');
+      
+      if (path === '/' || path === '') {
+        if (location.pathname !== '/') {
+          navigate('/');
+          setTimeout(() => scrollToElement(id), 100);
         } else {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          scrollToElement(id);
         }
-      }, 100);
+      } else {
+        navigate(href);
+      }
     } else {
+      // Navegación normal
       navigate(href);
     }
+    setActiveDropdown(null);
     setIsMobileMenuOpen(false);
   };
 
-  const isActive = (href) => {
-    if (href === '/') {
-      return location.pathname === '/';
+  const scrollToElement = (id) => {
+    if (!id) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
     }
-    return location.pathname === href;
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
-  const isBlogActive = () => {
-    return location.pathname.startsWith('/blog') || location.pathname.startsWith('/noticias');
-  };
-
-  // Detectar si estamos en una página de artículo/noticia individual o listado
+  // Detectar si estamos en una página de artículo/noticia individual
   const isPostPage = () => {
     const path = location.pathname;
-    // Verificar si es una ruta de artículo/noticia o páginas de listado
-    return path.startsWith('/blog') || path.startsWith('/noticias');
+    return (path.startsWith('/blog/') && path !== '/blog') || 
+           (path.startsWith('/noticias/') && path !== '/noticias');
   };
+
+  const isDarkHeader = isScrolled || isMobileMenuOpen || isPostPage();
 
   return (
     <>
-      {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div 
-          className="fixed inset-0 bg-white/85 dark:bg-[#0C0D0D]/85 backdrop-blur-md z-[99] md:hidden"
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
-      )}
-      
+      {/* Mobile Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] md:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
       <header
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-          isScrolled || isMobileMenuOpen || isPostPage()
-            ? 'bg-white/95 dark:bg-[#0C0D0D]/95 backdrop-blur-md border-b border-gray-200 dark:border-white/10'
-            : 'bg-transparent dark:bg-transparent'
-        }`}
+        ref={headerRef}
+        className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300 py-4"
       >
-      <nav className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
+        <nav className="container mx-auto px-6 h-20 flex items-center justify-between">
+          {/* Logo */}
           <Link 
             to="/" 
-            className={`text-2xl font-bold tracking-wider transition-colors ${
-              isScrolled || isMobileMenuOpen || isPostPage()
-                ? 'text-gray-900 dark:text-white'
-                : 'text-white'
+            className={`text-2xl font-bold tracking-wider transition-colors relative z-[101] ${
+              isDarkHeader ? 'text-gray-900 dark:text-white' : 'text-white'
             }`}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
             rium
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <button
-                key={link.name}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className={`text-sm font-medium transition-colors uppercase tracking-wider ${
-                  isActive(link.href)
-                    ? 'text-accent-purple'
-                    : isScrolled || isMobileMenuOpen || isPostPage()
-                      ? 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
-                      : 'text-white hover:text-gray-200'
-                }`}
-              >
-                {link.name}
-              </button>
-            ))}
-            
-            {/* Blog Menu with Dropdown */}
-            <div 
-              ref={blogMenuRef}
-              className="relative"
-              onMouseEnter={() => setIsBlogMenuOpen(true)}
-              onMouseLeave={() => setIsBlogMenuOpen(false)}
-            >
-              <button
-                className={`text-sm font-medium transition-colors uppercase tracking-wider flex items-center gap-1 ${
-                  isBlogActive()
-                    ? 'text-accent-purple'
-                    : isScrolled || isMobileMenuOpen || isPostPage()
-                      ? 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
-                      : 'text-white hover:text-gray-200'
-                }`}
-              >
-                Blog
-                <ChevronDown 
-                  size={14} 
-                  className={`transition-transform duration-200 ${
-                    isBlogMenuOpen ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-
-              {/* Dropdown Menu */}
-              <AnimatePresence>
-                {isBlogMenuOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    style={{
-                      position: 'fixed',
-                      top: `${dropdownPosition.top}px`,
-                      left: `${dropdownPosition.left}px`,
-                    }}
-                    className="w-64 bg-white/95 dark:bg-[#1E1E2A]/95 backdrop-blur-xl border border-gray-200 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden z-[110]"
+          {/* Desktop Navigation - "Cápsula" Flotante */}
+          <div className="hidden md:flex items-center gap-2">
+            <div className={`
+              flex items-center gap-1 px-2 py-1.5 rounded-full transition-all duration-300 shadow-sm
+              ${isDarkHeader 
+                ? 'bg-white/80 dark:bg-[#1E1E2A]/80 backdrop-blur-md border border-gray-200/50 dark:border-white/10' 
+                : 'bg-white/10 backdrop-blur-md border border-white/10'
+              }
+            `}>
+              {menuStructure.map((section) => (
+                <div 
+                  key={section.id}
+                  className="relative"
+                  onMouseEnter={() => setActiveDropdown(section.id)}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <button
+                    className={`
+                      px-5 py-2.5 rounded-full text-sm font-medium transition-all flex items-center gap-1.5
+                      ${activeDropdown === section.id 
+                        ? 'bg-white dark:bg-[#1E1E2A] text-gray-900 dark:text-white shadow-md transform scale-105' 
+                        : isDarkHeader
+                          ? 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200/50 dark:hover:bg-white/10'
+                          : 'text-white/90 hover:text-white hover:bg-white/10'
+                      }
+                    `}
                   >
-                    <div className="p-2">
-                      {blogSubmenu.map((item) => {
-                        const Icon = item.icon;
-                        const isItemActive = location.pathname === item.href || 
-                          (item.href === '/blog' && location.pathname.startsWith('/blog') && !location.pathname.startsWith('/noticias')) ||
-                          (item.href === '/noticias' && location.pathname.startsWith('/noticias'));
-                        
-                        return (
-                          <Link
-                            key={item.name}
-                            to={item.href}
-                            onClick={() => setIsBlogMenuOpen(false)}
-                            className={`flex items-start gap-3 p-3 rounded-xl transition-all group ${
-                              isItemActive
-                                ? 'bg-accent-purple/20 text-accent-purple'
-                                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
-                            }`}
-                          >
-                            <Icon 
-                              size={20} 
-                              className={`mt-0.5 flex-shrink-0 ${
-                                isItemActive ? 'text-accent-purple' : 'text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'
-                              }`}
-                            />
-                            <div className="flex-1 min-w-0">
-                              <div className={`font-medium text-sm ${
-                                isItemActive ? 'text-accent-purple' : 'text-gray-900 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white'
-                              }`}>
-                                {item.name}
-                              </div>
-                              <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
-                                {item.description}
-                              </div>
-                            </div>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    {section.title}
+                    <ChevronDown size={14} className={`transition-transform duration-300 ${activeDropdown === section.id ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {/* Mega Menu Dropdown */}
+                  <AnimatePresence>
+                    {activeDropdown === section.id && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[320px] p-2 bg-white dark:bg-[#1E1E2A] rounded-2xl shadow-xl border border-gray-100 dark:border-white/10 overflow-hidden"
+                        style={{ transformOrigin: 'top center' }}
+                      >
+                        <div className="flex flex-col gap-1">
+                          {section.items.map((item) => {
+                            const Icon = item.icon;
+                            return (
+                              <a
+                                key={item.name}
+                                href={item.href}
+                                onClick={(e) => handleNavClick(e, item.href)}
+                                className="group flex items-start gap-4 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                              >
+                                <div className="p-2 bg-gray-100 dark:bg-white/10 rounded-lg group-hover:bg-accent-purple/10 group-hover:text-accent-purple transition-colors">
+                                  <Icon size={20} className="text-gray-500 dark:text-gray-400 group-hover:text-accent-purple" />
+                                </div>
+                                <div>
+                                  <div className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-accent-purple transition-colors">
+                                    {item.name}
+                                  </div>
+                                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                    {item.description}
+                                  </div>
+                                </div>
+                              </a>
+                            );
+                          })}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
             </div>
 
+            {/* CTA Button */}
             <Button
               onClick={() => navigate('/contact')}
-              size="sm"
-              className="bg-accent-purple hover:bg-accent-purple/90 text-white rounded-full px-6"
+              className={`ml-4 rounded-full px-6 transition-all duration-300 ${
+                isDarkHeader 
+                  ? 'bg-accent-purple text-white hover:bg-accent-purple/90 shadow-lg shadow-accent-purple/20'
+                  : 'bg-white text-black hover:bg-gray-100'
+              }`}
             >
-              Contacto
+              Hablemos
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className={`md:hidden p-2 transition-colors ${
-              isScrolled || isMobileMenuOpen || isPostPage()
-                ? 'text-gray-900 dark:text-white'
-                : 'text-white'
+            className={`md:hidden p-2 rounded-full transition-colors relative z-[101] ${
+              isDarkHeader ? 'text-gray-900 dark:text-white' : 'text-white'
             }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
-        </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden overflow-hidden bg-white/98 dark:bg-[#0C0D0D]/98 backdrop-blur-md relative z-[101]"
-            >
-              <div className="py-4 space-y-2">
-                {navLinks.map((link) => (
-                  <button
-                    key={link.name}
-                    onClick={(e) => handleNavClick(e, link.href)}
-                    className={`block text-left w-full text-lg font-medium transition-colors uppercase ${
-                      isActive(link.href)
-                        ? 'text-accent-purple'
-                        : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
-                    }`}
-                  >
-                    {link.name}
-                  </button>
-                ))}
-                
-                {/* Blog with Submenu in Mobile */}
-                <div className="space-y-2">
-                  <button
-                    onClick={() => setIsMobileBlogExpanded(!isMobileBlogExpanded)}
-                    className={`flex items-center justify-between w-full text-left text-lg font-medium transition-colors uppercase ${
-                      isBlogActive()
-                        ? 'text-accent-purple'
-                        : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
-                    }`}
-                  >
-                    Blog
-                    <ChevronDown 
-                      size={18} 
-                      className={`transition-transform duration-200 ${
-                        isMobileBlogExpanded ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </button>
-                  
-                  <AnimatePresence>
-                    {isMobileBlogExpanded && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden pl-4 space-y-2"
-                      >
-                        {blogSubmenu.map((item) => {
+          {/* Mobile Menu Fullscreen Overlay */}
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="fixed inset-0 top-0 bg-white dark:bg-[#0C0D0D] z-[100] pt-24 px-6 overflow-y-auto"
+              >
+                <div className="flex flex-col gap-8">
+                  {menuStructure.map((section, idx) => (
+                    <div key={section.id}>
+                      <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
+                        {section.title}
+                      </h3>
+                      <div className="flex flex-col gap-4">
+                        {section.items.map((item) => {
                           const Icon = item.icon;
-                          const isItemActive = location.pathname === item.href || 
-                            (item.href === '/blog' && location.pathname.startsWith('/blog') && !location.pathname.startsWith('/noticias')) ||
-                            (item.href === '/noticias' && location.pathname.startsWith('/noticias'));
-                          
                           return (
-                            <Link
+                            <a
                               key={item.name}
-                              to={item.href}
-                              onClick={() => {
-                                setIsMobileMenuOpen(false);
-                                setIsMobileBlogExpanded(false);
-                              }}
-                              className={`flex items-center gap-3 p-3 rounded-xl transition-all ${
-                                isItemActive
-                                  ? 'bg-accent-purple/20 text-accent-purple'
-                                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
-                              }`}
+                              href={item.href}
+                              onClick={(e) => handleNavClick(e, item.href)}
+                              className="flex items-center gap-4 group"
                             >
-                              <Icon 
-                                size={18} 
-                                className={`flex-shrink-0 ${
-                                  isItemActive ? 'text-accent-purple' : 'text-gray-600 dark:text-gray-400'
-                                }`}
-                              />
-                              <div className="flex-1">
-                                <div className={`font-medium text-sm ${
-                                  isItemActive ? 'text-accent-purple' : 'text-gray-900 dark:text-white'
-                                }`}>
-                                  {item.name}
-                                </div>
-                                <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
-                                  {item.description}
-                                </div>
+                              <div className="p-2 bg-gray-100 dark:bg-white/10 rounded-lg">
+                                <Icon size={20} className="text-gray-500 dark:text-gray-400" />
                               </div>
-                            </Link>
+                              <span className="text-xl font-medium text-gray-900 dark:text-white">
+                                {item.name}
+                              </span>
+                            </a>
                           );
                         })}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                      </div>
+                      {idx < menuStructure.length - 1 && (
+                        <hr className="my-6 border-gray-100 dark:border-white/5" />
+                      )}
+                    </div>
+                  ))}
+                  
+                  <Button
+                    onClick={() => {
+                      navigate('/contact');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full bg-accent-purple text-white py-6 rounded-xl text-lg mt-4"
+                  >
+                    Iniciar Proyecto <ArrowRight className="ml-2" />
+                  </Button>
                 </div>
-
-                <Button
-                  onClick={() => {
-                    navigate('/contact');
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full bg-accent-purple hover:bg-accent-purple/90 text-white rounded-full mt-4"
-                >
-                  Contacto
-                </Button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
-    </header>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </nav>
+      </header>
     </>
   );
 });
