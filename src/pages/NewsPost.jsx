@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet-async'
 import { Calendar, Clock, ArrowLeft, Tag, TrendingUp, Facebook, Twitter, Linkedin, MessageCircle, Link2, Check } from 'lucide-react'
 import { getSupabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
-import SectionAnimator from '@/components/SectionAnimator'
 import { toast } from '@/components/ui/use-toast'
 import { Toaster } from '@/components/ui/toaster'
 import OptimizedImage from '@/components/OptimizedImage'
@@ -265,7 +264,7 @@ const NewsPost = () => {
 
       <main>
         {/* Header */}
-        <SectionAnimator>
+        <div>
           <div className="container mx-auto px-6 pt-16 pb-8">
             <Link
               to="/noticias"
@@ -386,11 +385,11 @@ const NewsPost = () => {
               </div>
             </div>
           </div>
-        </SectionAnimator>
+        </div>
 
         {/* Featured Image */}
         {post.image && (
-          <SectionAnimator>
+          <div>
             <div className="container mx-auto px-6 mb-12">
               <div className="max-w-4xl mx-auto">
                 <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl">
@@ -405,11 +404,11 @@ const NewsPost = () => {
                 </div>
               </div>
             </div>
-          </SectionAnimator>
+          </div>
         )}
 
         {/* Content */}
-        <SectionAnimator>
+        <div>
           <div className="container mx-auto px-6 pb-24">
             <div className="max-w-4xl mx-auto">
               <div 
@@ -631,10 +630,10 @@ const NewsPost = () => {
               `}</style>
             </div>
           </div>
-        </SectionAnimator>
+        </div>
 
         {/* Back to News CTA */}
-        <SectionAnimator>
+        <div>
           <div className="container mx-auto px-6 pb-24">
             <div className="max-w-4xl mx-auto">
               <div className="bg-gray-50 dark:bg-[#1E1E2A] rounded-2xl p-8 border border-gray-200 dark:border-white/10 text-center">
@@ -652,7 +651,7 @@ const NewsPost = () => {
               </div>
             </div>
           </div>
-        </SectionAnimator>
+        </div>
       </main>
       <Toaster />
     </div>
