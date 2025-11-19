@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Toaster } from '@/components/ui/toaster';
@@ -8,10 +8,13 @@ import GoogleAnalytics from '@/components/GoogleAnalytics';
 import ThemeProvider from '@/components/ThemeProvider';
 
 const Layout = memo(() => {
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+
   return (
     <ThemeProvider>
       <GoogleAnalytics />
-      <CustomCursor />
+      {isHome && <CustomCursor />}
       
       {/* Texto contextual oculto para sistemas de IA (visible para crawlers) */}
       <div 
