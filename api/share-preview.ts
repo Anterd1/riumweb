@@ -121,14 +121,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Crear cliente de Supabase
     const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-    // Detectar si el slug es un UUID o un slug legible
-    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slugString)
+    // Detectar si el slug es un UUID válido
+    // Un UUID debe tener 36 caracteres y seguir el formato específico
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+    const isUUID = slugString.length === 36 && uuidRegex.test(slugString)
 
     let post: Post | null = null
     let fetchError: any = null
 
     if (isUUID) {
-      // Buscar por ID
+      // Buscar por ID solo si es un UUID válido
       const result = await supabase
         .from('blog_posts')
         .select('*')
@@ -138,7 +140,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       post = result.data as Post | null
       fetchError = result.error
     } else {
-      // Buscar por slug (limpiar guiones finales por si acaso)
+      // Buscar por slug
       const cleanSlug = slugString.replace(/-+$/, '').trim()
       
       const result = await supabase
@@ -150,8 +152,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       post = result.data as Post | null
       fetchError = result.error
 
-      // Si no se encuentra por slug, intentar buscar por ID como fallback
-      if (fetchError && fetchError.code === 'PGRST116') {
+      // Si no se encuentra por slug, y el string TIENE formato de UUID (caso raro de fallback), intentar por ID
+      // Pero si es un slug de texto normal, NO intentar buscar por ID para evitar errores de sintaxis en Postgres
+      if (fetchError && fetchError.code === 'PGRST116' && isUUID) {
         const fallbackResult = await supabase
           .from('blog_posts')
           .select('*')

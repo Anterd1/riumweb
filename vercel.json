@@ -48,7 +48,7 @@
         {
           "type": "header",
           "key": "user-agent",
-          "value": "(?i)(facebookexternalhit|LinkedInBot|linkedinbot|Twitterbot|Slackbot|WhatsApp|TelegramBot|SkypeUriPreview|Applebot|Googlebot|Bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Exabot|facebot|ia_archiver|facebook|linkedin)"
+          "value": ".*(?i)(facebook|linkedin|twitter|slack|whatsapp|telegram|skype|applebot|googlebot|bingbot|slurp|duckduckbot|baiduspider|yandex|sogou|exabot|facebot|ia_archiver).*"
         }
       ],
       "destination": "/api/share-preview?type=article&slug=:slug*"
@@ -59,7 +59,7 @@
         {
           "type": "header",
           "key": "user-agent",
-          "value": "(?i)(facebookexternalhit|LinkedInBot|linkedinbot|Twitterbot|Slackbot|WhatsApp|TelegramBot|SkypeUriPreview|Applebot|Googlebot|Bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|Exabot|facebot|ia_archiver|facebook|linkedin)"
+          "value": ".*(?i)(facebook|linkedin|twitter|slack|whatsapp|telegram|skype|applebot|googlebot|bingbot|slurp|duckduckbot|baiduspider|yandex|sogou|exabot|facebot|ia_archiver).*"
         }
       ],
       "destination": "/api/share-preview?type=news&slug=:slug*"
