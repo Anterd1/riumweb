@@ -1,9 +1,30 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import useMousePosition from '@/hooks/useMousePosition';
 import { motion } from 'framer-motion';
 
 const CustomCursor = memo(() => {
   const { x, y } = useMousePosition();
+
+  // Ocultar cursor nativo al montar, restaurar al desmontar
+  useEffect(() => {
+    // Crear estilo para ocultar cursor en todo, incluyendo links y botones
+    const style = document.createElement('style');
+    style.innerHTML = `
+      html, body, a, button, input, select, textarea, [role="button"] {
+        cursor: none !important;
+      }
+    `;
+    style.id = 'hide-cursor-style';
+    document.head.appendChild(style);
+
+    return () => {
+      // Eliminar estilo al desmontar para restaurar cursor nativo
+      const existingStyle = document.getElementById('hide-cursor-style');
+      if (existingStyle) {
+        existingStyle.remove();
+      }
+    };
+  }, []);
 
   const variants = {
     default: {

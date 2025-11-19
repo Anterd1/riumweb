@@ -72,11 +72,11 @@
   }
   body, html {
     @apply bg-background text-foreground;
-    cursor: none;
+    /* Cursor controlado dinámicamente por componente */
   }
   
   a, button {
-    cursor: none;
+    /* Cursor controlado dinámicamente por componente */
   }
 }
 
