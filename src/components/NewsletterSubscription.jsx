@@ -117,7 +117,7 @@ const NewsletterSubscription = memo(({
   }
 
   return (
-    <div className={`bg-gray-50 dark:bg-gradient-to-r dark:from-accent-purple/20 dark:to-accent-purple/10 rounded-3xl p-8 md:p-12 text-center border border-gray-200 dark:border-accent-purple/20 ${className}`}>
+    <div className={`bg-gray-50 dark:bg-[#1E1E2A] rounded-3xl p-8 md:p-12 text-center border border-gray-200 dark:border-white/10 ${className}`}>
       <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 uppercase text-gray-900 dark:text-white">
         {title}
       </h2>

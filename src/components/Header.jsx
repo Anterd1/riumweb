@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown, ArrowRight, Sparkles, Briefcase, Users, Mail, Monitor, Smartphone, Search, FileText, Newspaper } from 'lucide-react';
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import { Menu, X, ChevronDown, ArrowRight, Users, Briefcase, Mail, Monitor, Smartphone, Search, FileText, Newspaper } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Header = memo(() => {
@@ -9,10 +9,10 @@ const Header = memo(() => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const headerRef = useRef(null);
+  const navRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Detectar scroll
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -21,10 +21,9 @@ const Header = memo(() => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Cerrar dropdown al hacer click fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (headerRef.current && !headerRef.current.contains(event.target)) {
+      if (navRef.current && !navRef.current.contains(event.target)) {
         setActiveDropdown(null);
       }
     };
@@ -32,36 +31,34 @@ const Header = memo(() => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Cerrar menú móvil al cambiar de ruta
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setActiveDropdown(null);
   }, [location.pathname]);
 
-  // Estructura del Mega Menu
   const menuStructure = [
     {
       title: 'Servicios',
       id: 'services',
       items: [
-        { name: 'Diseño UI/UX', href: '/#services', icon: Monitor, description: 'Interfaces intuitivas y atractivas' },
-        { name: 'Desarrollo Web', href: '/#services', icon: Smartphone, description: 'Sitios rápidos y escalables' },
-        { name: 'Auditoría UX', href: '/#services', icon: Search, description: 'Optimización de experiencia' },
+        { name: 'Diseño UI/UX', href: '/#services', icon: Monitor, description: 'Interfaces intuitivas' },
+        { name: 'Desarrollo', href: '/#services', icon: Smartphone, description: 'Sitios escalables' },
+        { name: 'Auditoría', href: '/#services', icon: Search, description: 'Optimización UX' },
       ]
     },
     {
       title: 'Explora',
       id: 'explore',
       items: [
-        { name: 'Artículos', href: '/blog', icon: FileText, description: 'Pensamiento y estrategia' },
-        { name: 'Noticias Tech', href: '/noticias', icon: Newspaper, description: 'Actualidad y tendencias' },
+        { name: 'Artículos', href: '/blog', icon: FileText, description: 'Pensamiento' },
+        { name: 'Noticias', href: '/noticias', icon: Newspaper, description: 'Actualidad' },
       ]
     },
     {
       title: 'Agencia',
       id: 'agency',
       items: [
-        { name: 'Nosotros', href: '/#about', icon: Users, description: 'Nuestro equipo y cultura' },
+        { name: 'Nosotros', href: '/#about', icon: Users, description: 'Equipo y cultura' },
         { name: 'Portafolio', href: '/#portfolio', icon: Briefcase, description: 'Casos de éxito' },
         { name: 'Contacto', href: '/contact', icon: Mail, description: 'Inicia tu proyecto' },
       ]
@@ -69,11 +66,9 @@ const Header = memo(() => {
   ];
 
   const handleNavClick = (e, href) => {
-    // Si es un enlace interno con hash, manejar scroll
     if (href.includes('#')) {
       e.preventDefault();
       const [path, id] = href.split('#');
-      
       if (path === '/' || path === '') {
         if (location.pathname !== '/') {
           navigate('/');
@@ -85,7 +80,6 @@ const Header = memo(() => {
         navigate(href);
       }
     } else {
-      // Navegación normal
       navigate(href);
     }
     setActiveDropdown(null);
@@ -103,7 +97,6 @@ const Header = memo(() => {
     }
   };
 
-  // Detectar si estamos en una página de artículo/noticia individual
   const isPostPage = () => {
     const path = location.pathname;
     return (path.startsWith('/blog/') && path !== '/blog') || 
@@ -114,7 +107,6 @@ const Header = memo(() => {
 
   return (
     <>
-      {/* Mobile Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -132,7 +124,6 @@ const Header = memo(() => {
         className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300 py-4"
       >
         <nav className="container mx-auto px-6 h-20 flex items-center relative">
-          {/* Logo - Posicionado a la izquierda */}
           <Link 
             to="/" 
             className={`text-2xl font-bold tracking-wider transition-colors relative z-[101] absolute left-6 ${
@@ -143,83 +134,133 @@ const Header = memo(() => {
             rium
           </Link>
 
-          {/* Desktop Navigation - "Cápsula" Flotante - Centrada */}
-          <div className="hidden md:flex items-center gap-2 mx-auto">
-            <div className={`
-              flex items-center gap-1 px-2 py-1.5 rounded-full transition-all duration-300
-              ${isDarkHeader 
-                ? 'bg-white/80 dark:bg-[#1E1E2A]/90 backdrop-blur-xl border border-gray-200/50 dark:border-white/10 shadow-sm' 
-                : 'bg-black/20 backdrop-blur-md border border-white/10'
-              }
-            `}>
-              {menuStructure.map((section) => (
-                <div 
-                  key={section.id}
-                  className="relative"
-                  onMouseEnter={() => setActiveDropdown(section.id)}
+          {/* Desktop Navigation - Animated Capsule */}
+          <div className="hidden md:flex justify-center absolute left-0 right-0 top-0 pointer-events-none h-screen">
+             {/* Usamos top-0 y h-screen para dar espacio de sobra hacia abajo, pero centramos visualmente con margin-top */}
+            <div className="pointer-events-auto mt-6"> 
+              <LayoutGroup>
+                <motion.div
+                  ref={navRef}
+                  layout
+                  transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+                  className={`
+                    relative flex flex-col items-center overflow-hidden
+                    ${isDarkHeader 
+                      ? 'bg-white/90 dark:bg-[#1E1E2A]/95 border-gray-200/50 dark:border-white/10' 
+                      : 'bg-black/30 border-white/10'
+                    }
+                    backdrop-blur-xl border transition-colors duration-300
+                  `}
+                  style={{ 
+                    borderRadius: 24,
+                    transformOrigin: 'top center'
+                  }}
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  <button
-                    className={`
-                      px-5 py-2.5 rounded-full text-sm font-medium transition-all flex items-center gap-1.5
-                      ${activeDropdown === section.id 
-                        ? 'bg-white dark:bg-[#1E1E2A] text-gray-900 dark:text-white shadow-md transform scale-105' 
-                        : isDarkHeader
-                          ? 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200/50 dark:hover:bg-white/10'
-                          : 'text-white/90 hover:text-white hover:bg-white/10'
-                      }
-                    `}
-                  >
-                    {section.title}
-                    <ChevronDown size={14} className={`transition-transform duration-300 ${activeDropdown === section.id ? 'rotate-180' : ''}`} />
-                  </button>
-
-                  {/* Mega Menu Dropdown */}
-                  <AnimatePresence>
-                    {activeDropdown === section.id && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                        className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[320px] p-2 bg-white dark:bg-[#1E1E2A] rounded-2xl shadow-xl border border-gray-100 dark:border-white/10 overflow-hidden"
-                        style={{ transformOrigin: 'top center' }}
+                  <motion.div layout className="flex items-center gap-1 p-1.5 px-2 z-20">
+                    {menuStructure.map((section) => (
+                      <button
+                        key={section.id}
+                        onMouseEnter={() => setActiveDropdown(section.id)}
+                        className={`
+                          relative px-4 py-2 rounded-full text-sm font-medium transition-colors z-10
+                          ${activeDropdown === section.id 
+                            ? 'text-gray-900 dark:text-white' 
+                            : isDarkHeader
+                              ? 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                              : 'text-white/90 hover:text-white'
+                          }
+                        `}
                       >
-                        <div className="flex flex-col gap-1">
-                          {section.items.map((item) => {
-                            const Icon = item.icon;
-                            return (
-                              <a
-                                key={item.name}
-                                href={item.href}
-                                onClick={(e) => handleNavClick(e, item.href)}
-                                className="group flex items-start gap-4 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
-                              >
-                                <div className="p-2 bg-gray-100 dark:bg-white/10 rounded-lg group-hover:bg-accent-purple/10 group-hover:text-accent-purple transition-colors">
-                                  <Icon size={20} className="text-gray-500 dark:text-gray-400 group-hover:text-accent-purple" />
-                                </div>
-                                <div>
-                                  <div className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-accent-purple transition-colors">
-                                    {item.name}
-                                  </div>
-                                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                                    {item.description}
-                                  </div>
-                                </div>
-                              </a>
-                            );
-                          })}
+                        {activeDropdown === section.id && (
+                          <motion.div
+                            layoutId="active-pill"
+                            className={`absolute inset-0 rounded-full ${
+                              isDarkHeader ? 'bg-gray-100 dark:bg-white/10' : 'bg-white/20'
+                            }`}
+                            transition={{ type: "spring", duration: 0.6 }}
+                          />
+                        )}
+                        <span className="relative flex items-center gap-1">
+                          {section.title}
+                          <ChevronDown 
+                            size={14} 
+                            className={`transition-transform duration-300 ${activeDropdown === section.id ? 'rotate-180' : ''}`}
+                          />
+                        </span>
+                      </button>
+                    ))}
+                  </motion.div>
+
+                  <AnimatePresence mode="popLayout">
+                    {activeDropdown && (
+                      <motion.div
+                        key="content"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                        className="w-full"
+                      >
+                        <div className="px-4 pb-4 pt-2 w-[340px]">
+                          <div className="flex flex-col gap-2">
+                            {menuStructure.find(s => s.id === activeDropdown)?.items.map((item) => {
+                              const Icon = item.icon;
+                              return (
+                                <motion.div
+                                  key={item.name}
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ duration: 0.2 }}
+                                >
+                                  <a
+                                    href={item.href}
+                                    onClick={(e) => handleNavClick(e, item.href)}
+                                    className={`
+                                      group flex items-center gap-3 p-2.5 rounded-xl transition-colors
+                                      ${isDarkHeader 
+                                        ? 'hover:bg-gray-100 dark:hover:bg-white/5' 
+                                        : 'hover:bg-white/10'
+                                      }
+                                    `}
+                                  >
+                                    <div className={`
+                                      p-2 rounded-lg transition-colors
+                                      ${isDarkHeader 
+                                        ? 'bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-400 group-hover:text-accent-purple' 
+                                        : 'bg-white/10 text-white/70 group-hover:text-white group-hover:bg-white/20'
+                                      }
+                                    `}>
+                                      <Icon size={18} />
+                                    </div>
+                                    <div>
+                                      <div className={`
+                                        text-sm font-medium
+                                        ${isDarkHeader ? 'text-gray-900 dark:text-white' : 'text-white'}
+                                      `}>
+                                        {item.name}
+                                      </div>
+                                      <div className={`
+                                        text-xs
+                                        ${isDarkHeader ? 'text-gray-500 dark:text-gray-400' : 'text-white/60'}
+                                      `}>
+                                        {item.description}
+                                      </div>
+                                    </div>
+                                  </a>
+                                </motion.div>
+                              );
+                            })}
+                          </div>
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </div>
-              ))}
+                </motion.div>
+              </LayoutGroup>
             </div>
-
           </div>
 
-          {/* CTA Button - Posicionado a la derecha */}
           <Button
             onClick={() => navigate('/contact')}
             className={`hidden md:flex absolute right-6 rounded-full px-6 transition-all duration-300 ${
@@ -231,7 +272,6 @@ const Header = memo(() => {
             Hablemos
           </Button>
 
-          {/* Mobile Menu Button */}
           <button
             className={`md:hidden p-2 rounded-full transition-colors relative z-[101] ${
               isDarkHeader ? 'text-gray-900 dark:text-white' : 'text-white'
@@ -241,7 +281,6 @@ const Header = memo(() => {
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
-          {/* Mobile Menu Fullscreen Overlay */}
           <AnimatePresence>
             {isMobileMenuOpen && (
               <motion.div
