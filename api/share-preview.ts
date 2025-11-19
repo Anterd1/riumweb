@@ -293,21 +293,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     <meta name="twitter:description" content="${escapeHtml(post.excerpt || post.title)}" />
     <meta name="twitter:image" content="${ogImageUrl}" />
     
-    <!-- Redirigir a usuarios normales a la SPA -->
-    <script>
-      // Solo redirigir si NO es un bot (los bots no ejecutan JS)
-      if (!/bot|crawler|spider|crawling/i.test(navigator.userAgent)) {
-        window.location.href = '${articleUrl}';
+    <!-- Estilos para el botón -->
+    <style>
+      .btn {
+        display: inline-block;
+        background-color: #6366f1;
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: background-color 0.2s;
       }
-    </script>
+      .btn:hover {
+        background-color: #4f46e5;
+      }
+    </style>
   </head>
   <body>
     <div style="max-width: 800px; margin: 0 auto; padding: 20px; font-family: system-ui, -apple-system, sans-serif;">
-      <h1 style="color: #333; margin-bottom: 10px;">${escapeHtml(post.title)}</h1>
-      ${post.excerpt ? `<p style="color: #666; font-size: 18px; line-height: 1.6;">${escapeHtml(post.excerpt)}</p>` : ''}
-      ${post.image ? `<img src="${ogImageUrl}" alt="${escapeHtml(post.title)}" style="max-width: 100%; margin: 20px 0; border-radius: 8px;" />` : ''}
-      <p style="color: #999; margin-top: 20px;">
-        <a href="${articleUrl}" style="color: #6366f1; text-decoration: none;">Leer artículo completo →</a>
+      <h1 style="color: #111827; margin-bottom: 16px; font-size: 24px; line-height: 1.3;">${escapeHtml(post.title)}</h1>
+      ${post.image ? `<div style="border-radius: 12px; overflow: hidden; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);"><img src="${ogImageUrl}" alt="${escapeHtml(post.title)}" style="width: 100%; height: auto; display: block;" /></div>` : ''}
+      ${post.excerpt ? `<p style="color: #4b5563; font-size: 18px; line-height: 1.6; margin-bottom: 24px;">${escapeHtml(post.excerpt)}</p>` : ''}
+      <div style="text-align: center; margin-top: 32px;">
+        <a href="${articleUrl}" class="btn">Leer artículo completo</a>
+      </div>
+      <p style="color: #9ca3af; font-size: 14px; text-align: center; margin-top: 24px;">
+        Estás viendo una vista previa. <a href="${articleUrl}" style="color: #6366f1;">Haz clic aquí si no eres redirigido.</a>
       </p>
     </div>
   </body>
