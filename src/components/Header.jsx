@@ -131,11 +131,11 @@ const Header = memo(() => {
         ref={headerRef}
         className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300 py-4"
       >
-        <nav className="container mx-auto px-6 h-20 flex items-center justify-between">
-          {/* Logo */}
+        <nav className="container mx-auto px-6 h-20 flex items-center relative">
+          {/* Logo - Posicionado a la izquierda */}
           <Link 
             to="/" 
-            className={`text-2xl font-bold tracking-wider transition-colors relative z-[101] ${
+            className={`text-2xl font-bold tracking-wider transition-colors relative z-[101] absolute left-6 ${
               isDarkHeader ? 'text-gray-900 dark:text-white' : 'text-white'
             }`}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -143,13 +143,13 @@ const Header = memo(() => {
             rium
           </Link>
 
-          {/* Desktop Navigation - "Cápsula" Flotante */}
-          <div className="hidden md:flex items-center gap-2">
+          {/* Desktop Navigation - "Cápsula" Flotante - Centrada */}
+          <div className="hidden md:flex items-center gap-2 mx-auto">
             <div className={`
-              flex items-center gap-1 px-2 py-1.5 rounded-full transition-all duration-300 shadow-sm
+              flex items-center gap-1 px-2 py-1.5 rounded-full transition-all duration-300
               ${isDarkHeader 
-                ? 'bg-white/80 dark:bg-[#1E1E2A]/80 backdrop-blur-md border border-gray-200/50 dark:border-white/10' 
-                : 'bg-white/10 backdrop-blur-md border border-white/10'
+                ? 'bg-white/80 dark:bg-[#1E1E2A]/90 backdrop-blur-xl border border-gray-200/50 dark:border-white/10 shadow-sm' 
+                : 'bg-black/20 backdrop-blur-md border border-white/10'
               }
             `}>
               {menuStructure.map((section) => (
@@ -217,18 +217,19 @@ const Header = memo(() => {
               ))}
             </div>
 
-            {/* CTA Button */}
-            <Button
-              onClick={() => navigate('/contact')}
-              className={`ml-4 rounded-full px-6 transition-all duration-300 ${
-                isDarkHeader 
-                  ? 'bg-accent-purple text-white hover:bg-accent-purple/90 shadow-lg shadow-accent-purple/20'
-                  : 'bg-white text-black hover:bg-gray-100'
-              }`}
-            >
-              Hablemos
-            </Button>
           </div>
+
+          {/* CTA Button - Posicionado a la derecha */}
+          <Button
+            onClick={() => navigate('/contact')}
+            className={`hidden md:flex absolute right-6 rounded-full px-6 transition-all duration-300 ${
+              isDarkHeader 
+                ? 'bg-accent-purple text-white hover:bg-accent-purple/90 shadow-lg shadow-accent-purple/20'
+                : 'bg-white text-black hover:bg-gray-100'
+            }`}
+          >
+            Hablemos
+          </Button>
 
           {/* Mobile Menu Button */}
           <button
