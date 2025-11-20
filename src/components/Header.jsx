@@ -8,6 +8,7 @@ const Header = memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [currentHash, setCurrentHash] = useState('');
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
   const headerRef = useRef(null);
   const navRef = useRef(null);
   const location = useLocation();
@@ -19,6 +20,25 @@ const Header = memo(() => {
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Detectar tema actual
+    const checkTheme = () => {
+      setIsDarkTheme(document.documentElement.classList.contains('dark'));
+    };
+    
+    // Verificar tema inicial
+    checkTheme();
+    
+    // Observar cambios en la clase dark del elemento raíz
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -132,7 +152,9 @@ const Header = memo(() => {
             <Link 
               to="/" 
               className={`text-2xl font-bold tracking-wider transition-colors ${
-                isDarkHeader ? 'text-gray-900 dark:text-white' : 'text-white'
+                isDarkHeader 
+                  ? isDarkTheme ? 'text-white' : 'text-gray-900'
+                  : 'text-white'
               }`}
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
@@ -145,14 +167,16 @@ const Header = memo(() => {
              {/* Usamos top-0 y h-screen para dar espacio de sobra hacia abajo, pero centramos visualmente con margin-top */}
             <div className="pointer-events-auto mt-6"> 
               <LayoutGroup>
-                <motion.div
+                  <motion.div
                   ref={navRef}
                   layout
                   transition={{ type: "spring", bounce: 0, duration: 0.3 }}
                   className={`
                     relative flex flex-col items-center overflow-hidden
                     ${isDarkHeader 
-                      ? 'bg-white/90 dark:bg-[#1E1E2A]/95 border-gray-200/50 dark:border-white/10' 
+                      ? isDarkTheme
+                        ? 'bg-[#1E1E2A]/95 border-white/10'
+                        : 'bg-white/90 border-gray-200/50'
                       : 'bg-black/30 border-white/10'
                     }
                     backdrop-blur-xl border transition-colors duration-300
@@ -171,9 +195,11 @@ const Header = memo(() => {
                         className={`
                           relative px-4 py-2 rounded-full text-sm font-medium transition-colors z-10
                           ${activeDropdown === section.id 
-                            ? 'text-gray-900 dark:text-white' 
+                            ? isDarkTheme ? 'text-white' : 'text-gray-900'
                             : isDarkHeader
-                              ? 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                              ? isDarkTheme 
+                                ? 'text-gray-300 hover:text-white'
+                                : 'text-gray-600 hover:text-gray-900'
                               : 'text-white/90 hover:text-white'
                           }
                         `}
@@ -182,7 +208,9 @@ const Header = memo(() => {
                           <motion.div
                             layoutId="active-pill"
                             className={`absolute inset-0 rounded-full ${
-                              isDarkHeader ? 'bg-gray-100 dark:bg-white/10' : 'bg-white/20'
+                              isDarkHeader 
+                                ? isDarkTheme ? 'bg-white/10' : 'bg-gray-100'
+                                : 'bg-white/20'
                             }`}
                             transition={{ type: "spring", duration: 0.6 }}
                           />
@@ -225,7 +253,9 @@ const Header = memo(() => {
                                     className={`
                                       group flex items-center gap-3 p-2.5 rounded-xl transition-colors
                                       ${isDarkHeader 
-                                        ? 'hover:bg-gray-100 dark:hover:bg-white/5' 
+                                        ? isDarkTheme 
+                                          ? 'hover:bg-white/5' 
+                                          : 'hover:bg-gray-100'
                                         : 'hover:bg-white/10'
                                       }
                                     `}
@@ -233,7 +263,9 @@ const Header = memo(() => {
                                     <div className={`
                                       p-2 rounded-lg transition-colors
                                       ${isDarkHeader 
-                                        ? 'bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-400 group-hover:text-accent-purple' 
+                                        ? isDarkTheme
+                                          ? 'bg-white/5 text-gray-400 group-hover:text-accent-purple' 
+                                          : 'bg-gray-100 text-gray-500 group-hover:text-accent-purple'
                                         : 'bg-white/10 text-white/70 group-hover:text-white group-hover:bg-white/20'
                                       }
                                     `}>
@@ -242,13 +274,19 @@ const Header = memo(() => {
                                     <div>
                                       <div className={`
                                         text-sm font-medium
-                                        ${isDarkHeader ? 'text-gray-900 dark:text-white' : 'text-white'}
+                                        ${isDarkHeader 
+                                          ? isDarkTheme ? 'text-white' : 'text-gray-900'
+                                          : 'text-white'
+                                        }
                                       `}>
                                         {item.name}
                                       </div>
                                       <div className={`
                                         text-xs
-                                        ${isDarkHeader ? 'text-gray-500 dark:text-gray-400' : 'text-white/60'}
+                                        ${isDarkHeader 
+                                          ? isDarkTheme ? 'text-gray-400' : 'text-gray-500'
+                                          : 'text-white/60'
+                                        }
                                       `}>
                                         {item.description}
                                       </div>
@@ -287,7 +325,9 @@ const Header = memo(() => {
               className={`
                 pointer-events-auto mx-4 mb-6 px-3 py-2.5 rounded-3xl backdrop-blur-xl border shadow-lg
                 ${isDarkHeader 
-                  ? 'bg-white/95 dark:bg-[#1E1E2A]/98 border-gray-200/60 dark:border-white/15' 
+                  ? isDarkTheme
+                    ? 'bg-[#1E1E2A]/98 border-white/15'
+                    : 'bg-white/95 border-gray-200/60'
                   : 'bg-black/40 border-white/20'
                 }
                 transition-colors duration-300
@@ -319,7 +359,7 @@ const Header = memo(() => {
                           layoutId="mobile-active-pill"
                           className={`absolute inset-0 rounded-full ${
                             isDarkHeader 
-                              ? 'bg-gray-900 dark:bg-white' 
+                              ? isDarkTheme ? 'bg-white' : 'bg-gray-900'
                               : 'bg-white'
                           }`}
                           transition={{ type: "spring", duration: 0.4, bounce: 0.2 }}
@@ -330,10 +370,10 @@ const Header = memo(() => {
                           relative z-10 whitespace-nowrap block text-center
                           ${isActive
                             ? isDarkHeader
-                              ? 'text-white dark:text-gray-900 font-semibold'
+                              ? isDarkTheme ? 'text-gray-900 font-semibold' : 'text-white font-semibold'
                               : 'text-black font-semibold'
                             : isDarkHeader
-                              ? 'text-gray-600 dark:text-gray-400'
+                              ? isDarkTheme ? 'text-gray-400' : 'text-gray-600'
                               : 'text-white/70'
                           }
                         `}
