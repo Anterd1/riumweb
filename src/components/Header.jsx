@@ -188,10 +188,42 @@ const Header = memo(() => {
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <motion.div layout className="flex items-center gap-1 p-1.5 px-2 z-20">
-                    {menuStructure.map((section) => (
+                    {menuStructure.map((section) => {
+                      // Obtener el primer item del dropdown para navegación
+                      const firstItem = section.items[0];
+                      const handleMenuClick = (e) => {
+                        // Si estamos en otra página, navegar al home con el hash correspondiente
+                        if (location.pathname !== '/') {
+                          e.preventDefault();
+                          const targetHref = firstItem?.href || '/';
+                          if (targetHref.includes('#')) {
+                            const [path, id] = targetHref.split('#');
+                            navigate('/');
+                            setTimeout(() => {
+                              scrollToElement(id);
+                              setCurrentHash(`#${id}`);
+                            }, 100);
+                          } else {
+                            navigate(targetHref);
+                          }
+                          setActiveDropdown(null);
+                        } else {
+                          // Si estamos en home, hacer scroll a la sección
+                          if (firstItem?.href.includes('#')) {
+                            e.preventDefault();
+                            const [, id] = firstItem.href.split('#');
+                            scrollToElement(id);
+                            setCurrentHash(`#${id}`);
+                            setActiveDropdown(null);
+                          }
+                        }
+                      };
+                      
+                      return (
                       <button
                         key={section.id}
                         onMouseEnter={() => setActiveDropdown(section.id)}
+                        onClick={handleMenuClick}
                         className={`
                           relative px-4 py-2 rounded-full text-sm font-medium transition-colors z-10
                           ${activeDropdown === section.id 
@@ -223,7 +255,8 @@ const Header = memo(() => {
                           />
                         </span>
                       </button>
-                    ))}
+                      );
+                    })}
                   </motion.div>
 
                   <AnimatePresence mode="popLayout">
