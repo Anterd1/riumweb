@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight, Tag, Loader2 } from 'lucide-react';
@@ -44,7 +44,7 @@ const Blog = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white min-h-screen pt-20">
+    <div className="bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white min-h-screen pt-20 md:pt-24">
       <SEO
         title="Blog"
         description="Artículos sobre diseño UI/UX, auditorías UX, investigación de mercado, arquitectura de información, pruebas de usabilidad y más temas de experiencia de usuario."
@@ -53,35 +53,39 @@ const Blog = () => {
       />
 
       <main>
-        {/* Header Section */}
-        <SectionAnimator>
-          <header className="pt-24 pb-12 text-center">
+        {/* Header Section - Visible immediately */}
+        <motion.div
+          initial={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center"
+        >
+          <header className="pt-4 md:pt-8 pb-6 md:pb-8">
             <div className="container mx-auto px-6 max-w-4xl">
-              <div className="inline-block px-4 py-1.5 border border-gray-300 dark:border-white/20 rounded-full text-sm mb-4 uppercase text-gray-700 dark:text-white">
+              <div className="inline-block px-4 py-1.5 border border-gray-300 dark:border-white/20 rounded-full text-sm mb-3 md:mb-4 uppercase text-gray-700 dark:text-white">
                 Blog
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 uppercase text-gray-900 dark:text-white">
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 uppercase text-gray-900 dark:text-white">
                 Nuestros <span className="text-accent-purple">Artículos</span>
               </h1>
-              <p className="text-xl text-gray-700 dark:text-gray-400 max-w-2xl mx-auto">
+              <p className="text-base md:text-xl text-gray-700 dark:text-gray-400 max-w-2xl mx-auto">
                 Explora nuestros artículos sobre diseño UI/UX, experiencia de usuario, y mejores prácticas en diseño digital.
               </p>
             </div>
           </header>
-        </SectionAnimator>
+        </motion.div>
 
-        {/* Category Filters */}
+        {/* Category Filters - Horizontal Scroll */}
         <SectionAnimator>
-          <div className="container mx-auto px-6 mb-12">
-            <div className="flex flex-wrap gap-3 justify-center">
+          <div className="container mx-auto px-6 mb-6 md:mb-8">
+            <div className="flex overflow-x-auto pb-4 gap-3 scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0 md:justify-center md:flex-wrap">
               {categories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-6 py-2 rounded-full text-sm font-medium transition-all uppercase tracking-wider ${
+                  className={`whitespace-nowrap px-6 py-2 rounded-full text-sm font-medium transition-all uppercase tracking-wider flex-shrink-0 ${
                     selectedCategory === category
-                      ? 'bg-accent-purple text-white'
-                      : 'bg-gray-100 dark:bg-[#1E1E2A] text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-white/10'
+                      ? 'bg-accent-purple text-white shadow-lg shadow-accent-purple/25'
+                      : 'bg-gray-100 dark:bg-[#1E1E2A] text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-white/10 hover:border-gray-400 dark:hover:border-white/30'
                   }`}
                 >
                   {category}
@@ -113,26 +117,27 @@ const Blog = () => {
 
         {/* Blog Posts Grid */}
         {!loading && !error && (
-          <SectionAnimator>
-            <div className="container mx-auto px-6 pb-24">
-              {posts.length === 0 ? (
-                <div className="text-center py-16">
-                  <p className="text-gray-700 dark:text-gray-400 text-xl">No hay artículos disponibles aún.</p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {posts.map((post, index) => {
-                    const postTags = parseTags(post.tags);
-                    return (
+          <div className="container mx-auto px-6 pb-24">
+            {posts.length === 0 ? (
+              <div className="text-center py-16">
+                <p className="text-gray-700 dark:text-gray-400 text-xl">No hay artículos disponibles aún.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {posts.map((post, index) => {
+                  const postTags = parseTags(post.tags);
+                  // Primera tarjeta visible inmediatamente, las demás con animación
+                  const isFirstCard = index === 0;
+                  return (
                 <Link
                   key={post.id}
                   to={`/blog/${post.slug || post.id}`}
                   className="block"
                 >
                   <motion.article
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={isFirstCard ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    transition={isFirstCard ? { duration: 0 } : { duration: 0.5, delay: (index - 1) * 0.1 }}
                     className="bg-gray-50 dark:bg-[#1E1E2A] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-accent-purple/10 transition-all duration-300 group cursor-pointer h-full"
                   >
                   {/* Image - Optimizado para móvil con aspect-ratio */}
@@ -210,8 +215,7 @@ const Blog = () => {
                   })}
                 </div>
               )}
-            </div>
-          </SectionAnimator>
+          </div>
         )}
 
         {/* CTA Section */}
