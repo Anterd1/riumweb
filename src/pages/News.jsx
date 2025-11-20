@@ -44,7 +44,7 @@ const News = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white min-h-screen pt-24">
+    <div className="bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white min-h-screen pt-20">
       <SEO
         title="Noticias Tech - rium"
         description="Últimas noticias sobre diseño, desarrollo, tecnología, herramientas y tendencias en el mundo tech."
@@ -55,7 +55,7 @@ const News = () => {
       <main>
         {/* Header Section */}
         <SectionAnimator>
-          <header className="pt-32 pb-16 text-center">
+          <header className="pt-24 pb-12 text-center">
             <div className="container mx-auto px-6 max-w-4xl">
               <div className="inline-block px-4 py-1.5 border border-gray-300 dark:border-white/20 rounded-full text-sm mb-4 uppercase flex items-center gap-2 justify-center text-gray-700 dark:text-white">
                 <TrendingUp size={14} />
@@ -159,18 +159,20 @@ const News = () => {
 
                           {/* Content */}
                           <div className="p-6">
-                            {/* Tags */}
+                            {/* Tags - Horizontal Scroll */}
                             {postTags.length > 0 && (
-                              <div className="flex flex-wrap gap-2 mb-4">
-                                {postTags.map((tag, tagIndex) => (
-                                  <span
-                                    key={tagIndex}
-                                    className="flex items-center gap-1 text-xs text-gray-700 dark:text-gray-400"
-                                  >
-                                    <Tag size={12} />
-                                    {tag}
-                                  </span>
-                                ))}
+                              <div className="mb-4 overflow-x-auto scrollbar-hide">
+                                <div className="flex gap-2 min-w-max">
+                                  {postTags.map((tag, tagIndex) => (
+                                    <span
+                                      key={tagIndex}
+                                      className="flex items-center gap-1 text-xs text-gray-700 dark:text-gray-400 whitespace-nowrap px-2 py-1 bg-gray-100 dark:bg-white/5 rounded-full"
+                                    >
+                                      <Tag size={12} />
+                                      {tag}
+                                    </span>
+                                  ))}
+                                </div>
                               </div>
                             )}
 

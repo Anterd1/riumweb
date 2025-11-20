@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { Menu, X, ChevronDown, ArrowRight, Users, Briefcase, Mail, Monitor, Smartphone, Search, FileText, Newspaper } from 'lucide-react';
+import { ChevronDown, Users, Briefcase, Mail, Monitor, Smartphone, Search, FileText, Newspaper } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Header = memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [currentHash, setCurrentHash] = useState('');
   const headerRef = useRef(null);
   const navRef = useRef(null);
   const location = useLocation();
@@ -32,9 +32,17 @@ const Header = memo(() => {
   }, []);
 
   useEffect(() => {
-    setIsMobileMenuOpen(false);
     setActiveDropdown(null);
+    setCurrentHash(window.location.hash);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentHash(window.location.hash);
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   const menuStructure = [
     {
@@ -72,9 +80,13 @@ const Header = memo(() => {
       if (path === '/' || path === '') {
         if (location.pathname !== '/') {
           navigate('/');
-          setTimeout(() => scrollToElement(id), 100);
+          setTimeout(() => {
+            scrollToElement(id);
+            setCurrentHash(`#${id}`);
+          }, 100);
         } else {
           scrollToElement(id);
+          setCurrentHash(`#${id}`);
         }
       } else {
         navigate(href);
@@ -83,7 +95,6 @@ const Header = memo(() => {
       navigate(href);
     }
     setActiveDropdown(null);
-    setIsMobileMenuOpen(false);
   };
 
   const scrollToElement = (id) => {
@@ -103,36 +114,31 @@ const Header = memo(() => {
            (path.startsWith('/noticias/') && path !== '/noticias');
   };
 
-  const isDarkHeader = isScrolled || isMobileMenuOpen || isPostPage();
+  const isDarkHeader = isScrolled || isPostPage();
 
   return (
     <>
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] md:hidden"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-        )}
-      </AnimatePresence>
-
       <header
         ref={headerRef}
         className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300 py-4"
       >
         <nav className="container mx-auto px-6 h-20 flex items-center relative">
-          <Link 
-            to="/" 
-            className={`text-2xl font-bold tracking-wider transition-colors relative z-[101] absolute left-6 ${
-              isDarkHeader ? 'text-gray-900 dark:text-white' : 'text-white'
-            }`}
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: isScrolled ? 0 : 1 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className={`absolute left-6 z-[101] ${isScrolled ? 'pointer-events-none' : 'pointer-events-auto'}`}
           >
-            rium
-          </Link>
+            <Link 
+              to="/" 
+              className={`text-2xl font-bold tracking-wider transition-colors ${
+                isDarkHeader ? 'text-gray-900 dark:text-white' : 'text-white'
+              }`}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+              rium
+            </Link>
+          </motion.div>
 
           {/* Desktop Navigation - Animated Capsule */}
           <div className="hidden md:flex justify-center absolute left-0 right-0 top-0 pointer-events-none h-screen">
@@ -272,69 +278,74 @@ const Header = memo(() => {
             Hablemos
           </Button>
 
-          <button
-            className={`md:hidden p-2 rounded-full transition-colors relative z-[101] ${
-              isDarkHeader ? 'text-gray-900 dark:text-white' : 'text-white'
-            }`}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-
-          <AnimatePresence>
-            {isMobileMenuOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                className="fixed inset-0 top-0 bg-white dark:bg-[#0C0D0D] z-[100] pt-24 px-6 overflow-y-auto"
-              >
-                <div className="flex flex-col gap-8">
-                  {menuStructure.map((section, idx) => (
-                    <div key={section.id}>
-                      <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
-                        {section.title}
-                      </h3>
-                      <div className="flex flex-col gap-4">
-                        {section.items.map((item) => {
-                          const Icon = item.icon;
-                          return (
-                            <a
-                              key={item.name}
-                              href={item.href}
-                              onClick={(e) => handleNavClick(e, item.href)}
-                              className="flex items-center gap-4 group"
-                            >
-                              <div className="p-2 bg-gray-100 dark:bg-white/10 rounded-lg">
-                                <Icon size={20} className="text-gray-500 dark:text-gray-400" />
-                              </div>
-                              <span className="text-xl font-medium text-gray-900 dark:text-white">
-                                {item.name}
-                              </span>
-                            </a>
-                          );
-                        })}
-                      </div>
-                      {idx < menuStructure.length - 1 && (
-                        <hr className="my-6 border-gray-100 dark:border-white/5" />
-                      )}
-                    </div>
-                  ))}
+          {/* Mobile Bottom Navigation - Humaan Style */}
+          <div className="md:hidden fixed bottom-0 left-0 right-0 z-[100] pointer-events-none">
+            <motion.nav
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
+              className={`
+                pointer-events-auto mx-4 mb-6 px-3 py-2.5 rounded-3xl backdrop-blur-xl border shadow-lg
+                ${isDarkHeader 
+                  ? 'bg-white/95 dark:bg-[#1E1E2A]/98 border-gray-200/60 dark:border-white/15' 
+                  : 'bg-black/40 border-white/20'
+                }
+                transition-colors duration-300
+              `}
+            >
+              <div className="flex items-center justify-around gap-0.5">
+                {[
+                  { name: 'Home', href: '/', id: 'home' },
+                  { name: 'Servicios', href: '/#services', id: 'services' },
+                  { name: 'Blog', href: '/blog', id: 'blog' },
+                  { name: 'Noticias', href: '/noticias', id: 'noticias' },
+                  { name: 'Contacto', href: '/contact', id: 'contact' },
+                ].map((item) => {
+                  const isActive = 
+                    (item.id === 'home' && location.pathname === '/' && !currentHash) ||
+                    (item.id === 'services' && location.pathname === '/' && currentHash === '#services') ||
+                    (item.id === 'blog' && location.pathname.startsWith('/blog') && !location.pathname.match(/\/blog\/.+/)) ||
+                    (item.id === 'noticias' && location.pathname.startsWith('/noticias') && !location.pathname.match(/\/noticias\/.+/)) ||
+                    (item.id === 'contact' && location.pathname === '/contact');
                   
-                  <Button
-                    onClick={() => {
-                      navigate('/contact');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="w-full bg-accent-purple text-white py-6 rounded-xl text-lg mt-4"
-                  >
-                    Iniciar Proyecto <ArrowRight className="ml-2" />
-                  </Button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={(e) => handleNavClick(e, item.href)}
+                      className="relative px-3 py-1.5 rounded-full text-[11px] font-medium transition-all min-w-[60px]"
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="mobile-active-pill"
+                          className={`absolute inset-0 rounded-full ${
+                            isDarkHeader 
+                              ? 'bg-gray-900 dark:bg-white' 
+                              : 'bg-white'
+                          }`}
+                          transition={{ type: "spring", duration: 0.4, bounce: 0.2 }}
+                        />
+                      )}
+                      <span
+                        className={`
+                          relative z-10 whitespace-nowrap block text-center
+                          ${isActive
+                            ? isDarkHeader
+                              ? 'text-white dark:text-gray-900 font-semibold'
+                              : 'text-black font-semibold'
+                            : isDarkHeader
+                              ? 'text-gray-600 dark:text-gray-400'
+                              : 'text-white/70'
+                          }
+                        `}
+                      >
+                        {item.name}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.nav>
+          </div>
         </nav>
       </header>
     </>

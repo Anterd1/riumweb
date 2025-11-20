@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -10,6 +10,11 @@ import ThemeProvider from '@/components/ThemeProvider';
 const Layout = memo(() => {
   const location = useLocation();
   const isHome = location.pathname === '/';
+
+  // Scroll to top when route changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [location.pathname]);
 
   return (
     <ThemeProvider>
@@ -31,7 +36,7 @@ const Layout = memo(() => {
 
       <div className="min-h-screen bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white overflow-x-hidden flex flex-col">
         <Header />
-        <main className="flex-grow">
+        <main className="flex-grow pb-24 md:pb-0">
           <Outlet />
         </main>
         <Footer />
