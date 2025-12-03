@@ -242,8 +242,6 @@ const Header = memo(() => {
               <LayoutGroup>
                   <motion.div
                   ref={navRef}
-                  layout
-                  transition={{ type: "spring", bounce: 0, duration: 0.3 }}
                   className={`
                     relative flex flex-col items-center overflow-visible
                     ${isDarkHeader 
@@ -260,7 +258,7 @@ const Header = memo(() => {
                   }}
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  <motion.div layout className="flex items-center gap-1 p-1.5 px-2 z-20">
+                  <div className="flex items-center gap-1 p-1.5 px-2 z-20">
                     {menuStructure.map((section) => {
                       // Obtener el primer item del dropdown para navegación
                       const firstItem = section.items[0];
@@ -331,16 +329,29 @@ const Header = memo(() => {
                       </button>
                       );
                     })}
-                  </motion.div>
+                  </div>
 
-                  <AnimatePresence mode="popLayout">
+                  <AnimatePresence>
                     {activeDropdown && (
                       <motion.div
                         key="content"
-                        initial={{ opacity: 0, height: 0, y: -10 }}
-                        animate={{ opacity: 1, height: 'auto', y: 0 }}
-                        exit={{ opacity: 0, height: 0, y: -10 }}
-                        transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ 
+                          opacity: 1, 
+                          height: 'auto',
+                          transition: {
+                            duration: 0.3,
+                            ease: [0.04, 0.62, 0.23, 0.98]
+                          }
+                        }}
+                        exit={{ 
+                          opacity: 0, 
+                          height: 0,
+                          transition: {
+                            duration: 0.2,
+                            ease: [0.4, 0, 0.2, 1]
+                          }
+                        }}
                         className="w-full mt-1"
                         style={{ transformOrigin: 'top center' }}
                       >
