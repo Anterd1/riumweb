@@ -11,23 +11,23 @@ import PageLoader from '@/components/PageLoader';
 import LanguageRedirect from '@/components/LanguageRedirect';
 
 // Lazy load de páginas públicas
-const Blog = lazy(() => import('@/pages/Blog'));
-const BlogPost = lazy(() => import('@/pages/BlogPost'));
-const News = lazy(() => import('@/pages/News'));
-const NewsPost = lazy(() => import('@/pages/NewsPost'));
-const Project = lazy(() => import('@/pages/Project'));
-const DisenoTuPaginaWeb = lazy(() => import('@/pages/DisenoTuPaginaWeb'));
-const Sitemap = lazy(() => import('@/pages/Sitemap'));
-const NotFound = lazy(() => import('@/pages/NotFound'));
+const Blog = lazy(() => import('./pages/Blog'));
+const BlogPost = lazy(() => import('./pages/BlogPost'));
+const News = lazy(() => import('./pages/News'));
+const NewsPost = lazy(() => import('./pages/NewsPost'));
+const Project = lazy(() => import('./pages/Project'));
+const DisenoTuPaginaWeb = lazy(() => import('./pages/DisenoTuPaginaWeb'));
+const Sitemap = lazy(() => import('./pages/Sitemap'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Lazy load de páginas admin
-const Dashboard = lazy(() => import('@/pages/admin/Dashboard'));
-const NewsDashboard = lazy(() => import('@/pages/admin/NewsDashboard'));
-const PostEditor = lazy(() => import('@/pages/admin/PostEditor'));
-const Requests = lazy(() => import('@/pages/admin/Requests'));
-const Users = lazy(() => import('@/pages/admin/Users'));
-const Settings = lazy(() => import('@/pages/admin/Settings'));
-const NewsletterSubscriptions = lazy(() => import('@/pages/admin/NewsletterSubscriptions'));
+const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
+const NewsDashboard = lazy(() => import('./pages/admin/NewsDashboard'));
+const PostEditor = lazy(() => import('./pages/admin/PostEditor'));
+const Requests = lazy(() => import('./pages/admin/Requests'));
+const Users = lazy(() => import('./pages/admin/Users'));
+const Settings = lazy(() => import('./pages/admin/Settings'));
+const NewsletterSubscriptions = lazy(() => import('./pages/admin/NewsletterSubscriptions'));
 
 function App() {
   return (

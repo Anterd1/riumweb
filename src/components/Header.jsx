@@ -112,15 +112,18 @@ const Header = memo(() => {
       e.preventDefault();
       const [path, id] = href.split('#');
       const homePath = `/${currentLang}`;
+      const isOnHome = location.pathname === homePath || location.pathname === `${homePath}/`;
       
       if (path === `/${currentLang}` || path === '/' || path === '') {
-        if (location.pathname !== homePath && !location.pathname.startsWith(`/${currentLang}/`)) {
+        if (!isOnHome) {
+          // Si no estamos en el home, navegar primero
           navigate(homePath);
           setTimeout(() => {
             scrollToElement(id);
             setCurrentHash(`#${id}`);
-          }, 100);
+          }, 300);
         } else {
+          // Si ya estamos en el home, solo hacer scroll
           scrollToElement(id);
           setCurrentHash(`#${id}`);
         }
@@ -138,10 +141,27 @@ const Header = memo(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    
+    // Intentar encontrar el elemento, con varios intentos si es necesario
+    const findAndScroll = (attempts = 0) => {
+      const element = document.getElementById(id);
+      if (element) {
+        // Ajustar el scroll para tener en cuenta el header fijo
+        const headerHeight = headerRef.current?.offsetHeight || 80;
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = elementPosition - headerHeight;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      } else if (attempts < 10) {
+        // Si no se encuentra, intentar de nuevo después de un breve delay
+        setTimeout(() => findAndScroll(attempts + 1), 50);
+      }
+    };
+    
+    findAndScroll();
   };
 
   const isPostPage = () => {
@@ -159,15 +179,10 @@ const Header = memo(() => {
         className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300 py-4"
       >
         <nav className="container mx-auto px-6 h-20 flex items-center justify-between relative">
-          <motion.div
-            initial={{ opacity: 1 }}
-            animate={{ opacity: isScrolled ? 0 : 1 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className={`z-[101] flex items-center h-full ${isScrolled ? 'pointer-events-none' : 'pointer-events-auto'}`}
-          >
+          <div className="z-[101] flex items-center h-full">
             <Link 
               to={getLocalizedLink('/')} 
-              className={`text-2xl font-bold tracking-wider transition-colors ${
+              className={`text-2xl font-bold tracking-wider transition-colors duration-300 ${
                 isDarkHeader 
                   ? isDarkTheme ? 'text-white' : 'text-gray-900'
                   : 'text-white'
@@ -176,7 +191,7 @@ const Header = memo(() => {
             >
               rium
             </Link>
-          </motion.div>
+          </div>
 
           {/* Desktop Navigation - Animated Capsule */}
           <div className="hidden md:flex justify-center absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none h-full">

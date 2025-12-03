@@ -9,9 +9,11 @@ import { useBlogPosts } from '@/hooks/useBlogPosts';
 import NewsletterSubscription from '@/components/NewsletterSubscription';
 import { Toaster } from '@/components/ui/toaster';
 import OptimizedImage from '@/components/OptimizedImage';
+import { useLocalizedLink } from '@/hooks/useLocalizedLink';
 
 const News = () => {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
+  const getLocalizedLink = useLocalizedLink();
   const { posts, loading, error } = useBlogPosts(
     selectedCategory === 'Todos' ? null : selectedCategory,
     'news' // Solo noticias tech
@@ -132,7 +134,7 @@ const News = () => {
                   return (
                       <Link
                         key={post.id}
-                        to={`/noticias/${post.slug || post.id}`}
+                        to={getLocalizedLink(`/noticias/${post.slug || post.id}`)}
                         className="block"
                       >
                         <motion.article
