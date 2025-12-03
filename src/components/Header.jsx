@@ -15,6 +15,7 @@ const Header = memo(() => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const headerRef = useRef(null);
   const navRef = useRef(null);
+  const mobileNavRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
   const getLocalizedLink = useLocalizedLink();
@@ -57,7 +58,11 @@ const Header = memo(() => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target)) {
+      // Check if click is outside both desktop and mobile nav
+      const isOutsideDesktopNav = navRef.current && !navRef.current.contains(event.target);
+      const isOutsideMobileNav = mobileNavRef.current && !mobileNavRef.current.contains(event.target);
+      
+      if (isOutsideDesktopNav && isOutsideMobileNav) {
         setActiveDropdown(null);
       }
     };
@@ -465,6 +470,7 @@ const Header = memo(() => {
           <div className="md:hidden fixed bottom-0 left-0 right-0 z-[100] pointer-events-none">
             <LayoutGroup>
               <motion.nav
+                ref={mobileNavRef}
                 layout
                 initial={{ y: 100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -495,19 +501,18 @@ const Header = memo(() => {
                         height: 'auto',
                         transition: {
                           type: "spring",
-                          stiffness: 500,
-                          damping: 35,
-                          mass: 0.5
+                          stiffness: 400,
+                          damping: 30,
+                          mass: 0.8,
+                          bounce: 0
                         }
                       }}
                       exit={{ 
                         opacity: 0, 
                         height: 0,
                         transition: {
-                          type: "spring",
-                          stiffness: 600,
-                          damping: 40,
-                          mass: 0.4
+                          duration: 0.25,
+                          ease: [0.22, 1, 0.36, 1]
                         }
                       }}
                       className="overflow-hidden"
@@ -616,7 +621,10 @@ const Header = memo(() => {
                     <motion.button
                       layout="position"
                       key="services"
-                      onClick={() => setActiveDropdown(activeDropdown === 'services' ? null : 'services')}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveDropdown(activeDropdown === 'services' ? null : 'services');
+                      }}
                       className="relative px-3 py-1.5 rounded-full text-[11px] font-medium transition-all min-w-[60px]"
                     >
                       {(isServicesDropdownOpen || isServicesActive) && (
@@ -668,7 +676,10 @@ const Header = memo(() => {
                     <motion.button
                       layout="position"
                       key="explore"
-                      onClick={() => setActiveDropdown(activeDropdown === 'explore' ? null : 'explore')}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveDropdown(activeDropdown === 'explore' ? null : 'explore');
+                      }}
                       className="relative px-3 py-1.5 rounded-full text-[11px] font-medium transition-all min-w-[60px]"
                     >
                       {(isExploreDropdownOpen || isExploreActive) && (
