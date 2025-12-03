@@ -1,0 +1,462 @@
+{
+  "hero": {
+    "title1": "We are the leading agency",
+    "title2": "for UI/UX design in",
+    "title3": "Latin America",
+    "description1": "We improve digital products that don't convert.",
+    "description2": "We design interfaces that increase sales, reduce development costs",
+    "description3": "and improve your users' satisfaction.",
+    "cta": "Let's Talk",
+    "viewWork": "View Our Work"
+  },
+  "services": {
+    "title": "Our",
+    "titleHighlight": "Services",
+    "description": "Specialists in UI/UX design, user experience audits, market research, and UX consulting. We offer complete services for interface design, usability testing, information architecture, wireframes, user personas, journey mapping, and more for companies in Mexico and Latin America.",
+    "filters": {
+      "uiux": "UI/UX Design",
+      "audits": "UX Audits",
+      "research": "Research",
+      "seo": "SEO/SEM",
+      "web": "Web Design",
+      "retail": "Retail Marketing"
+    },
+    "uiux": {
+      "title": "UI/UX Design",
+      "description": "We create exceptional user experiences that combine intuitive design with strategic functionality, focusing on usability and user satisfaction.",
+      "points": {
+        "infoArchitecture": {
+          "title": "Information Architecture",
+          "description": "We organize content for intuitive navigation."
+        },
+        "wireframes": {
+          "title": "Wireframe Design",
+          "description": "We outline screens to define structure and functionality."
+        },
+        "ui": {
+          "title": "User Interface Design (UI)",
+          "description": "We create attractive and functional visual elements."
+        },
+        "interactions": {
+          "title": "Interaction Design",
+          "description": "We define how users interact with the interface."
+        },
+        "responsive": {
+          "title": "Responsive Design",
+          "description": "We adapt the design to different devices and resolutions."
+        },
+        "mobile": {
+          "title": "Mobile App Design",
+          "description": "We create experiences optimized for mobile devices."
+        },
+        "web": {
+          "title": "Web Design",
+          "description": "We design modern and effective interfaces for websites."
+        },
+        "accessibility": {
+          "title": "Accessibility",
+          "description": "We ensure the product is usable by all people."
+        },
+        "designSystem": {
+          "title": "Design System Creation",
+          "description": "We unify styles, components, and visual rules in a guide."
+        },
+        "graphic": {
+          "title": "Graphic Design",
+          "description": "We work on the visual aspect to achieve impact and coherence."
+        },
+        "uxWriting": {
+          "title": "UX Writing",
+          "description": "We obtain direct information about needs and expectations."
+        }
+      }
+    },
+    "audits": {
+      "title": "UX Audits",
+      "description": "We conduct comprehensive user experience evaluations to identify improvement opportunities and optimize the usability of your digital products.",
+      "points": {
+        "heuristic": {
+          "title": "Heuristic Evaluation",
+          "description": "We analyze the interface according to usability principles."
+        },
+        "usability": {
+          "title": "Usability Testing",
+          "description": "We evaluate how easy it is to use your product."
+        },
+        "cardSorting": {
+          "title": "Card Sorting",
+          "description": "We organize content according to users' logic."
+        },
+        "remoteModerated": {
+          "title": "Moderated Remote Testing",
+          "description": "We guide remote sessions to observe specific tasks."
+        },
+        "remoteUnmoderated": {
+          "title": "Unmoderated Remote Testing",
+          "description": "We observe how users interact without guidance."
+        },
+        "abTesting": {
+          "title": "A/B Testing",
+          "description": "We compare variants to choose the most effective one."
+        },
+        "surveys": {
+          "title": "User Surveys",
+          "description": "We collect opinions and perceptions directly."
+        },
+        "accessibilityAudit": {
+          "title": "Accessibility Audits",
+          "description": "We verify compliance with accessibility standards."
+        },
+        "technical": {
+          "title": "Technical Analysis (Code Evaluation)",
+          "description": "We review code from a UX perspective."
+        },
+        "performance": {
+          "title": "Performance Analysis",
+          "description": "We evaluate speed and response to improve the experience."
+        },
+        "funnel": {
+          "title": "Sales Funnel Analysis",
+          "description": "We detect critical points in user conversion."
+        }
+      }
+    },
+    "research": {
+      "title": "Market Research",
+      "description": "We conduct in-depth studies to understand your audience, competition, and market trends, providing valuable insights for strategic decision-making.",
+      "points": {
+        "interviews": {
+          "title": "User Interviews",
+          "description": "We obtain direct information about needs and expectations."
+        },
+        "surveys": {
+          "title": "Surveys and Questionnaires",
+          "description": "We collect quantitative and qualitative data on a large scale."
+        },
+        "benchmark": {
+          "title": "Benchmark and Competitor Analysis",
+          "description": "We compare your product with others in the market to detect opportunities."
+        },
+        "trends": {
+          "title": "Trend Analysis",
+          "description": "We identify emerging behaviors in your industry."
+        },
+        "focusGroups": {
+          "title": "Focus Groups",
+          "description": "We explore perceptions and opinions in group sessions."
+        },
+        "personas": {
+          "title": "User Persona Development",
+          "description": "We create profiles that represent your key users."
+        },
+        "journey": {
+          "title": "User Journey Map",
+          "description": "We visualize the complete user experience with your product."
+        }
+      }
+    },
+    "seo": {
+      "title": "SEO/SEM",
+      "description": "Strategic optimization and paid search campaigns that generate qualified traffic and improve your visibility in search engines.",
+      "points": {
+        "technicalAudit": {
+          "title": "Technical SEO Audit",
+          "description": "We analyze the technical structure of your site to identify issues that affect positioning."
+        },
+        "keywords": {
+          "title": "Keyword Research",
+          "description": "We identify the most relevant keywords for your business and target audience."
+        },
+        "onPage": {
+          "title": "On-Page Optimization",
+          "description": "We improve titles, meta descriptions, headers, and content to maximize SEO."
+        },
+        "offPage": {
+          "title": "Off-Page Optimization",
+          "description": "We develop link building strategies and online presence to improve domain authority."
+        },
+        "content": {
+          "title": "Content Optimization",
+          "description": "We create and optimize relevant and valuable content that attracts organic traffic."
+        },
+        "local": {
+          "title": "Local SEO",
+          "description": "We improve your visibility in local searches to attract customers in your geographic area."
+        },
+        "googleAds": {
+          "title": "Google Ads Campaigns",
+          "description": "We manage paid search campaigns to get immediate and measurable results."
+        },
+        "display": {
+          "title": "Display Campaigns",
+          "description": "We create visual campaigns on Google's display network to increase brand recognition."
+        },
+        "remarketing": {
+          "title": "Remarketing and Retargeting",
+          "description": "We reconnect with previous visitors to increase conversions."
+        },
+        "reports": {
+          "title": "SEO Analysis and Reports",
+          "description": "We monitor key metrics and generate detailed SEO performance reports."
+        },
+        "speed": {
+          "title": "Speed Optimization",
+          "description": "We improve site loading speed, a key factor for SEO and user experience."
+        },
+        "ecommerce": {
+          "title": "E-commerce SEO",
+          "description": "Specialized strategies for online stores and product page optimization."
+        }
+      }
+    },
+    "web": {
+      "title": "Web Design",
+      "description": "Beautiful, user-centered websites that convert visitors into customers, optimized for performance and conversion.",
+      "points": {
+        "responsive": {
+          "title": "Responsive Design",
+          "description": "Sites that adapt perfectly to all devices: mobile, tablets, and desktop."
+        },
+        "landing": {
+          "title": "Landing Page Design",
+          "description": "Conversion-optimized pages that guide visitors toward specific actions."
+        },
+        "ecommerce": {
+          "title": "E-commerce Design",
+          "description": "Intuitive and sales-optimized online stores with smooth shopping experiences."
+        },
+        "corporate": {
+          "title": "Corporate Portal Design",
+          "description": "Professional websites that reflect your company's identity and values."
+        },
+        "cro": {
+          "title": "Conversion Rate Optimization (CRO)",
+          "description": "We improve design elements to increase conversion rates and ROI."
+        },
+        "integration": {
+          "title": "System Integration",
+          "description": "We connect your website with CRM, payment systems, inventory, and other tools."
+        },
+        "dashboards": {
+          "title": "Dashboard Design",
+          "description": "Intuitive administrative interfaces to manage content and data for your site."
+        },
+        "migration": {
+          "title": "Migration and Redesign",
+          "description": "We modernize existing sites by improving design, functionality, and performance."
+        },
+        "performance": {
+          "title": "Performance Optimization",
+          "description": "We speed up page loading to improve user experience and SEO."
+        },
+        "accessible": {
+          "title": "Accessible Design",
+          "description": "We ensure your site is accessible to all users, meeting WCAG standards."
+        },
+        "prototyping": {
+          "title": "Prototyping and Wireframing",
+          "description": "We create interactive prototypes before development to validate concepts."
+        },
+        "maintenance": {
+          "title": "Maintenance and Support",
+          "description": "We offer ongoing maintenance, updates, and technical support for your website."
+        }
+      }
+    },
+    "retail": {
+      "title": "Retail Marketing",
+      "description": "Digital marketing strategies specialized for the retail sector that drive sales, customer loyalty, and growth for your physical and online business.",
+      "points": {
+        "omnichannel": {
+          "title": "Omnichannel Strategy",
+          "description": "We integrate all your sales channels (physical, online, mobile) for a unified customer experience."
+        },
+        "pos": {
+          "title": "Point of Sale Marketing",
+          "description": "We design strategies and materials to increase sales and engagement in physical stores."
+        },
+        "loyalty": {
+          "title": "Loyalty Programs",
+          "description": "We create reward and membership systems that increase retention and customer value."
+        },
+        "email": {
+          "title": "Email Marketing for Retail",
+          "description": "Segmented campaigns for promotions, new products, abandoned carts, and reactivation."
+        },
+        "seasonal": {
+          "title": "Seasonal Marketing",
+          "description": "Specialized strategies for peak seasons like Black Friday, Christmas, Mother's Day, etc."
+        },
+        "catalogs": {
+          "title": "Digital Catalog Management",
+          "description": "We create and optimize attractive digital catalogs that facilitate purchase decisions."
+        },
+        "proximity": {
+          "title": "Proximity Marketing",
+          "description": "Geolocation and location-based marketing strategies to attract nearby customers."
+        },
+        "behavior": {
+          "title": "Customer Behavior Analysis",
+          "description": "We study purchase patterns and behavior to personalize experiences and offers."
+        },
+        "pricing": {
+          "title": "Dynamic Pricing Strategies",
+          "description": "We optimize prices and promotions based on market data and customer behavior."
+        },
+        "influencers": {
+          "title": "Influencer Marketing for Retail",
+          "description": "Strategic collaborations with influencers to promote products and increase visibility."
+        },
+        "events": {
+          "title": "In-Store Events and Activations",
+          "description": "We design and execute events, launches, and activations that generate traffic and sales."
+        },
+        "content": {
+          "title": "Content Marketing for Retail",
+          "description": "We create relevant content (guides, tutorials, lookbooks) that inspires and educates your customers."
+        }
+      }
+    }
+  },
+  "about": {
+    "title": "What are the benefits of improving",
+    "titleHighlight": "User Experience?",
+    "benefits": {
+      "conversion": "Higher conversion and ROI",
+      "costs": "Reduced development costs",
+      "satisfaction": "Higher user satisfaction and retention",
+      "competitive": "Sustainable competitive advantage",
+      "brand": "Improved brand image"
+    }
+  },
+  "trustedClients": {
+    "title": "We have worked with more than 13 companies throughout Latin America"
+  },
+  "cta": {
+    "title": "Ready to Transform your",
+    "titleHighlight": "Brand?",
+    "description": "Let's talk about how we can help you achieve your goals and create something extraordinary together.",
+    "button": "Let's Talk"
+  },
+  "stats": {
+    "title": "OUR",
+    "titleHighlight": "RESULTS",
+    "description": "We build efficient tools that scale, optimize, and save valuable hours",
+    "projectTitle": "Project",
+    "projectTitleHighlight": "Impact",
+    "stats": {
+      "projects": {
+        "label": "Projects delivered across different industries",
+        "description": "Each project is a success story, transforming ideas into exceptional digital experiences that generate measurable results."
+      },
+      "satisfaction": {
+        "label": "Client Satisfaction",
+        "description": "Each client is our best testimony. We deliver solutions that exceed expectations and generate real value for their businesses."
+      },
+      "innovation": {
+        "label": "AI Innovation",
+        "description": "Constant investment in cutting-edge technology to create intelligent tools that revolutionize the way we work."
+      },
+      "industries": {
+        "label": "Industries",
+        "description": "Diversified experience across multiple sectors, adapting unique solutions for each industry."
+      }
+    }
+  },
+  "blog": {
+    "section": {
+      "badge": "Blog",
+      "title": "Latest",
+      "titleHighlight": "Articles",
+      "description": "Discover our articles on UI/UX design, user experience, and best practices.",
+      "readMore": "Read More",
+      "empty": "No articles available yet.",
+      "viewBlog": "View Blog",
+      "viewAll": "View All Articles"
+    },
+    "page": {
+      "badge": "Blog",
+      "title": "Our",
+      "titleHighlight": "Articles",
+      "description": "Explore our articles on UI/UX design, user experience, and best practices in digital design.",
+      "readMore": "Read More",
+      "allCategories": "All"
+    }
+  },
+  "header": {
+    "menu": {
+      "services": "Services",
+      "explore": "Explore",
+      "agency": "Agency"
+    },
+    "items": {
+      "uiux": "UI/UX Design",
+      "development": "Development",
+      "audit": "Audit",
+      "articles": "Articles",
+      "news": "News",
+      "about": "About Us",
+      "portfolio": "Portfolio",
+      "contact": "Contact"
+    },
+    "descriptions": {
+      "uiux": "Intuitive interfaces",
+      "development": "Scalable sites",
+      "audit": "UX optimization",
+      "articles": "Thoughts",
+      "news": "Current events",
+      "about": "Team and culture",
+      "portfolio": "Success cases",
+      "contact": "Start your project"
+    }
+  },
+  "footer": {
+    "tagline": "Creative solutions that drive results.",
+    "sections": {
+      "quickLinks": "Quick Links",
+      "company": "Company"
+    },
+    "links": {
+      "home": "Home",
+      "services": "Services",
+      "portfolio": "Portfolio",
+      "about": "About",
+      "contact": "Contact Us",
+      "careers": "Careers",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    },
+    "connect": "Connect With Us",
+    "copyright": "All Rights Reserved."
+  },
+  "newsletter": {
+    "title": "Want More Content?",
+    "description": "Subscribe to our newsletter to receive the latest articles on UI/UX design directly in your inbox.",
+    "blogDescription": "Subscribe to our newsletter to receive the latest articles directly in your inbox.",
+    "placeholder": "your@email.com",
+    "subscribe": "Subscribe",
+    "subscribing": "Subscribing...",
+    "success": "Successfully subscribed!",
+    "alreadySubscribed": "Already subscribed",
+    "alreadySubscribedDesc": "This email is already registered in our newsletter",
+    "thanks": "Thanks for subscribing!",
+    "thanksDesc": "We'll send you the latest articles directly to your inbox.",
+    "invalidEmail": "Invalid email",
+    "invalidEmailDesc": "Please enter a valid email",
+    "error": "Error",
+    "errorDesc": "Could not complete subscription. Please try again."
+  },
+  "seo": {
+    "home": {
+      "title": "UI/UX Design Mexico | UX Agency Latin America",
+      "description": "One of the best UI/UX design agencies in Mexico and Latin America. Specialized in interface design, UX audits, market research, information architecture, wireframes, usability testing, user personas, journey mapping, card sorting, A/B testing, and more user experience services.",
+      "keywords": "UI UX design agencies, ui ux design agencies, UI UX design agency, best UI UX design agencies Mexico, UX agencies Latin America, UI UX design agencies Mexico, top UX agencies, UI/UX design agency, UI/UX design, creative agency, digital marketing, web design, branding, web development, Latin America, design agency, UX consulting, user experience consulting, UX audit, user experience audit, heuristic evaluations, heuristic UX evaluation, market research, information architecture, wireframes, interface design, usability testing, user personas, journey mapping, card sorting, A/B testing, focus groups, competitor analysis, benchmark, responsive design, mobile applications, web accessibility, design systems, UX writing, moderated remote testing, unmoderated remote testing, accessibility audits, technical UX analysis, performance analysis, sales funnel analysis, user interviews, user surveys, questionnaires, trend analysis"
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Articles on UI/UX design, UX audits, market research, information architecture, usability testing, and more user experience topics.",
+      "keywords": "UI UX design blog, UX articles, user experience blog, interface design articles, UX audits blog, market research blog, information architecture articles, usability testing blog, user personas blog, UX writing articles"
+    }
+  }
+}
+

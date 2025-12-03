@@ -31,29 +31,43 @@ const Sitemap = () => {
         const baseUrl = 'https://rium.com.mx'
         const today = new Date().toISOString().split('T')[0]
 
-        // URLs estáticas
+        // URLs estáticas - generar para ambos idiomas
         const staticUrls = [
-          { loc: '/', priority: '1.0', changefreq: 'weekly' },
-          { loc: '/contact', priority: '0.8', changefreq: 'monthly' },
-          { loc: '/blog', priority: '0.8', changefreq: 'weekly' },
-          { loc: '/noticias', priority: '0.8', changefreq: 'weekly' },
-          { loc: '/project/social-media-app', priority: '0.7', changefreq: 'monthly' },
-          { loc: '/project/fintech-dashboard', priority: '0.7', changefreq: 'monthly' },
-          { loc: '/project/digital-marketing-agency-site', priority: '0.7', changefreq: 'monthly' },
+          { loc: '/es', priority: '1.0', changefreq: 'weekly', lang: 'es' },
+          { loc: '/en', priority: '1.0', changefreq: 'weekly', lang: 'en' },
+          { loc: '/es/contact', priority: '0.8', changefreq: 'monthly', lang: 'es' },
+          { loc: '/en/contact', priority: '0.8', changefreq: 'monthly', lang: 'en' },
+          { loc: '/es/blog', priority: '0.8', changefreq: 'weekly', lang: 'es' },
+          { loc: '/en/blog', priority: '0.8', changefreq: 'weekly', lang: 'en' },
+          { loc: '/es/noticias', priority: '0.8', changefreq: 'weekly', lang: 'es' },
+          { loc: '/en/noticias', priority: '0.8', changefreq: 'weekly', lang: 'en' },
+          { loc: '/es/project/social-media-app', priority: '0.7', changefreq: 'monthly', lang: 'es' },
+          { loc: '/en/project/social-media-app', priority: '0.7', changefreq: 'monthly', lang: 'en' },
+          { loc: '/es/project/fintech-dashboard', priority: '0.7', changefreq: 'monthly', lang: 'es' },
+          { loc: '/en/project/fintech-dashboard', priority: '0.7', changefreq: 'monthly', lang: 'en' },
+          { loc: '/es/project/digital-marketing-agency-site', priority: '0.7', changefreq: 'monthly', lang: 'es' },
+          { loc: '/en/project/digital-marketing-agency-site', priority: '0.7', changefreq: 'monthly', lang: 'en' },
         ]
 
-        // Generar XML
+        // Generar XML con namespace para hreflang
         let xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
 `
 
-        // Agregar URLs estáticas
+        // Agregar URLs estáticas con hreflang
         staticUrls.forEach((url) => {
+          const alternateLang = url.lang === 'es' ? 'en' : 'es';
+          const alternateUrl = url.loc.replace(`/${url.lang}`, `/${alternateLang}`);
+          
           xml += `  <url>
     <loc>${baseUrl}${url.loc}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${url.changefreq}</changefreq>
     <priority>${url.priority}</priority>
+    <xhtml:link rel="alternate" hreflang="${url.lang}" href="${baseUrl}${url.loc}"/>
+    <xhtml:link rel="alternate" hreflang="${alternateLang}" href="${baseUrl}${alternateUrl}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/es"/>
   </url>
 `
         })
@@ -93,11 +107,30 @@ const Sitemap = () => {
               changefreq = daysSinceUpdate < 90 ? 'monthly' : 'yearly'
             }
             
+            // Generar URLs para ambos idiomas
+            const esUrl = `${baseUrl}/es${path}/${slug}`;
+            const enUrl = `${baseUrl}/en${path}/${slug}`;
+            
+            // URL en español
             xml += `  <url>
-    <loc>${baseUrl}${path}/${slug}</loc>
+    <loc>${esUrl}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="${esUrl}"/>
+    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${esUrl}"/>
+  </url>
+`
+            // URL en inglés
+            xml += `  <url>
+    <loc>${enUrl}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="${esUrl}"/>
+    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${esUrl}"/>
   </url>
 `
           })

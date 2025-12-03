@@ -1,15 +1,25 @@
 import React, { memo, useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useParams, Navigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Toaster } from '@/components/ui/toaster';
 import CustomCursor from '@/components/CustomCursor';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import ThemeProvider from '@/components/ThemeProvider';
+import { useLanguageFromUrl } from '@/hooks/useLanguageFromUrl';
 
 const Layout = memo(() => {
   const location = useLocation();
-  const isHome = location.pathname === '/';
+  const { lang } = useParams();
+  useLanguageFromUrl(); // Hook para sincronizar idioma con URL
+  
+  // Si no hay prefijo de idioma, redirigir a /es
+  if (!lang || (lang !== 'es' && lang !== 'en')) {
+    const pathWithoutLang = location.pathname;
+    return <Navigate to={`/es${pathWithoutLang}`} replace />;
+  }
+  
+  const isHome = location.pathname === `/${lang}` || location.pathname === `/${lang}/`;
 
   // Scroll to top when route changes
   useEffect(() => {

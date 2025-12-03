@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import App from './App.jsx'
 import ErrorBoundary from './components/ErrorBoundary'
+import './i18n/config' // Inicializar i18n
 import './index.css'
 
 // Registrar Service Worker

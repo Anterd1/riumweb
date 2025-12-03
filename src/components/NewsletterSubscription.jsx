@@ -3,17 +3,22 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ArrowRight, Loader2, Check } from 'lucide-react'
 import { toast } from '@/components/ui/use-toast'
+import { useTranslation } from 'react-i18next'
 import { getSupabase } from '@/lib/supabase'
 
 const NewsletterSubscription = memo(({ 
-  title = "¿Quieres Más Contenido?",
-  description = "Suscríbete a nuestro newsletter para recibir los últimos artículos directamente en tu correo.",
+  title,
+  description,
   source = "home",
   className = ""
 }) => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [subscribed, setSubscribed] = useState(false)
+  
+  const finalTitle = title || t('newsletter.title');
+  const finalDescription = description || (source === 'blog' ? t('newsletter.blogDescription') : t('newsletter.description'));
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -24,8 +29,8 @@ const NewsletterSubscription = memo(({
     if (!email || !emailRegex.test(email)) {
       console.log('❌ Email inválido')
       toast({
-        title: 'Email inválido',
-        description: 'Por favor ingresa un email válido',
+        title: t('newsletter.invalidEmail'),
+        description: t('newsletter.invalidEmailDesc'),
         variant: 'destructive',
       })
       return
@@ -65,8 +70,8 @@ const NewsletterSubscription = memo(({
         if (error.code === '23505') { // Unique violation
           console.log('⚠️ Email duplicado')
           toast({
-            title: 'Ya estás suscrito',
-            description: 'Este email ya está registrado en nuestro newsletter',
+            title: t('newsletter.alreadySubscribed'),
+            description: t('newsletter.alreadySubscribedDesc'),
           })
           setSubscribed(true)
           setEmail('')
@@ -92,8 +97,8 @@ const NewsletterSubscription = memo(({
       }
 
       toast({
-        title: '¡Gracias por suscribirte!',
-        description: 'Te enviaremos los últimos artículos directamente a tu correo.',
+        title: t('newsletter.thanks'),
+        description: t('newsletter.thanksDesc'),
       })
       
       setSubscribed(true)
@@ -107,8 +112,8 @@ const NewsletterSubscription = memo(({
     } catch (error) {
       console.error('Error suscribiendo al newsletter:', error)
       toast({
-        title: 'Error',
-        description: error.message || 'No se pudo completar la suscripción. Por favor intenta nuevamente.',
+        title: t('newsletter.error'),
+        description: error.message || t('newsletter.errorDesc'),
         variant: 'destructive',
       })
     } finally {
@@ -119,16 +124,16 @@ const NewsletterSubscription = memo(({
   return (
     <div className={`bg-gray-50 dark:bg-[#1E1E2A] rounded-3xl p-8 md:p-12 text-center border border-gray-200 dark:border-white/10 ${className}`}>
       <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 uppercase text-gray-900 dark:text-white">
-        {title}
+        {finalTitle}
       </h2>
       <p className="text-lg md:text-xl text-gray-700 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-        {description}
+        {finalDescription}
       </p>
       
       {subscribed ? (
         <div className="flex items-center justify-center gap-2 text-green-600 dark:text-green-400">
           <Check className="h-5 w-5" />
-          <span className="text-lg font-semibold">¡Suscrito exitosamente!</span>
+          <span className="text-lg font-semibold">{t('newsletter.success')}</span>
         </div>
       ) : (
         <form 
@@ -142,7 +147,7 @@ const NewsletterSubscription = memo(({
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu@email.com"
+              placeholder={t('newsletter.placeholder')}
               required
               disabled={loading}
               className="flex-1 bg-white dark:bg-white/10 border-gray-300 dark:border-white/20 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:bg-white dark:focus:bg-white/20 focus:border-accent-purple dark:focus:border-white/30"
@@ -160,11 +165,11 @@ const NewsletterSubscription = memo(({
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Suscribiendo...
+                  {t('newsletter.subscribing')}
                 </>
               ) : (
                 <>
-                  Suscribirse
+                  {t('newsletter.subscribe')}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </>
               )}

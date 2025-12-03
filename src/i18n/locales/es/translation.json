@@ -1,0 +1,462 @@
+{
+  "hero": {
+    "title1": "Somos la agencia líder",
+    "title2": "de diseño UI/UX en",
+    "title3": "Latinoamérica",
+    "description1": "Mejoramos productos digitales que no convierten.",
+    "description2": "Diseñamos interfaces que aumentan ventas, reducen costos de desarrollo",
+    "description3": "y mejoran la satisfacción de tus usuarios.",
+    "cta": "Hablemos",
+    "viewWork": "Ver Nuestro Trabajo"
+  },
+  "services": {
+    "title": "Nuestros",
+    "titleHighlight": "Servicios",
+    "description": "Especialistas en diseño UI/UX, auditorías de experiencia de usuario, investigación de mercado y consultoría UX. Ofrecemos servicios completos de diseño de interfaces, pruebas de usabilidad, arquitectura de información, wireframes, user personas, journey mapping y más para empresas en México y Latinoamérica.",
+    "filters": {
+      "uiux": "Diseño UI/UX",
+      "audits": "Auditorías UX",
+      "research": "Investigación",
+      "seo": "SEO/SEM",
+      "web": "Diseño Web",
+      "retail": "Retail Marketing"
+    },
+    "uiux": {
+      "title": "Diseño UI/UX",
+      "description": "Creamos experiencias de usuario excepcionales que combinan diseño intuitivo con funcionalidad estratégica, centrándonos en la usabilidad y la satisfacción del usuario.",
+      "points": {
+        "infoArchitecture": {
+          "title": "Arquitectura de la información",
+          "description": "Organizamos el contenido para una navegación intuitiva."
+        },
+        "wireframes": {
+          "title": "Diseño de Wireframes",
+          "description": "Esquematizamos pantallas para definir estructura y funcionalidad."
+        },
+        "ui": {
+          "title": "Diseño de interfaz de usuario (UI)",
+          "description": "Creamos elementos visuales atractivos y funcionales."
+        },
+        "interactions": {
+          "title": "Diseño de interacciones",
+          "description": "Definimos cómo los usuarios interactúan con la interfaz."
+        },
+        "responsive": {
+          "title": "Diseño responsivo",
+          "description": "Adaptamos el diseño a distintos dispositivos y resoluciones."
+        },
+        "mobile": {
+          "title": "Diseño de aplicaciones móviles",
+          "description": "Creamos experiencias optimizadas para móviles."
+        },
+        "web": {
+          "title": "Diseño web",
+          "description": "Diseñamos interfaces modernas y efectivas para sitios web."
+        },
+        "accessibility": {
+          "title": "Accesibilidad",
+          "description": "Garantizamos que el producto sea usable por todas las personas."
+        },
+        "designSystem": {
+          "title": "Creación de sistemas de diseño",
+          "description": "Unificamos estilos, componentes y reglas visuales en una guía."
+        },
+        "graphic": {
+          "title": "Diseño gráfico",
+          "description": "Trabajamos el aspecto visual para lograr impacto y coherencia."
+        },
+        "uxWriting": {
+          "title": "UX Writing",
+          "description": "Obtenemos información directa sobre necesidades y expectativas."
+        }
+      }
+    },
+    "audits": {
+      "title": "Auditorías UX",
+      "description": "Realizamos evaluaciones exhaustivas de experiencia de usuario para identificar oportunidades de mejora y optimizar la usabilidad de tus productos digitales.",
+      "points": {
+        "heuristic": {
+          "title": "Evaluación heurística",
+          "description": "Analizamos la interfaz según principios de usabilidad."
+        },
+        "usability": {
+          "title": "Pruebas de usabilidad",
+          "description": "Evaluamos qué tan fácil es usar tu producto."
+        },
+        "cardSorting": {
+          "title": "Card Sorting",
+          "description": "Organizamos contenido según la lógica de los usuarios."
+        },
+        "remoteModerated": {
+          "title": "Pruebas remotas moderadas",
+          "description": "Guiamos sesiones remotas para observar tareas específicas."
+        },
+        "remoteUnmoderated": {
+          "title": "Pruebas remotas no moderadas",
+          "description": "Observamos cómo los usuarios interactúan sin guía."
+        },
+        "abTesting": {
+          "title": "Pruebas A/B",
+          "description": "Comparamos variantes para elegir la más efectiva."
+        },
+        "surveys": {
+          "title": "Encuestas a usuarios",
+          "description": "Recogemos opiniones y percepciones directamente."
+        },
+        "accessibilityAudit": {
+          "title": "Auditorías de accesibilidad",
+          "description": "Verificamos el cumplimiento con estándares de accesibilidad."
+        },
+        "technical": {
+          "title": "Análisis técnico (Evaluación de código)",
+          "description": "Revisamos el código desde la perspectiva UX."
+        },
+        "performance": {
+          "title": "Análisis de rendimiento (performance)",
+          "description": "Evaluamos velocidad y respuesta para mejorar la experiencia."
+        },
+        "funnel": {
+          "title": "Análisis del embudo de ventas",
+          "description": "Detectamos puntos críticos en la conversión de usuarios."
+        }
+      }
+    },
+    "research": {
+      "title": "Investigación de mercado",
+      "description": "Realizamos estudios profundos para entender a tu audiencia, competencia y tendencias del mercado, proporcionando insights valiosos para la toma de decisiones estratégicas.",
+      "points": {
+        "interviews": {
+          "title": "Entrevistas de usuarios",
+          "description": "Obtenemos información directa sobre necesidades y expectativas."
+        },
+        "surveys": {
+          "title": "Encuestas y cuestionarios",
+          "description": "Recogemos datos cuantitativos y cualitativos a gran escala."
+        },
+        "benchmark": {
+          "title": "Benchmark y análisis de competidores",
+          "description": "Comparamos tu producto con otros del mercado para detectar oportunidades."
+        },
+        "trends": {
+          "title": "Análisis de tendencias",
+          "description": "Identificamos comportamientos emergentes en tu industria."
+        },
+        "focusGroups": {
+          "title": "Focus Groups",
+          "description": "Exploramos percepciones y opiniones en sesiones grupales."
+        },
+        "personas": {
+          "title": "Desarrollo de User Personas",
+          "description": "Creamos perfiles que representan a tus usuarios clave."
+        },
+        "journey": {
+          "title": "Mapeo del User Journey Map",
+          "description": "Visualizamos la experiencia completa del usuario con tu producto."
+        }
+      }
+    },
+    "seo": {
+      "title": "SEO/SEM",
+      "description": "Optimización estratégica y campañas de búsqueda pagada que generan tráfico calificado y mejoran tu visibilidad en los motores de búsqueda.",
+      "points": {
+        "technicalAudit": {
+          "title": "Auditoría SEO técnica",
+          "description": "Analizamos la estructura técnica de tu sitio para identificar problemas que afectan el posicionamiento."
+        },
+        "keywords": {
+          "title": "Investigación de palabras clave",
+          "description": "Identificamos las palabras clave más relevantes para tu negocio y audiencia objetivo."
+        },
+        "onPage": {
+          "title": "Optimización On-Page",
+          "description": "Mejoramos títulos, meta descripciones, encabezados y contenido para maximizar el SEO."
+        },
+        "offPage": {
+          "title": "Optimización Off-Page",
+          "description": "Desarrollamos estrategias de link building y presencia en línea para mejorar la autoridad del dominio."
+        },
+        "content": {
+          "title": "Optimización de contenido",
+          "description": "Creamos y optimizamos contenido relevante y valioso que atrae tráfico orgánico."
+        },
+        "local": {
+          "title": "SEO local",
+          "description": "Mejoramos tu visibilidad en búsquedas locales para atraer clientes en tu área geográfica."
+        },
+        "googleAds": {
+          "title": "Campañas Google Ads",
+          "description": "Gestionamos campañas de búsqueda pagada para obtener resultados inmediatos y medibles."
+        },
+        "display": {
+          "title": "Campañas de Display",
+          "description": "Creamos campañas visuales en la red de display de Google para aumentar el reconocimiento de marca."
+        },
+        "remarketing": {
+          "title": "Remarketing y Retargeting",
+          "description": "Reconectamos con visitantes anteriores para aumentar las conversiones."
+        },
+        "reports": {
+          "title": "Análisis y reportes SEO",
+          "description": "Monitoreamos métricas clave y generamos reportes detallados del rendimiento SEO."
+        },
+        "speed": {
+          "title": "Optimización de velocidad",
+          "description": "Mejoramos la velocidad de carga del sitio, factor clave para el SEO y la experiencia del usuario."
+        },
+        "ecommerce": {
+          "title": "SEO para e-commerce",
+          "description": "Estrategias especializadas para tiendas en línea y optimización de páginas de producto."
+        }
+      }
+    },
+    "web": {
+      "title": "Diseño Web",
+      "description": "Sitios web hermosos y centrados en el usuario que convierten visitantes en clientes, optimizados para rendimiento y conversión.",
+      "points": {
+        "responsive": {
+          "title": "Diseño responsive",
+          "description": "Sitios que se adaptan perfectamente a todos los dispositivos: móviles, tablets y desktop."
+        },
+        "landing": {
+          "title": "Diseño de landing pages",
+          "description": "Páginas optimizadas para conversión que guían a los visitantes hacia acciones específicas."
+        },
+        "ecommerce": {
+          "title": "Diseño de e-commerce",
+          "description": "Tiendas en línea intuitivas y optimizadas para ventas con experiencia de compra fluida."
+        },
+        "corporate": {
+          "title": "Diseño de portales corporativos",
+          "description": "Sitios web profesionales que reflejan la identidad y valores de tu empresa."
+        },
+        "cro": {
+          "title": "Optimización de conversión (CRO)",
+          "description": "Mejoramos elementos de diseño para aumentar las tasas de conversión y ROI."
+        },
+        "integration": {
+          "title": "Integración de sistemas",
+          "description": "Conectamos tu sitio web con CRM, sistemas de pago, inventario y otras herramientas."
+        },
+        "dashboards": {
+          "title": "Diseño de dashboards",
+          "description": "Interfaces administrativas intuitivas para gestionar contenido y datos de tu sitio."
+        },
+        "migration": {
+          "title": "Migración y rediseño",
+          "description": "Modernizamos sitios existentes mejorando diseño, funcionalidad y rendimiento."
+        },
+        "performance": {
+          "title": "Optimización de rendimiento",
+          "description": "Aceleramos la carga de páginas para mejorar la experiencia del usuario y SEO."
+        },
+        "accessible": {
+          "title": "Diseño accesible",
+          "description": "Garantizamos que tu sitio sea accesible para todos los usuarios, cumpliendo estándares WCAG."
+        },
+        "prototyping": {
+          "title": "Prototipado y wireframing",
+          "description": "Creamos prototipos interactivos antes del desarrollo para validar conceptos."
+        },
+        "maintenance": {
+          "title": "Mantenimiento y soporte",
+          "description": "Ofrecemos mantenimiento continuo, actualizaciones y soporte técnico para tu sitio web."
+        }
+      }
+    },
+    "retail": {
+      "title": "Retail Marketing",
+      "description": "Estrategias de marketing digital especializadas para el sector retail que impulsan ventas, fidelización de clientes y crecimiento de tu negocio físico y online.",
+      "points": {
+        "omnichannel": {
+          "title": "Estrategia omnicanal",
+          "description": "Integramos todos tus canales de venta (físico, online, móvil) para una experiencia unificada del cliente."
+        },
+        "pos": {
+          "title": "Marketing en punto de venta",
+          "description": "Diseñamos estrategias y materiales para aumentar ventas y engagement en tiendas físicas."
+        },
+        "loyalty": {
+          "title": "Programas de fidelización",
+          "description": "Creamos sistemas de recompensas y membresías que aumentan la retención y el valor del cliente."
+        },
+        "email": {
+          "title": "Email marketing para retail",
+          "description": "Campañas segmentadas para promociones, nuevos productos, carritos abandonados y reactivación."
+        },
+        "seasonal": {
+          "title": "Marketing de temporada",
+          "description": "Estrategias especializadas para temporadas altas como Black Friday, Navidad, Día de las Madres, etc."
+        },
+        "catalogs": {
+          "title": "Gestión de catálogos digitales",
+          "description": "Creamos y optimizamos catálogos digitales atractivos que facilitan la decisión de compra."
+        },
+        "proximity": {
+          "title": "Marketing de proximidad",
+          "description": "Estrategias de geolocalización y marketing basado en ubicación para atraer clientes cercanos."
+        },
+        "behavior": {
+          "title": "Análisis de comportamiento del cliente",
+          "description": "Estudiamos patrones de compra y comportamiento para personalizar experiencias y ofertas."
+        },
+        "pricing": {
+          "title": "Estrategias de pricing dinámico",
+          "description": "Optimizamos precios y promociones basados en datos de mercado y comportamiento del cliente."
+        },
+        "influencers": {
+          "title": "Marketing de influencers para retail",
+          "description": "Colaboraciones estratégicas con influencers para promocionar productos y aumentar visibilidad."
+        },
+        "events": {
+          "title": "Eventos y activaciones en tienda",
+          "description": "Diseñamos y ejecutamos eventos, lanzamientos y activaciones que generan tráfico y ventas."
+        },
+        "content": {
+          "title": "Marketing de contenido para retail",
+          "description": "Creamos contenido relevante (guías, tutoriales, lookbooks) que inspira y educa a tus clientes."
+        }
+      }
+    }
+  },
+  "about": {
+    "title": "¿Cuales son los beneficios de mejorar la",
+    "titleHighlight": "Experiencia del usuario?",
+    "benefits": {
+      "conversion": "Mayor conversión y ROI",
+      "costs": "Reducción de costos de desarrollo",
+      "satisfaction": "Mayor satisfacción y retención de usuarios",
+      "competitive": "Ventaja competitiva sostenible",
+      "brand": "Mejora la imagen de marca"
+    }
+  },
+  "trustedClients": {
+    "title": "Hemos trabajado con más de 13 empresas en todo latinoamerica"
+  },
+  "cta": {
+    "title": "¿Listo para Transformar tu",
+    "titleHighlight": "Marca?",
+    "description": "Hablemos sobre cómo podemos ayudarte a alcanzar tus objetivos y crear algo extraordinario juntos.",
+    "button": "Hablemos"
+  },
+  "stats": {
+    "title": "NUESTROS",
+    "titleHighlight": "RESULTADOS",
+    "description": "Construimos herramientas eficientes, que escalan, optimiza, y ahorra horas valiosas",
+    "projectTitle": "Impacto del",
+    "projectTitleHighlight": "Proyecto",
+    "stats": {
+      "projects": {
+        "label": "Proyectos entregados en diferentes industrias",
+        "description": "Cada proyecto es una historia de éxito, transformando ideas en experiencias digitales excepcionales que generan resultados medibles."
+      },
+      "satisfaction": {
+        "label": "Satisfacción de Clientes",
+        "description": "Cada cliente es nuestro mejor testimonio. Entregamos soluciones que superan expectativas y generan valor real para sus negocios."
+      },
+      "innovation": {
+        "label": "Innovación en IA",
+        "description": "Inversión constante en tecnología de vanguardia para crear herramientas inteligentes que revolucionan la forma de trabajar."
+      },
+      "industries": {
+        "label": "Industrias",
+        "description": "Experiencia diversificada en múltiples sectores, adaptando soluciones únicas para cada industria."
+      }
+    }
+  },
+  "blog": {
+    "section": {
+      "badge": "Blog",
+      "title": "Últimos",
+      "titleHighlight": "Artículos",
+      "description": "Descubre nuestros artículos sobre diseño UI/UX, experiencia de usuario y mejores prácticas.",
+      "readMore": "Leer más",
+      "empty": "No hay artículos disponibles aún.",
+      "viewBlog": "Ver Blog",
+      "viewAll": "Ver todos los artículos"
+    },
+    "page": {
+      "badge": "Blog",
+      "title": "Nuestros",
+      "titleHighlight": "Artículos",
+      "description": "Explora nuestros artículos sobre diseño UI/UX, experiencia de usuario, y mejores prácticas en diseño digital.",
+      "readMore": "Leer más",
+      "allCategories": "Todos"
+    }
+  },
+  "header": {
+    "menu": {
+      "services": "Servicios",
+      "explore": "Explora",
+      "agency": "Agencia"
+    },
+    "items": {
+      "uiux": "Diseño UI/UX",
+      "development": "Desarrollo",
+      "audit": "Auditoría",
+      "articles": "Artículos",
+      "news": "Noticias",
+      "about": "Nosotros",
+      "portfolio": "Portafolio",
+      "contact": "Contacto"
+    },
+    "descriptions": {
+      "uiux": "Interfaces intuitivas",
+      "development": "Sitios escalables",
+      "audit": "Optimización UX",
+      "articles": "Pensamiento",
+      "news": "Actualidad",
+      "about": "Equipo y cultura",
+      "portfolio": "Casos de éxito",
+      "contact": "Inicia tu proyecto"
+    }
+  },
+  "footer": {
+    "tagline": "Creative solutions that drive results.",
+    "sections": {
+      "quickLinks": "Quick Links",
+      "company": "Company"
+    },
+    "links": {
+      "home": "Home",
+      "services": "Services",
+      "portfolio": "Portfolio",
+      "about": "About",
+      "contact": "Contact Us",
+      "careers": "Careers",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    },
+    "connect": "Connect With Us",
+    "copyright": "All Rights Reserved."
+  },
+  "newsletter": {
+    "title": "¿Quieres Más Contenido?",
+    "description": "Suscríbete a nuestro newsletter para recibir los últimos artículos sobre diseño UI/UX directamente en tu correo.",
+    "blogDescription": "Suscríbete a nuestro newsletter para recibir los últimos artículos directamente en tu correo.",
+    "placeholder": "tu@email.com",
+    "subscribe": "Suscribirse",
+    "subscribing": "Suscribiendo...",
+    "success": "¡Suscrito exitosamente!",
+    "alreadySubscribed": "Ya estás suscrito",
+    "alreadySubscribedDesc": "Este email ya está registrado en nuestro newsletter",
+    "thanks": "¡Gracias por suscribirte!",
+    "thanksDesc": "Te enviaremos los últimos artículos directamente a tu correo.",
+    "invalidEmail": "Email inválido",
+    "invalidEmailDesc": "Por favor ingresa un email válido",
+    "error": "Error",
+    "errorDesc": "No se pudo completar la suscripción. Por favor intenta nuevamente."
+  },
+  "seo": {
+    "home": {
+      "title": "Diseño UI/UX México | Agencia UX Latinoamérica",
+      "description": "Una de las mejores agencias de diseño UI/UX en México y Latinoamérica. Especializada en diseño de interfaces, auditorías UX, investigación de mercado, arquitectura de información, wireframes, pruebas de usabilidad, user personas, journey mapping, card sorting, pruebas A/B y más servicios de experiencia de usuario.",
+      "keywords": "agencias de diseño UI UX, agencias de diseño ui ux, agencia de diseño UI UX, mejores agencias diseño UI UX México, agencias UX Latinoamérica, agencias diseño UI UX México, top agencias UX, agencia de diseño UI/UX, diseño UI/UX, agencia creativa, marketing digital, diseño web, branding, desarrollo web, Latinoamérica, agencia de diseño, consultoría UX, consultoría experiencia de usuario, auditoría UX, auditoría experiencia de usuario, evaluaciones heurísticas, evaluación heurística UX, investigación de mercado, arquitectura de información, wireframes, diseño de interfaces, pruebas de usabilidad, user personas, journey mapping, card sorting, pruebas A/B, focus groups, análisis de competidores, benchmark, diseño responsivo, aplicaciones móviles, accesibilidad web, sistemas de diseño, UX writing, pruebas remotas moderadas, pruebas remotas no moderadas, auditorías de accesibilidad, análisis técnico UX, análisis de rendimiento, análisis de embudo de ventas, entrevistas de usuarios, encuestas usuarios, cuestionarios, análisis de tendencias"
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Artículos sobre diseño UI/UX, auditorías UX, investigación de mercado, arquitectura de información, pruebas de usabilidad y más temas de experiencia de usuario.",
+      "keywords": "blog diseño UI/UX, artículos UX, blog experiencia de usuario, artículos diseño interfaces, blog auditorías UX, blog investigación mercado, artículos arquitectura información, blog pruebas usabilidad, blog user personas, artículos UX writing"
+    }
+  }
+}
+

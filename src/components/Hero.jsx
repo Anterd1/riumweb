@@ -3,11 +3,13 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import AnimatedHeroBackground from '@/components/AnimatedHeroBackground';
 import MaskedText from '@/components/MaskedText';
 
 const Hero = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   
   const handleCTAClick = () => {
     navigate('/contact');
@@ -45,9 +47,9 @@ const Hero = () => {
           <div className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-[1.1] text-white uppercase tracking-tight">
             <MaskedText delay={0.2}>
               {[
-                "Somos la agencia líder",
-                "de diseño UI/UX en",
-                <span key="latam" className="text-accent-purple">Latinoamérica</span>
+                t('hero.title1'),
+                t('hero.title2'),
+                <span key="latam" className="text-accent-purple">{t('hero.title3')}</span>
               ]}
             </MaskedText>
           </div>
@@ -60,9 +62,9 @@ const Hero = () => {
             <p
               className="text-xl md:text-2xl text-gray-100 mb-12 max-w-3xl mx-auto leading-relaxed" // Centered on desktop - Más claro para mejor legibilidad
             >
-              Mejoramos productos digitales que no convierten.<br className="hidden md:block" />
-              Diseñamos interfaces que aumentan ventas, reducen costos de desarrollo<br className="hidden md:block" />
-              y mejoran la satisfacción de tus usuarios.
+              {t('hero.description1')}<br className="hidden md:block" />
+              {t('hero.description2')}<br className="hidden md:block" />
+              {t('hero.description3')}
             </p>
           </motion.div>
 
@@ -77,7 +79,7 @@ const Hero = () => {
               size="lg"
               className="bg-accent-purple hover:bg-accent-purple/90 text-white font-bold px-8 py-6 text-lg rounded-full group"
             >
-              Hablemos
+              {t('hero.cta')}
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button
@@ -86,7 +88,7 @@ const Hero = () => {
               variant="outline"
               className="border-2 border-accent-purple/40 hover:bg-accent-purple/10 text-white px-8 py-6 text-lg rounded-full hidden"
             >
-              Ver Nuestro Trabajo
+              {t('hero.viewWork')}
             </Button>
           </motion.div>
         </div>

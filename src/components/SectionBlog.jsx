@@ -2,12 +2,14 @@ import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useBlogPosts } from '@/hooks/useBlogPosts';
 import OptimizedImage from '@/components/OptimizedImage';
 import { Button } from '@/components/ui/button';
 import SectionAnimator from '@/components/SectionAnimator';
 
 const SectionBlog = React.memo(() => {
+  const { t, i18n } = useTranslation();
   const { posts, loading } = useBlogPosts(null, 'article'); // Solo artículos, no noticias
   
   // Obtener solo los últimos 3 artículos (memoizado)
@@ -16,7 +18,7 @@ const SectionBlog = React.memo(() => {
   const formatDate = (dateString) => {
     if (!dateString) return '';
     const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', {
+    return date.toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'es-ES', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -40,13 +42,13 @@ const SectionBlog = React.memo(() => {
           {/* Header */}
           <div className="text-center mb-16">
             <div className="inline-block px-4 py-1.5 border border-gray-300 dark:border-white/20 rounded-full text-sm mb-4 uppercase text-gray-700 dark:text-white">
-              Blog
+              {t('blog.section.badge')}
             </div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 uppercase text-gray-900 dark:text-white">
-              Últimos <span className="text-accent-purple">Artículos</span>
+              {t('blog.section.title')} <span className="text-accent-purple">{t('blog.section.titleHighlight')}</span>
             </h2>
             <p className="text-xl text-gray-700 dark:text-gray-400 max-w-2xl mx-auto">
-              Descubre nuestros artículos sobre diseño UI/UX, experiencia de usuario y mejores prácticas.
+              {t('blog.section.description')}
             </p>
           </div>
 
@@ -134,7 +136,7 @@ const SectionBlog = React.memo(() => {
 
                         {/* Read More */}
                         <div className="w-full text-accent-purple hover:text-white hover:bg-accent-purple/10 rounded-full group/btn flex items-center justify-center py-2 px-4 transition-colors">
-                          Leer más
+                          {t('blog.section.readMore')}
                           <ArrowRight 
                             size={16} 
                             className="ml-2 group-hover/btn:translate-x-1 transition-transform" 
@@ -151,14 +153,14 @@ const SectionBlog = React.memo(() => {
           {/* Empty State */}
           {!loading && latestPosts.length === 0 && (
             <div className="text-center py-16">
-              <p className="text-gray-700 dark:text-gray-400 text-xl mb-6">No hay artículos disponibles aún.</p>
+              <p className="text-gray-700 dark:text-gray-400 text-xl mb-6">{t('blog.section.empty')}</p>
               <Button
                 asChild
                 variant="outline"
                 className="border-gray-300 dark:border-white/10 text-gray-900 dark:text-white"
               >
                 <Link to="/blog">
-                  Ver Blog
+                  {t('blog.section.viewBlog')}
                   <ArrowRight className="ml-2" size={18} />
                 </Link>
               </Button>
@@ -174,7 +176,7 @@ const SectionBlog = React.memo(() => {
                 className="bg-accent-purple hover:bg-accent-purple/90 text-white font-bold px-8 py-6 text-lg rounded-full"
               >
                 <Link to="/blog">
-                  Ver todos los artículos
+                  {t('blog.section.viewAll')}
                   <ArrowRight className="ml-2" size={20} />
                 </Link>
               </Button>

@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const SEO = React.memo(({
   title,
@@ -12,15 +13,37 @@ const SEO = React.memo(({
   siteName = 'rium - Agencia de diseño UI/UX',
 }) => {
   const location = useLocation();
+  const { lang } = useParams();
+  const { i18n } = useTranslation();
+  
+  // Detectar idioma actual desde URL o i18n
+  const currentLang = lang || (location.pathname.startsWith('/en') ? 'en' : 'es');
+  const locale = currentLang === 'en' ? 'en_US' : 'es_ES';
   
   // Limpiar URL de parámetros de query problemáticos y rutas que no deberían existir (memoizado)
   const cleanPathname = useMemo(() => {
     let path = location.pathname;
     if (path.startsWith('/tienda')) {
       path = '/';
-  }
+    }
     return path;
   }, [location.pathname]);
+  
+  // Generar path sin prefijo de idioma para alternativas
+  const pathWithoutLang = useMemo(() => {
+    const segments = cleanPathname.split('/').filter(Boolean);
+    // Remover el primer segmento si es 'es' o 'en'
+    if (segments[0] === 'es' || segments[0] === 'en') {
+      segments.shift();
+    }
+    return '/' + segments.join('/') || '/';
+  }, [cleanPathname]);
+  
+  // URLs alternativas para hreflang
+  const alternateUrls = useMemo(() => ({
+    es: `https://rium.com.mx/es${pathWithoutLang}`,
+    en: `https://rium.com.mx/en${pathWithoutLang}`,
+  }), [pathWithoutLang]);
   
   const currentUrl = useMemo(() => url || `https://rium.com.mx${cleanPathname}`, [url, cleanPathname]);
   const fullImageUrl = useMemo(() => image.startsWith('http') ? image : `https://rium.com.mx${image}`, [image]);
@@ -500,13 +523,18 @@ const SEO = React.memo(({
 
   return (
     <>
-    <Helmet htmlAttributes={{ lang: 'es' }}>
+    <Helmet htmlAttributes={{ lang: currentLang }}>
       {/* Basic Meta Tags */}
       <title>{optimizedTitle}</title>
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
       <meta name="author" content={siteName} />
       <link rel="canonical" href={currentUrl} />
+
+      {/* Hreflang tags for multilingual SEO */}
+      <link rel="alternate" hreflang="es" href={alternateUrls.es} />
+      <link rel="alternate" hreflang="en" href={alternateUrls.en} />
+      <link rel="alternate" hreflang="x-default" href={alternateUrls.es} />
 
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />
@@ -515,7 +543,8 @@ const SEO = React.memo(({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={fullImageUrl} />
       <meta property="og:site_name" content={siteName} />
-      <meta property="og:locale" content="es_ES" />
+      <meta property="og:locale" content={locale} />
+      <meta property="og:locale:alternate" content={currentLang === 'en' ? 'es_ES' : 'en_US'} />
       {location.pathname === '/' && (
         <>
           <meta property="og:video" content="https://rium.com.mx/video/videocover.mp4" />

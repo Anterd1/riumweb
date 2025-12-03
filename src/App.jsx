@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import Home from '@/pages/Home';
 import Contact from '@/pages/Contact';
@@ -8,6 +8,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import AdminLayout from '@/components/AdminLayout';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import PageLoader from '@/components/PageLoader';
+import LanguageRedirect from '@/components/LanguageRedirect';
 
 // Lazy load de páginas públicas
 const Blog = lazy(() => import('@/pages/Blog'));
@@ -33,16 +34,22 @@ function App() {
     <>
       <Suspense fallback={<PageLoader />}>
         <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="contact" element={<Contact />} />
-        <Route path="blog" element={<Blog />} />
-        <Route path="blog/:slug" element={<BlogPost />} />
-        <Route path="noticias" element={<News />} />
-        <Route path="noticias/:slug" element={<NewsPost />} />
-        <Route path="project/:projectId" element={<Project />} />
-        <Route path="diseno-tu-pagina-web" element={<DisenoTuPaginaWeb />} />
-      </Route>
+          {/* Redirect root to /es */}
+          <Route path="/" element={<LanguageRedirect />} />
+          
+          {/* Language-specific routes */}
+          <Route path="/:lang" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="blog" element={<Blog />} />
+            <Route path="blog/:slug" element={<BlogPost />} />
+            <Route path="noticias" element={<News />} />
+            <Route path="noticias/:slug" element={<NewsPost />} />
+            <Route path="project/:projectId" element={<Project />} />
+            <Route path="diseno-tu-pagina-web" element={<DisenoTuPaginaWeb />} />
+          </Route>
+          
+          {/* Redirect old routes without language to /es - handled by Layout */}
       
       {/* Sitemap - sin layout */}
       <Route path="/sitemap.xml" element={<Sitemap />} />

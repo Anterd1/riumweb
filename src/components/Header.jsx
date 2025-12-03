@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { ChevronDown, Users, Briefcase, Mail, Monitor, Smartphone, Search, FileText, Newspaper } from 'lucide-react';
+import { ChevronDown, Users, Briefcase, Mail, Monitor, Smartphone, Search, FileText, Newspaper, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from 'react-i18next';
+import { useLocalizedLink } from '@/hooks/useLocalizedLink';
 
 const Header = memo(() => {
+  const { t, i18n } = useTranslation();
+  const { lang } = useParams();
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [currentHash, setCurrentHash] = useState('');
@@ -13,6 +17,16 @@ const Header = memo(() => {
   const navRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const getLocalizedLink = useLocalizedLink();
+  
+  const currentLang = lang || (location.pathname.startsWith('/en') ? 'en' : 'es');
+  
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    // Cambiar el idioma en la URL manteniendo la ruta actual
+    const pathWithoutLang = location.pathname.replace(/^\/(es|en)/, '') || '/';
+    navigate(`/${lng}${pathWithoutLang}${location.hash}`);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,29 +80,29 @@ const Header = memo(() => {
 
   const menuStructure = [
     {
-      title: 'Servicios',
+      title: t('header.menu.services'),
       id: 'services',
       items: [
-        { name: 'Diseño UI/UX', href: '/#services', icon: Monitor, description: 'Interfaces intuitivas' },
-        { name: 'Desarrollo', href: '/#services', icon: Smartphone, description: 'Sitios escalables' },
-        { name: 'Auditoría', href: '/#services', icon: Search, description: 'Optimización UX' },
+        { name: t('header.items.uiux'), href: `/${currentLang}#services`, icon: Monitor, description: t('header.descriptions.uiux') },
+        { name: t('header.items.development'), href: `/${currentLang}#services`, icon: Smartphone, description: t('header.descriptions.development') },
+        { name: t('header.items.audit'), href: `/${currentLang}#services`, icon: Search, description: t('header.descriptions.audit') },
       ]
     },
     {
-      title: 'Explora',
+      title: t('header.menu.explore'),
       id: 'explore',
       items: [
-        { name: 'Artículos', href: '/blog', icon: FileText, description: 'Pensamiento' },
-        { name: 'Noticias', href: '/noticias', icon: Newspaper, description: 'Actualidad' },
+        { name: t('header.items.articles'), href: getLocalizedLink('/blog'), icon: FileText, description: t('header.descriptions.articles') },
+        { name: t('header.items.news'), href: getLocalizedLink('/noticias'), icon: Newspaper, description: t('header.descriptions.news') },
       ]
     },
     {
-      title: 'Agencia',
+      title: t('header.menu.agency'),
       id: 'agency',
       items: [
-        { name: 'Nosotros', href: '/#about', icon: Users, description: 'Equipo y cultura' },
-        { name: 'Portafolio', href: '/#portfolio', icon: Briefcase, description: 'Casos de éxito' },
-        { name: 'Contacto', href: '/contact', icon: Mail, description: 'Inicia tu proyecto' },
+        { name: t('header.items.about'), href: `/${currentLang}#about`, icon: Users, description: t('header.descriptions.about') },
+        { name: t('header.items.portfolio'), href: `/${currentLang}#portfolio`, icon: Briefcase, description: t('header.descriptions.portfolio') },
+        { name: t('header.items.contact'), href: getLocalizedLink('/contact'), icon: Mail, description: t('header.descriptions.contact') },
       ]
     }
   ];
@@ -97,9 +111,11 @@ const Header = memo(() => {
     if (href.includes('#')) {
       e.preventDefault();
       const [path, id] = href.split('#');
-      if (path === '/' || path === '') {
-        if (location.pathname !== '/') {
-          navigate('/');
+      const homePath = `/${currentLang}`;
+      
+      if (path === `/${currentLang}` || path === '/' || path === '') {
+        if (location.pathname !== homePath && !location.pathname.startsWith(`/${currentLang}/`)) {
+          navigate(homePath);
           setTimeout(() => {
             scrollToElement(id);
             setCurrentHash(`#${id}`);
@@ -142,15 +158,15 @@ const Header = memo(() => {
         ref={headerRef}
         className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300 py-4"
       >
-        <nav className="container mx-auto px-6 h-20 flex items-center relative">
+        <nav className="container mx-auto px-6 h-20 flex items-center justify-between relative">
           <motion.div
             initial={{ opacity: 1 }}
             animate={{ opacity: isScrolled ? 0 : 1 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className={`absolute left-6 z-[101] ${isScrolled ? 'pointer-events-none' : 'pointer-events-auto'}`}
+            className={`z-[101] flex items-center h-full ${isScrolled ? 'pointer-events-none' : 'pointer-events-auto'}`}
           >
             <Link 
-              to="/" 
+              to={getLocalizedLink('/')} 
               className={`text-2xl font-bold tracking-wider transition-colors ${
                 isDarkHeader 
                   ? isDarkTheme ? 'text-white' : 'text-gray-900'
@@ -163,16 +179,15 @@ const Header = memo(() => {
           </motion.div>
 
           {/* Desktop Navigation - Animated Capsule */}
-          <div className="hidden md:flex justify-center absolute left-0 right-0 top-0 pointer-events-none h-screen">
-             {/* Usamos top-0 y h-screen para dar espacio de sobra hacia abajo, pero centramos visualmente con margin-top */}
-            <div className="pointer-events-auto mt-6"> 
+          <div className="hidden md:flex justify-center absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none h-full">
+            <div className="pointer-events-auto flex items-start pt-5"> 
               <LayoutGroup>
                   <motion.div
                   ref={navRef}
                   layout
                   transition={{ type: "spring", bounce: 0, duration: 0.3 }}
                   className={`
-                    relative flex flex-col items-center overflow-hidden
+                    relative flex flex-col items-center overflow-visible
                     ${isDarkHeader 
                       ? isDarkTheme
                         ? 'bg-[#1E1E2A]/95 border-white/10'
@@ -193,12 +208,13 @@ const Header = memo(() => {
                       const firstItem = section.items[0];
                       const handleMenuClick = (e) => {
                         // Si estamos en otra página, navegar al home con el hash correspondiente
-                        if (location.pathname !== '/') {
+                        const homePath = `/${currentLang}`;
+                        if (location.pathname !== homePath && !location.pathname.startsWith(`/${currentLang}/`)) {
                           e.preventDefault();
-                          const targetHref = firstItem?.href || '/';
+                          const targetHref = firstItem?.href || homePath;
                           if (targetHref.includes('#')) {
                             const [path, id] = targetHref.split('#');
-                            navigate('/');
+                            navigate(homePath);
                             setTimeout(() => {
                               scrollToElement(id);
                               setCurrentHash(`#${id}`);
@@ -263,11 +279,12 @@ const Header = memo(() => {
                     {activeDropdown && (
                       <motion.div
                         key="content"
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
+                        initial={{ opacity: 0, height: 0, y: -10 }}
+                        animate={{ opacity: 1, height: 'auto', y: 0 }}
+                        exit={{ opacity: 0, height: 0, y: -10 }}
                         transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
-                        className="w-full"
+                        className="w-full mt-1"
+                        style={{ transformOrigin: 'top center' }}
                       >
                         <div className="px-4 pb-4 pt-2 w-[340px]">
                           <div className="flex flex-col gap-2">
@@ -338,16 +355,58 @@ const Header = memo(() => {
             </div>
           </div>
 
-          <Button
-            onClick={() => navigate('/contact')}
-            className={`hidden md:flex absolute right-6 rounded-full px-6 transition-all duration-300 ${
-              isDarkHeader 
-                ? 'bg-accent-purple text-white hover:bg-accent-purple/90 shadow-lg shadow-accent-purple/20'
-                : 'bg-white text-black hover:bg-gray-100'
-            }`}
-          >
-            Hablemos
-          </Button>
+          {/* Right Side - Language Selector + CTA Button */}
+          <div className="hidden md:flex items-center gap-4 z-50 relative h-full">
+            {/* Language Selector */}
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => changeLanguage('es')}
+                className={`
+                  w-9 h-9 rounded-full text-base transition-all flex items-center justify-center
+                  ${i18n.language === 'es'
+                    ? isDarkHeader
+                      ? isDarkTheme ? 'bg-white/20 ring-2 ring-white/50' : 'bg-gray-900/20 ring-2 ring-gray-900/50'
+                      : 'bg-white/20 ring-2 ring-white/50'
+                    : isDarkHeader
+                      ? isDarkTheme ? 'bg-white/10 hover:bg-white/20' : 'bg-gray-900/10 hover:bg-gray-900/20'
+                      : 'bg-white/10 hover:bg-white/20'
+                  }
+                `}
+                title="Español"
+              >
+                🇲🇽
+              </button>
+              <button
+                onClick={() => changeLanguage('en')}
+                className={`
+                  w-9 h-9 rounded-full text-base transition-all flex items-center justify-center
+                  ${i18n.language === 'en'
+                    ? isDarkHeader
+                      ? isDarkTheme ? 'bg-white/20 ring-2 ring-white/50' : 'bg-gray-900/20 ring-2 ring-gray-900/50'
+                      : 'bg-white/20 ring-2 ring-white/50'
+                    : isDarkHeader
+                      ? isDarkTheme ? 'bg-white/10 hover:bg-white/20' : 'bg-gray-900/10 hover:bg-gray-900/20'
+                      : 'bg-white/10 hover:bg-white/20'
+                  }
+                `}
+                title="English"
+              >
+                🇺🇸
+              </button>
+            </div>
+
+            {/* CTA Button */}
+            <Button
+              onClick={() => navigate(getLocalizedLink('/contact'))}
+              className={`rounded-full px-6 h-9 transition-all duration-300 z-50 relative flex items-center ${
+                isDarkHeader 
+                  ? 'bg-accent-purple text-white hover:bg-accent-purple/90 shadow-lg shadow-accent-purple/20'
+                  : 'bg-white text-black hover:bg-gray-100'
+              }`}
+            >
+              {t('hero.cta')}
+            </Button>
+          </div>
 
           {/* Mobile Bottom Navigation - Humaan Style */}
           <div className="md:hidden fixed bottom-0 left-0 right-0 z-[100] pointer-events-none">
@@ -368,18 +427,18 @@ const Header = memo(() => {
             >
               <div className="flex items-center justify-around gap-0.5">
                 {[
-                  { name: 'Home', href: '/', id: 'home' },
-                  { name: 'Servicios', href: '/#services', id: 'services' },
-                  { name: 'Blog', href: '/blog', id: 'blog' },
-                  { name: 'Noticias', href: '/noticias', id: 'noticias' },
-                  { name: 'Contacto', href: '/contact', id: 'contact' },
+                  { name: t('footer.links.home'), href: getLocalizedLink('/'), id: 'home' },
+                  { name: t('header.menu.services'), href: `/${currentLang}#services`, id: 'services' },
+                  { name: 'Blog', href: getLocalizedLink('/blog'), id: 'blog' },
+                  { name: t('header.items.news'), href: getLocalizedLink('/noticias'), id: 'noticias' },
+                  { name: t('header.items.contact'), href: getLocalizedLink('/contact'), id: 'contact' },
                 ].map((item) => {
                   const isActive = 
-                    (item.id === 'home' && location.pathname === '/' && !currentHash) ||
-                    (item.id === 'services' && location.pathname === '/' && currentHash === '#services') ||
-                    (item.id === 'blog' && location.pathname.startsWith('/blog') && !location.pathname.match(/\/blog\/.+/)) ||
-                    (item.id === 'noticias' && location.pathname.startsWith('/noticias') && !location.pathname.match(/\/noticias\/.+/)) ||
-                    (item.id === 'contact' && location.pathname === '/contact');
+                    (item.id === 'home' && (location.pathname === `/${currentLang}` || location.pathname === `/${currentLang}/`) && !currentHash) ||
+                    (item.id === 'services' && (location.pathname === `/${currentLang}` || location.pathname === `/${currentLang}/`) && currentHash === '#services') ||
+                    (item.id === 'blog' && location.pathname.startsWith(`/${currentLang}/blog`) && !location.pathname.match(/\/blog\/.+/)) ||
+                    (item.id === 'noticias' && location.pathname.startsWith(`/${currentLang}/noticias`) && !location.pathname.match(/\/noticias\/.+/)) ||
+                    (item.id === 'contact' && location.pathname === `/${currentLang}/contact`);
                   
                   return (
                     <button
@@ -416,6 +475,43 @@ const Header = memo(() => {
                     </button>
                   );
                 })}
+                {/* Language Selector - Mobile */}
+                <div className="flex items-center gap-1.5 px-2">
+                  <button
+                    onClick={() => changeLanguage('es')}
+                    className={`
+                      w-8 h-8 rounded-full text-sm transition-all flex items-center justify-center
+                      ${i18n.language === 'es'
+                        ? isDarkHeader
+                          ? isDarkTheme ? 'bg-white/20 ring-2 ring-white/50' : 'bg-gray-900/20 ring-2 ring-gray-900/50'
+                          : 'bg-white/20 ring-2 ring-white/50'
+                        : isDarkHeader
+                          ? isDarkTheme ? 'bg-white/10 hover:bg-white/20' : 'bg-gray-900/10 hover:bg-gray-900/20'
+                          : 'bg-white/10 hover:bg-white/20'
+                      }
+                    `}
+                    title="Español"
+                  >
+                    🇲🇽
+                  </button>
+                  <button
+                    onClick={() => changeLanguage('en')}
+                    className={`
+                      w-8 h-8 rounded-full text-sm transition-all flex items-center justify-center
+                      ${i18n.language === 'en'
+                        ? isDarkHeader
+                          ? isDarkTheme ? 'bg-white/20 ring-2 ring-white/50' : 'bg-gray-900/20 ring-2 ring-gray-900/50'
+                          : 'bg-white/20 ring-2 ring-white/50'
+                        : isDarkHeader
+                          ? isDarkTheme ? 'bg-white/10 hover:bg-white/20' : 'bg-gray-900/10 hover:bg-gray-900/20'
+                          : 'bg-white/10 hover:bg-white/20'
+                      }
+                    `}
+                    title="English"
+                  >
+                    🇺🇸
+                  </button>
+                </div>
               </div>
             </motion.nav>
           </div>

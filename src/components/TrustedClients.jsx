@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const clientLogos = [
   { name: 'BBVA', description: 'Placeholder for InnovateCore' },
@@ -15,6 +16,8 @@ const clientLogos = [
 const marqueeLogos = [...clientLogos, ...clientLogos]; // Duplicate for seamless loop
 
 const TrustedClients = () => {
+  const { t } = useTranslation();
+  
   const marqueeVariants = {
     animate: {
       x: [0, -2016], // Adjust as needed based on actual width
@@ -32,7 +35,7 @@ const TrustedClients = () => {
   return (
     <section className="py-20 bg-white dark:bg-[#0C0D0D] border-t border-b border-gray-200 dark:border-[#1E1E2A] overflow-hidden">
       <div className="container mx-auto px-6 text-center">
-        <p className="text-lg text-gray-700 dark:text-gray-400 mb-12 uppercase">Hemos trabajado con más de 13 empresas en todo latinoamerica</p>
+        <p className="text-lg text-gray-700 dark:text-gray-400 mb-12 uppercase">{t('trustedClients.title')}</p>
         <div className="relative w-full">
           <motion.div className="flex" variants={marqueeVariants} animate="animate">
             {marqueeLogos.map((logo, index) => (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useInView } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const AnimatedCounter = ({ to, suffix }) => {
     const ref = useRef(null);
@@ -35,36 +36,38 @@ const AnimatedCounter = ({ to, suffix }) => {
     return <span ref={ref}>{count}{suffix}</span>;
 }
 
-const defaultStats = [
+const Stats = ({ customStats }) => {
+  const { t } = useTranslation();
+  const isProjectPage = !!customStats;
+  
+  const defaultStats = useMemo(() => [
     {
       value: 20,
       suffix: '+',
-      label: 'Proyectos entregados en diferentes industrias',
-      description: 'Cada proyecto es una historia de éxito, transformando ideas en experiencias digitales excepcionales que generan resultados medibles.',
+      label: t('stats.stats.projects.label'),
+      description: t('stats.stats.projects.description'),
     },
     {
       value: 100,
       suffix: '%',
-      label: 'Satisfacción de Clientes',
-      description: 'Cada cliente es nuestro mejor testimonio. Entregamos soluciones que superan expectativas y generan valor real para sus negocios.',
+      label: t('stats.stats.satisfaction.label'),
+      description: t('stats.stats.satisfaction.description'),
     },
     {
       value: 300,
       suffix: '+',
-      label: 'Innovación en IA',
-      description: 'Inversión constante en tecnología de vanguardia para crear herramientas inteligentes que revolucionan la forma de trabajar.',
+      label: t('stats.stats.innovation.label'),
+      description: t('stats.stats.innovation.description'),
     },
     {
       value: 10,
       suffix: '+',
-      label: 'Industrias',
-      description: 'Experiencia diversificada en múltiples sectores, adaptando soluciones únicas para cada industria.',
+      label: t('stats.stats.industries.label'),
+      description: t('stats.stats.industries.description'),
     },
-];
-
-const Stats = ({ customStats }) => {
+  ], [t]);
+  
   const stats = customStats || defaultStats;
-  const isProjectPage = !!customStats;
 
   return (
     <section id="stats-section" className="py-24 bg-white dark:bg-[#0C0D0D]">
@@ -73,12 +76,12 @@ const Stats = ({ customStats }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             <div>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white uppercase">
-                NUESTROS <span className="text-accent-purple">RESULTADOS</span>
+                {t('stats.title')} <span className="text-accent-purple">{t('stats.titleHighlight')}</span>
               </h2>
             </div>
             <div className="flex items-end">
               <p className="text-lg text-gray-700 dark:text-gray-400 max-w-md">
-                Construimos herramientas eficientes, que escalan, optimiza, y ahorra horas valiosas
+                {t('stats.description')}
               </p>
             </div>
           </div>
@@ -87,7 +90,7 @@ const Stats = ({ customStats }) => {
         {isProjectPage && (
             <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white uppercase">
-                    Impacto del <span className="text-accent-purple">Proyecto</span>
+                    {t('stats.projectTitle')} <span className="text-accent-purple">{t('stats.projectTitleHighlight')}</span>
                 </h2>
             </div>
         )}
