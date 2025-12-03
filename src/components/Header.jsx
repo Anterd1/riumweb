@@ -193,6 +193,44 @@ const Header = memo(() => {
             </Link>
           </div>
 
+          {/* Language Selector - Mobile (Top Right) */}
+          <div className="md:hidden flex items-center gap-1.5 z-[101]">
+            <button
+              onClick={() => changeLanguage('es')}
+              className={`
+                w-9 h-9 rounded-full text-base transition-all flex items-center justify-center
+                ${i18n.language === 'es'
+                  ? isDarkHeader
+                    ? isDarkTheme ? 'bg-white/20 ring-2 ring-white/50' : 'bg-gray-900/20 ring-2 ring-gray-900/50'
+                    : 'bg-white/20 ring-2 ring-white/50'
+                  : isDarkHeader
+                    ? isDarkTheme ? 'bg-white/10 hover:bg-white/20' : 'bg-gray-900/10 hover:bg-gray-900/20'
+                    : 'bg-white/10 hover:bg-white/20'
+                }
+              `}
+              title="Español"
+            >
+              🇲🇽
+            </button>
+            <button
+              onClick={() => changeLanguage('en')}
+              className={`
+                w-9 h-9 rounded-full text-base transition-all flex items-center justify-center
+                ${i18n.language === 'en'
+                  ? isDarkHeader
+                    ? isDarkTheme ? 'bg-white/20 ring-2 ring-white/50' : 'bg-gray-900/20 ring-2 ring-gray-900/50'
+                    : 'bg-white/20 ring-2 ring-white/50'
+                  : isDarkHeader
+                    ? isDarkTheme ? 'bg-white/10 hover:bg-white/20' : 'bg-gray-900/10 hover:bg-gray-900/20'
+                    : 'bg-white/10 hover:bg-white/20'
+                }
+              `}
+              title="English"
+            >
+              🇺🇸
+            </button>
+          </div>
+
           {/* Desktop Navigation - Animated Capsule */}
           <div className="hidden md:flex justify-center absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none h-full">
             <div className="pointer-events-auto flex items-start pt-5"> 
@@ -425,45 +463,110 @@ const Header = memo(() => {
 
           {/* Mobile Bottom Navigation - Humaan Style */}
           <div className="md:hidden fixed bottom-0 left-0 right-0 z-[100] pointer-events-none">
-            <motion.nav
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
-              className={`
-                pointer-events-auto mx-4 mb-6 px-3 py-2.5 rounded-3xl backdrop-blur-xl border shadow-lg
-                ${isDarkHeader 
-                  ? isDarkTheme
-                    ? 'bg-[#1E1E2A]/98 border-white/15'
-                    : 'bg-white/95 border-gray-200/60'
-                  : 'bg-black/40 border-white/20'
-                }
-                transition-colors duration-300
-              `}
-            >
-              <div className="flex items-center justify-around gap-0.5">
-                {[
-                  { name: t('footer.links.home'), href: getLocalizedLink('/'), id: 'home' },
-                  { name: t('header.menu.services'), href: `/${currentLang}#services`, id: 'services' },
-                  { name: 'Blog', href: getLocalizedLink('/blog'), id: 'blog' },
-                  { name: t('header.items.news'), href: getLocalizedLink('/noticias'), id: 'noticias' },
-                  { name: t('header.items.contact'), href: getLocalizedLink('/contact'), id: 'contact' },
-                ].map((item) => {
-                  const isActive = 
-                    (item.id === 'home' && (location.pathname === `/${currentLang}` || location.pathname === `/${currentLang}/`) && !currentHash) ||
-                    (item.id === 'services' && (location.pathname === `/${currentLang}` || location.pathname === `/${currentLang}/`) && currentHash === '#services') ||
-                    (item.id === 'blog' && location.pathname.startsWith(`/${currentLang}/blog`) && !location.pathname.match(/\/blog\/.+/)) ||
-                    (item.id === 'noticias' && location.pathname.startsWith(`/${currentLang}/noticias`) && !location.pathname.match(/\/noticias\/.+/)) ||
-                    (item.id === 'contact' && location.pathname === `/${currentLang}/contact`);
+            <LayoutGroup>
+              <motion.nav
+                layout
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
+                className={`
+                  pointer-events-auto mx-4 mb-6 rounded-3xl backdrop-blur-xl border shadow-lg overflow-hidden
+                  ${isDarkHeader 
+                    ? isDarkTheme
+                      ? 'bg-[#1E1E2A]/98 border-white/15'
+                      : 'bg-white/95 border-gray-200/60'
+                    : 'bg-black/40 border-white/20'
+                  }
+                  transition-colors duration-300
+                `}
+              >
+              {/* Dropdown Content Area */}
+              <AnimatePresence initial={false}>
+                {activeDropdown && (() => {
+                  const activeSection = menuStructure.find(s => s.id === activeDropdown);
+                  if (!activeSection) return null;
                   
                   return (
-                    <button
-                      key={item.id}
-                      onClick={(e) => handleNavClick(e, item.href)}
+                    <motion.div
+                      key={activeDropdown}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ 
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 35,
+                        mass: 0.5
+                      }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-4 pt-4 pb-2">
+                        <div className="grid grid-cols-1 gap-2">
+                          {activeSection.items.map((item, idx) => {
+                            const Icon = item.icon;
+                            const isItemActive = 
+                              (activeDropdown === 'services' && (location.pathname === `/${currentLang}` || location.pathname === `/${currentLang}/`) && currentHash === '#services') ||
+                              (item.href.includes('/blog') && location.pathname.startsWith(`/${currentLang}/blog`) && !location.pathname.match(/\/blog\/.+/)) ||
+                              (item.href.includes('/noticias') && location.pathname.startsWith(`/${currentLang}/noticias`) && !location.pathname.match(/\/noticias\/.+/));
+                            
+                            return (
+                              <motion.button
+                                key={item.name}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: idx * 0.04, duration: 0.2 }}
+                                onClick={(e) => {
+                                  handleNavClick(e, item.href);
+                                  setActiveDropdown(null);
+                                }}
+                                className={`
+                                  w-full px-4 py-3 rounded-xl text-left text-xs font-medium transition-all flex items-center gap-3
+                                  ${isItemActive
+                                    ? isDarkHeader
+                                      ? isDarkTheme ? 'bg-white/20 text-white' : 'bg-gray-900/20 text-gray-900'
+                                      : 'bg-white/20 text-white'
+                                    : isDarkHeader
+                                      ? isDarkTheme ? 'text-gray-400 hover:bg-white/10 hover:text-white' : 'text-gray-600 hover:bg-gray-900/10 hover:text-gray-900'
+                                      : 'text-white/70 hover:bg-white/10 hover:text-white'
+                                  }
+                                `}
+                              >
+                                <Icon size={18} className="flex-shrink-0" />
+                                <div className="flex-1">
+                                  <div className="font-semibold">{item.name}</div>
+                                  <div className={`text-[10px] mt-0.5 ${
+                                    isDarkHeader
+                                      ? isDarkTheme ? 'text-gray-500' : 'text-gray-500'
+                                      : 'text-white/50'
+                                  }`}>
+                                    {item.description}
+                                  </div>
+                                </div>
+                              </motion.button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })()}
+              </AnimatePresence>
+
+              {/* Navigation Buttons */}
+              <motion.div layout="position" className="flex items-center justify-around gap-0.5 px-3 py-2.5">
+                {/* Home */}
+                {(() => {
+                  const isHomeActive = (location.pathname === `/${currentLang}` || location.pathname === `/${currentLang}/`) && !currentHash;
+                  return (
+                    <motion.button
+                      layout="position"
+                      key="home"
+                      onClick={(e) => handleNavClick(e, getLocalizedLink('/'))}
                       className="relative px-3 py-1.5 rounded-full text-[11px] font-medium transition-all min-w-[60px]"
                     >
-                      {isActive && (
+                      {isHomeActive && (
                         <motion.div
-                          layoutId="mobile-active-pill"
+                          layoutId="mobile-active-pill-home"
                           className={`absolute inset-0 rounded-full ${
                             isDarkHeader 
                               ? isDarkTheme ? 'bg-white' : 'bg-gray-900'
@@ -475,7 +578,7 @@ const Header = memo(() => {
                       <span
                         className={`
                           relative z-10 whitespace-nowrap block text-center
-                          ${isActive
+                          ${isHomeActive
                             ? isDarkHeader
                               ? isDarkTheme ? 'text-gray-900 font-semibold' : 'text-white font-semibold'
                               : 'text-black font-semibold'
@@ -485,50 +588,153 @@ const Header = memo(() => {
                           }
                         `}
                       >
-                        {item.name}
+                        {t('footer.links.home')}
                       </span>
-                    </button>
+                    </motion.button>
                   );
-                })}
-                {/* Language Selector - Mobile */}
-                <div className="flex items-center gap-1.5 px-2">
-                  <button
-                    onClick={() => changeLanguage('es')}
-                    className={`
-                      w-8 h-8 rounded-full text-sm transition-all flex items-center justify-center
-                      ${i18n.language === 'es'
-                        ? isDarkHeader
-                          ? isDarkTheme ? 'bg-white/20 ring-2 ring-white/50' : 'bg-gray-900/20 ring-2 ring-gray-900/50'
-                          : 'bg-white/20 ring-2 ring-white/50'
-                        : isDarkHeader
-                          ? isDarkTheme ? 'bg-white/10 hover:bg-white/20' : 'bg-gray-900/10 hover:bg-gray-900/20'
-                          : 'bg-white/10 hover:bg-white/20'
-                      }
-                    `}
-                    title="Español"
-                  >
-                    🇲🇽
-                  </button>
-                  <button
-                    onClick={() => changeLanguage('en')}
-                    className={`
-                      w-8 h-8 rounded-full text-sm transition-all flex items-center justify-center
-                      ${i18n.language === 'en'
-                        ? isDarkHeader
-                          ? isDarkTheme ? 'bg-white/20 ring-2 ring-white/50' : 'bg-gray-900/20 ring-2 ring-gray-900/50'
-                          : 'bg-white/20 ring-2 ring-white/50'
-                        : isDarkHeader
-                          ? isDarkTheme ? 'bg-white/10 hover:bg-white/20' : 'bg-gray-900/10 hover:bg-gray-900/20'
-                          : 'bg-white/10 hover:bg-white/20'
-                      }
-                    `}
-                    title="English"
-                  >
-                    🇺🇸
-                  </button>
-                </div>
-              </div>
+                })()}
+
+                {/* Services Button */}
+                {(() => {
+                  const servicesSection = menuStructure.find(s => s.id === 'services');
+                  const isServicesActive = (location.pathname === `/${currentLang}` || location.pathname === `/${currentLang}/`) && currentHash === '#services';
+                  const isServicesDropdownOpen = activeDropdown === 'services';
+                  
+                  return (
+                    <motion.button
+                      layout="position"
+                      key="services"
+                      onClick={() => setActiveDropdown(activeDropdown === 'services' ? null : 'services')}
+                      className="relative px-3 py-1.5 rounded-full text-[11px] font-medium transition-all min-w-[60px]"
+                    >
+                      {(isServicesDropdownOpen || isServicesActive) && (
+                        <motion.div
+                          layoutId="mobile-active-pill-services"
+                          className={`absolute inset-0 rounded-full ${
+                            isDarkHeader 
+                              ? isDarkTheme ? 'bg-white' : 'bg-gray-900'
+                              : 'bg-white'
+                          }`}
+                          transition={{ type: "spring", duration: 0.4, bounce: 0.2 }}
+                        />
+                      )}
+                      <span
+                        className={`
+                          relative z-10 whitespace-nowrap block text-center flex items-center gap-1 justify-center
+                          ${(isServicesDropdownOpen || isServicesActive)
+                            ? isDarkHeader
+                              ? isDarkTheme ? 'text-gray-900 font-semibold' : 'text-white font-semibold'
+                              : 'text-black font-semibold'
+                            : isDarkHeader
+                              ? isDarkTheme ? 'text-gray-400' : 'text-gray-600'
+                              : 'text-white/70'
+                          }
+                        `}
+                      >
+                        {servicesSection?.title}
+                        <ChevronDown 
+                          size={12} 
+                          className={`transition-transform duration-300 ${isServicesDropdownOpen ? 'rotate-180' : ''}`}
+                        />
+                      </span>
+                    </motion.button>
+                  );
+                })()}
+
+                {/* Explore Button */}
+                {(() => {
+                  const exploreSection = menuStructure.find(s => s.id === 'explore');
+                  const isExploreActive = exploreSection?.items.some(subItem => {
+                    const subIsActive = 
+                      (subItem.href.includes('/blog') && location.pathname.startsWith(`/${currentLang}/blog`) && !location.pathname.match(/\/blog\/.+/)) ||
+                      (subItem.href.includes('/noticias') && location.pathname.startsWith(`/${currentLang}/noticias`) && !location.pathname.match(/\/noticias\/.+/));
+                    return subIsActive;
+                  });
+                  const isExploreDropdownOpen = activeDropdown === 'explore';
+                  
+                  return (
+                    <motion.button
+                      layout="position"
+                      key="explore"
+                      onClick={() => setActiveDropdown(activeDropdown === 'explore' ? null : 'explore')}
+                      className="relative px-3 py-1.5 rounded-full text-[11px] font-medium transition-all min-w-[60px]"
+                    >
+                      {(isExploreDropdownOpen || isExploreActive) && (
+                        <motion.div
+                          layoutId="mobile-active-pill-explore"
+                          className={`absolute inset-0 rounded-full ${
+                            isDarkHeader 
+                              ? isDarkTheme ? 'bg-white' : 'bg-gray-900'
+                              : 'bg-white'
+                          }`}
+                          transition={{ type: "spring", duration: 0.4, bounce: 0.2 }}
+                        />
+                      )}
+                      <span
+                        className={`
+                          relative z-10 whitespace-nowrap block text-center flex items-center gap-1 justify-center
+                          ${(isExploreDropdownOpen || isExploreActive)
+                            ? isDarkHeader
+                              ? isDarkTheme ? 'text-gray-900 font-semibold' : 'text-white font-semibold'
+                              : 'text-black font-semibold'
+                            : isDarkHeader
+                              ? isDarkTheme ? 'text-gray-400' : 'text-gray-600'
+                              : 'text-white/70'
+                          }
+                        `}
+                      >
+                        {exploreSection?.title}
+                        <ChevronDown 
+                          size={12} 
+                          className={`transition-transform duration-300 ${isExploreDropdownOpen ? 'rotate-180' : ''}`}
+                        />
+                      </span>
+                    </motion.button>
+                  );
+                })()}
+
+                {/* Contact */}
+                {(() => {
+                  const isContactActive = location.pathname === `/${currentLang}/contact`;
+                  return (
+                    <motion.button
+                      layout="position"
+                      key="contact"
+                      onClick={(e) => handleNavClick(e, getLocalizedLink('/contact'))}
+                      className="relative px-3 py-1.5 rounded-full text-[11px] font-medium transition-all min-w-[60px]"
+                    >
+                      {isContactActive && (
+                        <motion.div
+                          layoutId="mobile-active-pill-contact"
+                          className={`absolute inset-0 rounded-full ${
+                            isDarkHeader 
+                              ? isDarkTheme ? 'bg-white' : 'bg-gray-900'
+                              : 'bg-white'
+                          }`}
+                          transition={{ type: "spring", duration: 0.4, bounce: 0.2 }}
+                        />
+                      )}
+                      <span
+                        className={`
+                          relative z-10 whitespace-nowrap block text-center
+                          ${isContactActive
+                            ? isDarkHeader
+                              ? isDarkTheme ? 'text-gray-900 font-semibold' : 'text-white font-semibold'
+                              : 'text-black font-semibold'
+                            : isDarkHeader
+                              ? isDarkTheme ? 'text-gray-400' : 'text-gray-600'
+                              : 'text-white/70'
+                          }
+                        `}
+                      >
+                        {t('header.items.contact')}
+                      </span>
+                    </motion.button>
+                  );
+                })()}
+              </motion.div>
             </motion.nav>
+            </LayoutGroup>
           </div>
         </nav>
       </header>
