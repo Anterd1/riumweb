@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Calendar, Clock, ArrowLeft, Tag, TrendingUp, Facebook, Twitter, Linkedin, MessageCircle, Link2, Check } from 'lucide-react'
 import { getSupabase } from '@/lib/supabase'
@@ -7,14 +7,20 @@ import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
 import { Toaster } from '@/components/ui/toaster'
 import OptimizedImage from '@/components/OptimizedImage'
+import { useLocalizedLink } from '@/hooks/useLocalizedLink'
 
 const NewsPost = () => {
   const { slug } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
+  const getLocalizedLink = useLocalizedLink()
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
+  
+  // Detectar idioma actual desde la URL
+  const currentLang = location.pathname.startsWith('/en') ? 'en' : 'es'
 
   useEffect(() => {
     fetchPost()
@@ -132,7 +138,7 @@ const NewsPost = () => {
           <div className="bg-red-500/10 border border-red-500/50 rounded-2xl p-8 text-center">
             <p className="text-red-400 mb-4">Error al cargar la noticia</p>
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">{error || 'Noticia no encontrada'}</p>
-            <Button onClick={() => navigate('/noticias')} className="bg-accent-purple hover:bg-accent-purple/90">
+            <Button onClick={() => navigate(getLocalizedLink('/noticias'))} className="bg-accent-purple hover:bg-accent-purple/90">
               Volver a Noticias
             </Button>
           </div>
@@ -143,7 +149,7 @@ const NewsPost = () => {
 
   // Estas variables solo se calculan cuando post existe
   const postTags = parseTags(post?.tags || [])
-  const articleUrl = `https://rium.com.mx/noticias/${post?.slug || post?.id || slug}`
+  const articleUrl = `https://rium.com.mx/${currentLang}/noticias/${post?.slug || post?.id || slug}`
   const shareText = `${post?.title || ''} - rium`
 
   // Funciones de compartir
@@ -267,7 +273,7 @@ const NewsPost = () => {
         <div>
           <div className="container mx-auto px-6 pt-16 pb-8">
             <Link
-              to="/noticias"
+              to={getLocalizedLink('/noticias')}
               className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-accent-purple transition-colors mb-8"
             >
               <ArrowLeft size={20} />
@@ -642,7 +648,7 @@ const NewsPost = () => {
                   Explora más noticias sobre tecnología, diseño y desarrollo.
                 </p>
                 <Button
-                  onClick={() => navigate('/noticias')}
+                  onClick={() => navigate(getLocalizedLink('/noticias'))}
                   className="bg-accent-purple hover:bg-accent-purple/90"
                 >
                   Ver todas las noticias

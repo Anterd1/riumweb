@@ -83,7 +83,9 @@ const Header = memo(() => {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  const menuStructure = [
+  // menuStructure debe definirse después de todos los hooks
+  // usando useMemo para evitar recrearlo en cada render
+  const menuStructure = React.useMemo(() => [
     {
       title: t('header.menu.services'),
       id: 'services',
@@ -110,7 +112,7 @@ const Header = memo(() => {
         { name: t('header.items.contact'), href: getLocalizedLink('/contact'), icon: Mail, description: t('header.descriptions.contact') },
       ]
     }
-  ];
+  ], [currentLang, getLocalizedLink, t]);
 
   const handleNavClick = (e, href) => {
     if (href.includes('#')) {

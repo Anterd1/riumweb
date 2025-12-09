@@ -9,6 +9,8 @@ import AdminLayout from '@/components/AdminLayout';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import PageLoader from '@/components/PageLoader';
 import LanguageRedirect from '@/components/LanguageRedirect';
+import BlogPostRedirect from '@/components/BlogPostRedirect';
+import NewsPostRedirect from '@/components/NewsPostRedirect';
 
 // Lazy load de páginas públicas
 const Blog = lazy(() => import('./pages/Blog'));
@@ -36,6 +38,14 @@ function App() {
         <Routes>
           {/* Redirect root to /es */}
           <Route path="/" element={<LanguageRedirect />} />
+          
+          {/* Redirect old blog routes without language prefix */}
+          <Route path="/blog" element={<LanguageRedirect />} />
+          <Route path="/blog/:slug" element={<BlogPostRedirect />} />
+          
+          {/* Redirect old news routes without language prefix */}
+          <Route path="/noticias" element={<LanguageRedirect />} />
+          <Route path="/noticias/:slug" element={<NewsPostRedirect />} />
           
           {/* Language-specific routes */}
           <Route path="/:lang" element={<Layout />}>

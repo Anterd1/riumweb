@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Calendar, Clock, ArrowLeft, Tag, Facebook, Twitter, Linkedin, MessageCircle, Link2, Check } from 'lucide-react'
 import { getSupabase } from '@/lib/supabase'
@@ -7,14 +7,20 @@ import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
 import { Toaster } from '@/components/ui/toaster'
 import OptimizedImage from '@/components/OptimizedImage'
+import { useLocalizedLink } from '@/hooks/useLocalizedLink'
 
 const BlogPost = () => {
   const { slug } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
+  const getLocalizedLink = useLocalizedLink()
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
+  
+  // Detectar idioma actual desde la URL
+  const currentLang = location.pathname.startsWith('/en') ? 'en' : 'es'
 
   useEffect(() => {
     fetchPost()
@@ -129,7 +135,7 @@ const BlogPost = () => {
           <div className="bg-red-500/10 border border-red-500/50 rounded-2xl p-8 text-center">
             <p className="text-red-400 mb-4">Error al cargar el artículo</p>
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">{error || 'Artículo no encontrado'}</p>
-            <Button onClick={() => navigate('/blog')} className="bg-accent-purple hover:bg-accent-purple/90">
+            <Button onClick={() => navigate(getLocalizedLink('/blog'))} className="bg-accent-purple hover:bg-accent-purple/90">
               Volver al Blog
             </Button>
           </div>
@@ -140,7 +146,7 @@ const BlogPost = () => {
 
   // Estas variables solo se calculan cuando post existe
   const postTags = parseTags(post?.tags || [])
-  const articleUrl = `https://rium.com.mx/blog/${post?.slug || post?.id || slug}`
+  const articleUrl = `https://rium.com.mx/${currentLang}/blog/${post?.slug || post?.id || slug}`
   const shareText = `${post?.title || ''} - rium`
 
   // Funciones de compartir
@@ -264,7 +270,7 @@ const BlogPost = () => {
         <div>
           <div className="container mx-auto px-6 pt-16 pb-8">
             <Link
-              to="/blog"
+              to={getLocalizedLink('/blog')}
               className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-accent-purple transition-colors mb-8"
             >
               <ArrowLeft size={20} />
@@ -635,7 +641,7 @@ const BlogPost = () => {
                   Explora más artículos sobre diseño UI/UX y experiencia de usuario.
                 </p>
                 <Button
-                  onClick={() => navigate('/blog')}
+                  onClick={() => navigate(getLocalizedLink('/blog'))}
                   className="bg-accent-purple hover:bg-accent-purple/90"
                 >
                   Ver todos los artículos
