@@ -5,9 +5,11 @@ import SEO from '@/components/SEO';
 import SectionAnimator from '@/components/SectionAnimator';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle, Palette, Smartphone, Zap, Users, TrendingUp } from 'lucide-react';
+import { useLocalizedLink } from '@/hooks/useLocalizedLink';
 
 const DisenoTuPaginaWeb = () => {
   const navigate = useNavigate();
+  const getLocalizedLink = useLocalizedLink();
 
   const benefits = [
     {
@@ -97,7 +99,7 @@ const DisenoTuPaginaWeb = () => {
                 className="flex flex-col sm:flex-row gap-4 justify-center"
               >
                 <Button
-                  onClick={() => navigate('/contact')}
+                  onClick={() => navigate(getLocalizedLink('/contact'))}
                   size="lg"
                   className="bg-accent-purple hover:bg-accent-purple/90 text-white font-bold px-8 py-6 text-lg rounded-full group"
                 >
@@ -105,7 +107,7 @@ const DisenoTuPaginaWeb = () => {
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
                 <Button
-                  onClick={() => navigate('/#services')}
+                  onClick={() => navigate(getLocalizedLink('/#services'))}
                   size="lg"
                   variant="outline"
                   className="border-2 border-accent-purple/40 hover:bg-accent-purple/10 text-white px-8 py-6 text-lg rounded-full"
@@ -233,7 +235,7 @@ const DisenoTuPaginaWeb = () => {
                   Contáctanos hoy y recibe una cotización personalizada para tu proyecto.
                 </p>
                 <Button
-                  onClick={() => navigate('/contact')}
+                  onClick={() => navigate(getLocalizedLink('/contact'))}
                   size="lg"
                   className="bg-accent-purple hover:bg-accent-purple/90 text-white font-bold px-8 py-6 text-lg rounded-full group"
                 >

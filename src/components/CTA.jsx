@@ -5,10 +5,12 @@ import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import AnimatedCtaBackground from '@/components/AnimatedCtaBackground';
+import { useLocalizedLink } from '@/hooks/useLocalizedLink';
 
 const CTA = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const getLocalizedLink = useLocalizedLink();
 
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
@@ -44,7 +46,7 @@ const CTA = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <Button
-              onClick={() => navigate('/contact')}
+              onClick={() => navigate(getLocalizedLink('/contact'))}
               size="lg"
               className="bg-accent-purple hover:bg-accent-purple/90 text-white font-bold px-8 py-6 text-lg rounded-full group"
             >

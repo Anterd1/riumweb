@@ -6,13 +6,15 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import AnimatedHeroBackground from '@/components/AnimatedHeroBackground';
 import MaskedText from '@/components/MaskedText';
+import { useLocalizedLink } from '@/hooks/useLocalizedLink';
 
 const Hero = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const getLocalizedLink = useLocalizedLink();
   
   const handleCTAClick = () => {
-    navigate('/contact');
+    navigate(getLocalizedLink('/contact'));
   };
   
   const handleViewWorkClick = () => {

@@ -4,21 +4,23 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Home, ArrowLeft } from 'lucide-react';
 import SEO from '@/components/SEO';
+import { useLocalizedLink } from '@/hooks/useLocalizedLink';
 
 const NotFound = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const getLocalizedLink = useLocalizedLink();
 
   // Redirecciones automáticas para URLs comunes
   useEffect(() => {
     const path = location.pathname.toLowerCase();
     
     const redirects = {
-      '/contacto': '/contact',
-      '/en/contacto': '/contact',
-      '/en/soluciones': '/#services',
-      '/explora': '/blog',
-      '/tradingar': '/',
+      '/contacto': '/es/contact',
+      '/en/contacto': '/en/contact',
+      '/en/soluciones': '/en/#services',
+      '/explora': '/es/blog',
+      '/tradingar': '/es',
     };
 
     if (redirects[path]) {
@@ -75,7 +77,7 @@ const NotFound = () => {
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Button
-              onClick={() => navigate('/')}
+              onClick={() => navigate(getLocalizedLink('/'))}
               size="lg"
               className="bg-accent-purple hover:bg-accent-purple/90 text-white font-bold px-8 py-6 text-lg rounded-full"
             >
@@ -102,21 +104,21 @@ const NotFound = () => {
             <p className="text-gray-500 mb-4">O explora nuestras secciones:</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button
-                onClick={() => navigate('/#services')}
+                onClick={() => navigate(getLocalizedLink('/#services'))}
                 variant="ghost"
                 className="text-gray-400 hover:text-white"
               >
                 Servicios
               </Button>
               <Button
-                onClick={() => navigate('/blog')}
+                onClick={() => navigate(getLocalizedLink('/blog'))}
                 variant="ghost"
                 className="text-gray-400 hover:text-white"
               >
                 Blog
               </Button>
               <Button
-                onClick={() => navigate('/contact')}
+                onClick={() => navigate(getLocalizedLink('/contact'))}
                 variant="ghost"
                 className="text-gray-400 hover:text-white"
               >
