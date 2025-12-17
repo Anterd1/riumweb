@@ -19,8 +19,8 @@ const NewsPost = () => {
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
   
-  // Detectar idioma actual desde la URL
-  const currentLang = location.pathname.startsWith('/en') ? 'en' : 'es'
+  // Detectar idioma actual desde la URL (con guard para StrictMode)
+  const currentLang = location?.pathname?.startsWith('/en') ? 'en' : 'es'
 
   useEffect(() => {
     fetchPost()
@@ -208,7 +208,7 @@ const NewsPost = () => {
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://rium.com.mx/noticias/${post.slug || post.id}`,
+      '@id': articleUrl,
     },
     articleSection: post.category,
     keywords: postTags.length > 0 ? postTags.join(', ') : post.category,

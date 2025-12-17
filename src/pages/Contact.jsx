@@ -62,6 +62,20 @@ const Contact = () => {
         throw new Error('No se recibió confirmación del servidor. El mensaje puede no haberse guardado.');
       }
 
+    // Rastrear conversión en Google Analytics
+    if (window.gtag && typeof window.gtag === 'function') {
+      window.gtag('event', 'form_submit', {
+        event_category: 'Contact',
+        event_label: 'Contact Form',
+        value: 1
+      });
+      window.gtag('event', 'conversion', {
+        send_to: 'AW-CONVERSION_ID/CONVERSION_LABEL', // Reemplazar con tu ID de conversión si lo tienes
+        event_category: 'Contact',
+        event_label: 'Contact Form Submission'
+      });
+    }
+
     toast({
       title: '¡Gracias!',
       description: 'Tu mensaje ha sido enviado exitosamente. ¡Te responderemos pronto!',

@@ -46,7 +46,17 @@ const CTA = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <Button
-              onClick={() => navigate(getLocalizedLink('/contact'))}
+              onClick={() => {
+                // Rastrear clic en CTA
+                if (window.gtag && typeof window.gtag === 'function') {
+                  window.gtag('event', 'cta_click', {
+                    event_category: 'Engagement',
+                    event_label: 'CTA Section - Hablemos',
+                    location: 'CTA Section'
+                  });
+                }
+                navigate(getLocalizedLink('/contact'));
+              }}
               size="lg"
               className="bg-accent-purple hover:bg-accent-purple/90 text-white font-bold px-8 py-6 text-lg rounded-full group"
             >

@@ -13,11 +13,22 @@ Disallow: /tienda
 Disallow: /tienda/
 
 # Permitir acceso a recursos públicos importantes
-Allow: /blog
-Allow: /noticias
-Allow: /contact
+Allow: /es/
+Allow: /en/
+Allow: /es/blog
+Allow: /en/blog
+Allow: /es/noticias
+Allow: /en/noticias
+Allow: /es/contact
+Allow: /en/contact
 Allow: /images/
 Allow: /assets/
+Allow: /video/
+
+# Bloquear archivos y directorios técnicos
+Disallow: /*.json$
+Disallow: /*?*
+Disallow: /api/
 
 # Sitemap
 Sitemap: https://rium.com.mx/sitemap.xml

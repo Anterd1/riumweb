@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { hasError: false, error: null }
+    this.state = { hasError: false, error: null, errorCount: 0 }
   }
 
   static getDerivedStateFromError(error) {
@@ -13,6 +13,19 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error('Error capturado por ErrorBoundary:', error, errorInfo)
+    
+    // Incrementar contador de errores
+    this.setState(prevState => ({
+      errorCount: prevState.errorCount + 1
+    }))
+  }
+
+  resetError = () => {
+    this.setState({ hasError: false, error: null })
+    // Detectar idioma desde localStorage o URL
+    const savedLang = localStorage.getItem('i18nextLng') || 'es';
+    const lang = savedLang.startsWith('en') ? 'en' : 'es';
+    window.location.href = `/${lang}`
   }
 
   render() {
@@ -27,17 +40,15 @@ class ErrorBoundary extends React.Component {
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="mb-6 text-left bg-red-500/10 border border-red-500/50 rounded-lg p-4">
                 <summary className="cursor-pointer text-red-400 mb-2">Detalles del error (solo en desarrollo)</summary>
-                <pre className="text-xs text-gray-400 overflow-auto">
+                <pre className="text-xs text-gray-400 overflow-auto max-h-96">
                   {this.state.error.toString()}
+                  {'\n\n'}
                   {this.state.error.stack}
                 </pre>
               </details>
             )}
             <Button
-              onClick={() => {
-                this.setState({ hasError: false, error: null })
-                window.location.href = '/'
-              }}
+              onClick={this.resetError}
               className="bg-accent-purple hover:bg-accent-purple/90"
             >
               Volver al inicio

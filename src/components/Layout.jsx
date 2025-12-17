@@ -10,12 +10,19 @@ import { useLanguageFromUrl } from '@/hooks/useLanguageFromUrl';
 
 const Layout = memo(() => {
   const location = useLocation();
-  const { lang } = useParams();
+  const params = useParams();
+  const { lang } = params || {};
+  
   useLanguageFromUrl(); // Hook para sincronizar idioma con URL
+  
+  // Guard: Si location o params no están disponibles (StrictMode double render), retornar null temporalmente
+  if (!location || !params) {
+    return null;
+  }
   
   // Si no hay prefijo de idioma, redirigir a /es
   if (!lang || (lang !== 'es' && lang !== 'en')) {
-    const pathWithoutLang = location.pathname;
+    const pathWithoutLang = location.pathname || '';
     return <Navigate to={`/es${pathWithoutLang}`} replace />;
   }
   
@@ -24,7 +31,7 @@ const Layout = memo(() => {
   // Scroll to top when route changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [location.pathname]);
+  }, [location?.pathname]);
 
   return (
     <ThemeProvider>

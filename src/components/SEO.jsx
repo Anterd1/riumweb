@@ -16,13 +16,13 @@ const SEO = React.memo(({
   const { lang } = useParams();
   const { i18n } = useTranslation();
   
-  // Detectar idioma actual desde URL o i18n
-  const currentLang = lang || (location.pathname.startsWith('/en') ? 'en' : 'es');
+  // Detectar idioma actual desde URL o i18n (con guard para StrictMode)
+  const currentLang = lang || (location?.pathname?.startsWith('/en') ? 'en' : 'es');
   const locale = currentLang === 'en' ? 'en_US' : 'es_ES';
   
   // Limpiar URL de parámetros de query problemáticos y rutas que no deberían existir (memoizado)
   const cleanPathname = useMemo(() => {
-    let path = location.pathname;
+    let path = location?.pathname || '/';
     if (path.startsWith('/tienda')) {
       path = '/';
     }
@@ -45,12 +45,28 @@ const SEO = React.memo(({
     en: `https://rium.com.mx/en${pathWithoutLang}`,
   }), [pathWithoutLang]);
   
-  const currentUrl = useMemo(() => url || `https://rium.com.mx${cleanPathname}`, [url, cleanPathname]);
+  // Generar URL canónica: siempre con prefijo de idioma y sin parámetros de query
+  const currentUrl = useMemo(() => {
+    // Si se pasa una URL explícita, normalizarla
+    if (url) {
+      // Si la URL no tiene prefijo de idioma, agregarlo
+      if (!url.includes('/es/') && !url.includes('/en/') && !url.endsWith('/es') && !url.endsWith('/en')) {
+        // Remover dominio si está presente
+        const urlPath = url.replace('https://rium.com.mx', '').replace('http://rium.com.mx', '');
+        // Agregar prefijo de idioma
+        return `https://rium.com.mx/${currentLang}${urlPath === '/' ? '' : urlPath}`;
+      }
+      // Si ya tiene prefijo de idioma, asegurar HTTPS y remover query params
+      return url.split('?')[0].split('#')[0].replace('http://', 'https://');
+    }
+    // Si no se pasa URL, usar cleanPathname (que ya incluye idioma)
+    return `https://rium.com.mx${cleanPathname}`;
+  }, [url, cleanPathname, currentLang]);
   const fullImageUrl = useMemo(() => image.startsWith('http') ? image : `https://rium.com.mx${image}`, [image]);
 
   // Función para generar breadcrumbs (memoizada)
   const breadcrumbs = useMemo(() => {
-    const pathSegments = location.pathname.split('/').filter(Boolean);
+    const pathSegments = (location?.pathname || '/').split('/').filter(Boolean);
     const breadcrumbList = [
       {
         '@type': 'ListItem',
@@ -586,18 +602,18 @@ const SEO = React.memo(({
       )}
 
       {/* Structured Data */}
-      <script 
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData) }}
-      />
-      <script 
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }}
-      />
-      <script 
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webpageData) }}
-      />
+        <script 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData) }}
+        />
+        <script 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }}
+        />
+        <script 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webpageData) }}
+        />
       <script 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}

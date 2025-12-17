@@ -22,14 +22,12 @@ if ('serviceWorker' in navigator) {
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <HelmetProvider>
-    <ErrorBoundary>
-      <BrowserRouter>
+  <HelmetProvider>
+    <BrowserRouter>
+      <ErrorBoundary>
         <App />
-      </BrowserRouter>
-    </ErrorBoundary>
-    </HelmetProvider>
-  </React.StrictMode>,
+      </ErrorBoundary>
+    </BrowserRouter>
+  </HelmetProvider>,
 )
 

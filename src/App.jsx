@@ -6,7 +6,6 @@ import Contact from '@/pages/Contact';
 import Login from '@/pages/admin/Login';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import AdminLayout from '@/components/AdminLayout';
-import GoogleAnalytics from '@/components/GoogleAnalytics';
 import PageLoader from '@/components/PageLoader';
 import LanguageRedirect from '@/components/LanguageRedirect';
 import BlogPostRedirect from '@/components/BlogPostRedirect';
@@ -102,7 +101,6 @@ function App() {
       <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
-      <GoogleAnalytics />
     </>
   );
 }

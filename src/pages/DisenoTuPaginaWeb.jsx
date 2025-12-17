@@ -235,7 +235,17 @@ const DisenoTuPaginaWeb = () => {
                   Contáctanos hoy y recibe una cotización personalizada para tu proyecto.
                 </p>
                 <Button
-                  onClick={() => navigate(getLocalizedLink('/contact'))}
+                  onClick={() => {
+                    // Rastrear clic en CTA
+                    if (window.gtag && typeof window.gtag === 'function') {
+                      window.gtag('event', 'cta_click', {
+                        event_category: 'Engagement',
+                        event_label: 'Solicitar Cotización Gratuita - Bottom',
+                        location: 'DisenoTuPaginaWeb'
+                      });
+                    }
+                    navigate(getLocalizedLink('/contact'));
+                  }}
                   size="lg"
                   className="bg-accent-purple hover:bg-accent-purple/90 text-white font-bold px-8 py-6 text-lg rounded-full group"
                 >

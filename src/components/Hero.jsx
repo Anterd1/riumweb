@@ -14,6 +14,14 @@ const Hero = () => {
   const getLocalizedLink = useLocalizedLink();
   
   const handleCTAClick = () => {
+    // Rastrear clic en CTA principal
+    if (window.gtag && typeof window.gtag === 'function') {
+      window.gtag('event', 'cta_click', {
+        event_category: 'Engagement',
+        event_label: 'Hero CTA - Hablemos',
+        location: 'Hero Section'
+      });
+    }
     navigate(getLocalizedLink('/contact'));
   };
   

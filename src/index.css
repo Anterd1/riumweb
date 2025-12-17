@@ -36,13 +36,13 @@
   }
 
   .dark {
-    --background: 260 100% 4%;
+    --background: 0 0% 5%;
     --foreground: 210 40% 98%;
 
-    --card: 260 100% 4%;
+    --card: 0 0% 5%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 260 100% 4%;
+    --popover: 0 0% 5%;
     --popover-foreground: 210 40% 98%;
 
     --primary: 210 40% 98%;
@@ -71,7 +71,8 @@
     @apply border-border;
   }
   body, html {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background-color: hsl(var(--background));
     /* Cursor controlado dinámicamente por componente */
   }
   
