@@ -24,8 +24,8 @@ const Home = () => {
         url="https://rium.com.mx/"
       />
       <Hero />
-      <SectionAnimator><TrustedClients /></SectionAnimator>
       <SectionAnimator><About /></SectionAnimator>
+      <SectionAnimator><TrustedClients /></SectionAnimator>
       <SectionAnimator><Services /></SectionAnimator>
       {/* <SectionAnimator><Portfolio /></SectionAnimator> */}
       {/* <SectionAnimator><Testimonials /></SectionAnimator> */}
