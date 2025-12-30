@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { CheckCircle2 } from 'lucide-react';
 
 const About = () => {
   const { t } = useTranslation();
@@ -38,24 +39,43 @@ const About = () => {
           duration: 0.8,
           ease: 'easeOut'
         }} className="order-1 lg:order-2">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-[#1E3A5F] dark:text-white uppercase">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight text-[#1E3A5F] dark:text-white uppercase">
               {t('about.title')} <span className="text-accent-purple">{t('about.titleHighlight')}</span>
             </h2>
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-2xl font-bold text-[#1E3A5F] dark:text-white">{t('about.benefits.conversion')}</h3>
+            
+            {/* Divider */}
+            <div className="w-20 h-1 bg-accent-purple mb-8"></div>
+            
+            <div className="space-y-5">
+              <div className="flex items-start gap-3 group">
+                <CheckCircle2 className="w-6 h-6 text-accent-purple flex-shrink-0 mt-1" />
+                <h3 className="text-lg md:text-xl font-semibold text-[#1E3A5F] dark:text-white group-hover:text-accent-purple dark:group-hover:text-accent-purple transition-colors">
+                  {t('about.benefits.conversion')}
+                </h3>
               </div>
-              <div>
-                <h3 className="text-2xl font-bold text-[#1E3A5F] dark:text-white">{t('about.benefits.costs')}</h3>
+              <div className="flex items-start gap-3 group">
+                <CheckCircle2 className="w-6 h-6 text-accent-purple flex-shrink-0 mt-1" />
+                <h3 className="text-lg md:text-xl font-semibold text-[#1E3A5F] dark:text-white group-hover:text-accent-purple dark:group-hover:text-accent-purple transition-colors">
+                  {t('about.benefits.costs')}
+                </h3>
               </div>
-              <div>
-                <h3 className="text-2xl font-bold text-[#1E3A5F] dark:text-white">{t('about.benefits.satisfaction')}</h3>
+              <div className="flex items-start gap-3 group">
+                <CheckCircle2 className="w-6 h-6 text-accent-purple flex-shrink-0 mt-1" />
+                <h3 className="text-lg md:text-xl font-semibold text-[#1E3A5F] dark:text-white group-hover:text-accent-purple dark:group-hover:text-accent-purple transition-colors">
+                  {t('about.benefits.satisfaction')}
+                </h3>
               </div>
-              <div>
-                <h3 className="text-2xl font-bold text-[#1E3A5F] dark:text-white">{t('about.benefits.competitive')}</h3>
+              <div className="flex items-start gap-3 group">
+                <CheckCircle2 className="w-6 h-6 text-accent-purple flex-shrink-0 mt-1" />
+                <h3 className="text-lg md:text-xl font-semibold text-[#1E3A5F] dark:text-white group-hover:text-accent-purple dark:group-hover:text-accent-purple transition-colors">
+                  {t('about.benefits.competitive')}
+                </h3>
               </div>
-              <div>
-                <h3 className="text-2xl font-bold text-[#1E3A5F] dark:text-white">{t('about.benefits.brand')}</h3>
+              <div className="flex items-start gap-3 group">
+                <CheckCircle2 className="w-6 h-6 text-accent-purple flex-shrink-0 mt-1" />
+                <h3 className="text-lg md:text-xl font-semibold text-[#1E3A5F] dark:text-white group-hover:text-accent-purple dark:group-hover:text-accent-purple transition-colors">
+                  {t('about.benefits.brand')}
+                </h3>
               </div>
             </div>
           </motion.div>
