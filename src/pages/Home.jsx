@@ -25,8 +25,8 @@ const Home = () => {
       />
       <Hero />
       <SectionAnimator><TrustedClients /></SectionAnimator>
+      <SectionAnimator><About /></SectionAnimator>
       <SectionAnimator><Services /></SectionAnimator>
-      <About />
       {/* <SectionAnimator><Portfolio /></SectionAnimator> */}
       {/* <SectionAnimator><Testimonials /></SectionAnimator> */}
       <SectionAnimator><Stats /></SectionAnimator>
