@@ -182,7 +182,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             <title>Artículo no encontrado | rium</title>
             <meta name="description" content="El artículo que buscas no está disponible." />
             <meta property="og:type" content="website" />
-            <meta property="og:url" content="https://rium.com.mx/${type === 'news' ? 'noticias' : 'blog'}/${slugString}" />
+            <meta property="og:url" content="https://rium.com.mx/es/${type === 'news' ? 'noticias' : 'blog'}/${slugString}" />
             <meta property="og:title" content="Artículo no encontrado | rium" />
             <meta property="og:description" content="El artículo que buscas no está disponible." />
             <meta property="og:image" content="https://rium.com.mx/images/HERO.png" />
@@ -214,7 +214,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const postTags = parseTags(post.tags)
     const baseUrl = 'https://rium.com.mx'
     const path = post.post_type === 'news' ? '/noticias' : '/blog'
-    const articleUrl = `${baseUrl}${path}/${post.slug || post.id}`
+    // Detectar idioma desde la URL original (default: español)
+    const lang = req.url?.includes('/en/') ? 'en' : 'es'
+    const articleUrl = `${baseUrl}/${lang}${path}/${post.slug || post.id}`
     
     // URL absoluta de la imagen
     const ogImageUrl = post.image 
