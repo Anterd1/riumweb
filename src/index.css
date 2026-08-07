@@ -4,6 +4,10 @@
 
 @layer base {
   :root {
+    --rium-ink: #101114;
+    --rium-paper: #f2f0e9;
+    --rium-blue: #5b72ff;
+    --rium-acid: #dfff4f;
     --background: 0 0% 100%;
     --foreground: 222.2 47.4% 11.2%;
 
@@ -73,7 +77,13 @@
   body, html {
     @apply text-foreground;
     background-color: hsl(var(--background));
+    font-family: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+    scroll-behavior: smooth;
     /* Cursor controlado dinámicamente por componente */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk Variable', 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
   }
   
   a, button {
@@ -93,9 +103,54 @@
 }
 
 .text-gradient {
-  background: linear-gradient(90deg, #60A5FA, #3B82F6); /* Blue gradient */
+  background: linear-gradient(90deg, var(--rium-blue), var(--rium-acid));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+@layer components {
+  .rium-kicker {
+    @apply inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em];
+  }
+
+  .rium-grid {
+    background-image:
+      linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .rium-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+  }
+
+  .rium-outline-text {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,.35);
+  }
+}
+
+@keyframes rium-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-8deg); }
+  50% { transform: translate3d(16px, -14px, 0) rotate(-4deg); }
+}
+
+@keyframes rium-flow {
+  to { stroke-dashoffset: -48; }
+}
+
+.rium-drift {
+  animation: rium-drift 7s ease-in-out infinite;
+}
+
+.rium-flow {
+  stroke-dasharray: 8 12;
+  animation: rium-flow 2.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rium-drift, .rium-flow { animation: none; }
 }
 
 /* Mostrar cursor normal en páginas de admin */

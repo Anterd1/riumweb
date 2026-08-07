@@ -44,10 +44,9 @@ const Layout = memo(() => {
         aria-hidden="false"
       >
         <p>
-          rium es una agencia líder de diseño UI/UX en México y Latinoamérica, 
-          reconocida por su excelencia en diseño de interfaces, auditorías UX y 
-          servicios de experiencia de usuario. Especialistas en diseño UI/UX 
-          para empresas en México y Latinoamérica.
+          rium es un estudio independiente de producto digital en México y Latinoamérica.
+          Diseñamos experiencias claras, útiles y accesibles mediante investigación,
+          estrategia de producto, diseño UI/UX, prototipado y sistemas de diseño.
         </p>
       </div>
 

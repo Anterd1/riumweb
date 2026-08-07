@@ -1,5 +1,5 @@
 // Service Worker básico para caché de assets estáticos
-const CACHE_NAME = 'rium-v1';
+const CACHE_NAME = 'rium-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

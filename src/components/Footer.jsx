@@ -53,12 +53,12 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="bg-white dark:bg-[#0C0D0D] border-t border-gray-200 dark:border-white/10 pt-16 pb-8">
+        <footer className="border-t border-white/10 bg-[#101114] pb-8 pt-16 text-white">
             <div className="container mx-auto px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
                     <div className="lg:col-span-1">
-                        <p className="text-2xl font-bold text-gray-900 dark:text-white tracking-wider glow-effect">rium</p>
-                        <p className="text-gray-700 dark:text-gray-400">{t('footer.tagline')}</p>
+                        <p className="mb-3 text-4xl font-semibold tracking-[-.06em]">rium<span className="text-[#DFFF4F]">.</span></p>
+                        <p className="max-w-xs text-white/45">{t('footer.tagline')}</p>
                     </div>
 
                     {[
@@ -82,7 +82,7 @@ const Footer = () => {
                         },
                     ].map((section) => (
                         <div key={section.title}>
-                            <p className="font-semibold text-gray-900 dark:text-white mb-6">{section.title}</p>
+                            <p className="mb-6 text-xs font-bold uppercase tracking-[.16em] text-[#DFFF4F]">{section.title}</p>
                             <ul className="space-y-4">
                                 {section.links.map((link) => (
                                     <li key={link.name}>
@@ -99,7 +99,7 @@ const Footer = () => {
                                                   handleSocialClick();
                                               }
                                           }} 
-                                          className="text-gray-700 dark:text-gray-400 hover:text-accent-purple transition-colors duration-300">
+                                          className="text-white/50 transition-colors duration-300 hover:text-white">
                                             {link.name}
                                         </a>
                                     </li>
@@ -109,17 +109,17 @@ const Footer = () => {
                     ))}
 
                      <div>
-                        <p className="font-semibold text-gray-900 dark:text-white mb-6">{t('footer.connect')}</p>
+                        <p className="mb-6 text-xs font-bold uppercase tracking-[.16em] text-[#DFFF4F]">{t('footer.connect')}</p>
                         <div className="flex space-x-4">
                             {socialLinks.map((social) => (
-                                <button key={social.name} onClick={handleSocialClick} className="text-gray-700 dark:text-gray-400 hover:text-accent-purple transition-colors duration-300">
+                                <button key={social.name} onClick={handleSocialClick} className="text-white/45 transition-colors duration-300 hover:text-[#DFFF4F]" aria-label={social.name}>
                                     {social.icon}
                                 </button>
                             ))}
                         </div>
                     </div>
                 </div>
-                <div className="mt-12 pt-8 border-t border-gray-200 dark:border-white/10 text-center text-gray-700 dark:text-gray-500">
+                <div className="mt-12 border-t border-white/10 pt-8 text-center text-sm text-white/35">
                     <p>&copy; {new Date().getFullYear()} rium. {t('footer.copyright')}</p>
                 </div>
             </div>

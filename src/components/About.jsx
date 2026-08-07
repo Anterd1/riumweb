@@ -1,135 +1,80 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { CheckCircle2 } from 'lucide-react';
+import { ArrowDownRight } from 'lucide-react';
 
 const About = () => {
-  const { t } = useTranslation();
-  return <section id="about" className="py-24 bg-[#E9F0FD] dark:bg-[#0F1624] overflow-hidden">
+  const { i18n } = useTranslation();
+  const isSpanish = i18n.language?.startsWith('es');
+  const reduceMotion = useReducedMotion();
+  const copy = isSpanish ? {
+    kicker: 'Cómo trabajamos contigo',
+    title: 'No llegamos con todas las respuestas.',
+    highlight: 'Llegamos con mejores preguntas.',
+    description: 'Trabajamos como una extensión de tu equipo: compartimos el proceso, hacemos visibles las decisiones y dejamos capacidad instalada, no dependencia.',
+    principles: [
+      ['01', 'Escuchar el contexto', 'Entender el negocio, las restricciones y a las personas antes de proponer una dirección.'],
+      ['02', 'Dar forma y probar', 'Hacer tangible la idea cuanto antes para aprender sin desperdiciar tiempo ni desarrollo.'],
+      ['03', 'Dejar un sistema', 'Crear herramientas y criterios que permitan al producto seguir creciendo sin nosotros.']
+    ]
+  } : {
+    kicker: 'How we work with you',
+    title: 'We do not arrive with every answer.',
+    highlight: 'We arrive with better questions.',
+    description: 'We work as an extension of your team: sharing the process, making decisions visible and leaving capability behind, not dependency.',
+    principles: [
+      ['01', 'Listen to the context', 'Understand the business, constraints and people before proposing a direction.'],
+      ['02', 'Shape and test', 'Make the idea tangible early to learn without wasting time or development effort.'],
+      ['03', 'Leave a system', 'Create tools and criteria that let the product keep growing without us.']
+    ]
+  };
+
+  return (
+    <section id="about" className="overflow-hidden bg-[#101114] py-24 text-white md:py-32">
       <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-stretch">
-          <motion.div initial={{
-          opacity: 0,
-          x: -50
-        }} whileInView={{
-          opacity: 1,
-          x: 0
-        }} viewport={{
-          once: true,
-          amount: 0.3
-        }} transition={{
-          duration: 0.8,
-          ease: 'easeOut'
-        }} className="order-2 lg:order-1 h-full">
-            <div className="rounded-2xl overflow-hidden aspect-square lg:aspect-square lg:h-full">
-              <img className="w-full h-full object-cover" alt="Profesional trabajando en diseño UI/UX" src="/images/persona.png" loading="lazy" decoding="async" />
-            </div>
-          </motion.div>
+        <div className="grid gap-16 lg:grid-cols-[.8fr_1.2fr]">
+          <div>
+            <p className="rium-kicker sticky top-32 text-[#DFFF4F]"><span className="h-2 w-2 rounded-full bg-[#DFFF4F]" />{copy.kicker}</p>
+          </div>
+          <div>
+            <motion.h2
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-5xl font-semibold leading-[.98] tracking-[-.05em] md:text-7xl"
+            >
+              {copy.title}<br /><span className="text-[#5B72FF]">{copy.highlight}</span>
+            </motion.h2>
+            <p className="mt-10 max-w-2xl text-xl leading-relaxed text-white/60">{copy.description}</p>
 
-          <motion.div initial={{
-          opacity: 0,
-          x: 50
-        }} whileInView={{
-          opacity: 1,
-          x: 0
-        }} viewport={{
-          once: true,
-          amount: 0.3
-        }} transition={{
-          duration: 0.8,
-          ease: 'easeOut'
-        }} className="order-1 lg:order-2">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight text-[#1E3A5F] dark:text-white uppercase">
-              {t('about.title')} <span className="text-accent-purple">{t('about.titleHighlight')}</span>
-            </h2>
-            
-            {/* Divider */}
-            <div className="w-20 h-1 bg-accent-purple mb-8"></div>
-            
-            <div className="space-y-5">
-              <div className="flex items-start gap-3 group">
-                <CheckCircle2 className="w-6 h-6 text-accent-purple flex-shrink-0 mt-1" />
-                <h3 className="text-lg md:text-xl font-semibold text-[#1E3A5F] dark:text-white group-hover:text-accent-purple dark:group-hover:text-accent-purple transition-colors">
-                  {t('about.benefits.conversion')}
-                </h3>
-              </div>
-              <div className="flex items-start gap-3 group">
-                <CheckCircle2 className="w-6 h-6 text-accent-purple flex-shrink-0 mt-1" />
-                <h3 className="text-lg md:text-xl font-semibold text-[#1E3A5F] dark:text-white group-hover:text-accent-purple dark:group-hover:text-accent-purple transition-colors">
-                  {t('about.benefits.costs')}
-                </h3>
-              </div>
-              <div className="flex items-start gap-3 group">
-                <CheckCircle2 className="w-6 h-6 text-accent-purple flex-shrink-0 mt-1" />
-                <h3 className="text-lg md:text-xl font-semibold text-[#1E3A5F] dark:text-white group-hover:text-accent-purple dark:group-hover:text-accent-purple transition-colors">
-                  {t('about.benefits.satisfaction')}
-                </h3>
-              </div>
-              <div className="flex items-start gap-3 group">
-                <CheckCircle2 className="w-6 h-6 text-accent-purple flex-shrink-0 mt-1" />
-                <h3 className="text-lg md:text-xl font-semibold text-[#1E3A5F] dark:text-white group-hover:text-accent-purple dark:group-hover:text-accent-purple transition-colors">
-                  {t('about.benefits.competitive')}
-                </h3>
-              </div>
-              <div className="flex items-start gap-3 group">
-                <CheckCircle2 className="w-6 h-6 text-accent-purple flex-shrink-0 mt-1" />
-                <h3 className="text-lg md:text-xl font-semibold text-[#1E3A5F] dark:text-white group-hover:text-accent-purple dark:group-hover:text-accent-purple transition-colors">
-                  {t('about.benefits.brand')}
-                </h3>
-              </div>
+            <div className="mt-20 border-t border-white/15">
+              {copy.principles.map(([number, title, description], index) => (
+                <motion.div
+                  key={number}
+                  initial={{ opacity: 0, x: 32 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: .5 }}
+                  transition={{ duration: .55, delay: index * .1, ease: [0.22, 1, 0.36, 1] }}
+                  className="group grid gap-5 border-b border-white/15 py-8 md:grid-cols-[80px_1fr_1fr_40px] md:items-center"
+                >
+                  <span className="font-mono text-sm text-[#DFFF4F]">{number}</span>
+                  <h3 className="text-2xl font-medium tracking-tight">{title}</h3>
+                  <p className="text-sm leading-relaxed text-white/50">{description}</p>
+                  <motion.div
+                    animate={reduceMotion ? undefined : { rotate: [0, 45, 0], color: ['rgba(255,255,255,.25)', '#DFFF4F', 'rgba(255,255,255,.25)'] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: index * .65 }}
+                    className="hidden md:block"
+                  >
+                    <ArrowDownRight className="h-5 w-5" />
+                  </motion.div>
+                </motion.div>
+              ))}
             </div>
-          </motion.div>
+          </div>
         </div>
-
-        {/* <div className="grid lg:grid-cols-2 gap-16 items-center mt-24">
-          <motion.div initial={{
-          opacity: 0,
-          x: -50
-        }} whileInView={{
-          opacity: 1,
-          x: 0
-        }} viewport={{
-          once: true,
-          amount: 0.3
-        }} transition={{
-          duration: 0.8,
-          ease: 'easeOut'
-        }} className="lg:order-last">
-            <div className="rounded-2xl overflow-hidden aspect-[4/3]">
-              <img className="w-full h-full object-cover" alt="Diverse team collaborating around a table with laptops and notes" src="https://horizons-cdn.hostinger.com/8c7cb7a4-8366-40b2-93de-512196b005b6/michael-t-rxri-ho62y4-unsplash-2-tvxRc.jpg" loading="lazy" decoding="async" style={{ aspectRatio: '4/3' }} />
-            </div>
-          </motion.div>
-
-          <motion.div initial={{
-          opacity: 0,
-          x: 50
-        }} whileInView={{
-          opacity: 1,
-          x: 0
-        }} viewport={{
-          once: true,
-          amount: 0.3
-        }} transition={{
-          duration: 0.8,
-          ease: 'easeOut'
-        }}>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white uppercase">
-              Your vision, our <span className="text-accent-purple">expertise</span>
-            </h2>
-
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-3">Strategy & Discovery</h3>
-                <p className="text-lg text-gray-400">We start by deeply understanding your brand, audience, and goals to build a comprehensive roadmap for success.</p>
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-3">Creative Execution</h3>
-                <p className="text-lg text-gray-400">Our team brings ideas to life with precision and creativity, refining every detail through a collaborative feedback loop.</p>
-              </div>
-            </div>
-          </motion.div>
-        </div> */}
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default About;

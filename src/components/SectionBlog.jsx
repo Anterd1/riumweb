@@ -37,17 +37,20 @@ const SectionBlog = React.memo(() => {
 
   return (
     <SectionAnimator>
-      <section className="py-24 bg-white dark:bg-[#0C0D0D]">
+      <section className="bg-[#F2F0E9] py-24 text-[#101114] md:py-32">
         <div className="container mx-auto px-6">
           {/* Header */}
-          <div className="text-center mb-16">
-            <div className="inline-block px-4 py-1.5 border border-gray-300 dark:border-white/20 rounded-full text-sm mb-4 uppercase text-gray-700 dark:text-white">
+          <div className="mb-16 grid gap-6 md:grid-cols-[1fr_.7fr] md:items-end">
+            <div>
+            <div className="rium-kicker mb-6 text-[#5B72FF]">
+              <span className="h-2 w-2 rounded-full bg-[#5B72FF]" />
               {t('blog.section.badge')}
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 uppercase text-gray-900 dark:text-white">
-              {t('blog.section.title')} <span className="text-accent-purple">{t('blog.section.titleHighlight')}</span>
+            <h2 className="text-5xl font-semibold leading-[.95] tracking-[-.05em] md:text-7xl">
+              {t('blog.section.title')} <span className="text-[#5B72FF]">{t('blog.section.titleHighlight')}</span>
             </h2>
-            <p className="text-xl text-gray-700 dark:text-gray-400 max-w-2xl mx-auto">
+            </div>
+            <p className="max-w-xl text-lg leading-relaxed text-black/55">
               {t('blog.section.description')}
             </p>
           </div>
@@ -74,7 +77,7 @@ const SectionBlog = React.memo(() => {
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="bg-gray-50 dark:bg-[#1E1E2A] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-accent-purple/10 transition-all duration-300 group cursor-pointer h-full"
+                      className="group h-full cursor-pointer overflow-hidden rounded-[1.5rem] border border-black/10 bg-white transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
                     >
                       {/* Image - Optimizado para móvil con aspect-ratio */}
                       <div className="relative aspect-video overflow-hidden">
@@ -109,12 +112,12 @@ const SectionBlog = React.memo(() => {
                         )}
 
                         {/* Title */}
-                        <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-accent-purple transition-colors line-clamp-2">
+                        <h3 className="mb-3 line-clamp-2 text-xl font-bold text-[#101114] transition-colors group-hover:text-[#5B72FF]">
                           {post.title}
                         </h3>
 
                         {/* Excerpt */}
-                        <p className="text-gray-700 dark:text-gray-400 mb-4 line-clamp-3 text-sm">
+                        <p className="mb-4 line-clamp-3 text-sm text-black/55">
                           {post.excerpt}
                         </p>
 
@@ -173,7 +176,7 @@ const SectionBlog = React.memo(() => {
               <Button
                 asChild
                 size="lg"
-                className="bg-accent-purple hover:bg-accent-purple/90 text-white font-bold px-8 py-6 text-lg rounded-full"
+                className="rounded-full bg-[#101114] px-8 py-6 text-lg font-bold text-white hover:bg-[#5B72FF]"
               >
                 <Link to="/blog">
                   {t('blog.section.viewAll')}

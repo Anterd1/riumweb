@@ -70,7 +70,9 @@ export default defineConfig({
       port: 3000,
     },
     headers: {
-      'Cache-Control': 'public, max-age=31536000',
+      // Los módulos de desarrollo cambian constantemente; cachearlos provoca
+      // que React y React Router carguen chunks de compilaciones distintas.
+      'Cache-Control': 'no-store',
     },
   },
 })

@@ -1,13 +1,13 @@
 {
   "hero": {
-    "title1": "Somos la agencia líder",
-    "title2": "de diseño UI/UX en",
-    "title3": "Latinoamérica",
-    "description1": "Mejoramos productos digitales que no convierten.",
-    "description2": "Diseñamos interfaces que aumentan ventas, reducen costos de desarrollo",
-    "description3": "y mejoran la satisfacción de tus usuarios.",
+    "title1": "Diseñamos",
+    "title2": "productos que",
+    "title3": "se sienten vivos.",
+    "description1": "Convertimos productos confusos",
+    "description2": "en experiencias claras, útiles",
+    "description3": "y difíciles de olvidar.",
     "cta": "Hablemos",
-    "viewWork": "Ver Nuestro Trabajo"
+    "viewWork": "Ver cómo trabajamos"
   },
   "services": {
     "title": "Nuestros",
@@ -411,23 +411,23 @@
     }
   },
   "footer": {
-    "tagline": "Creative solutions that drive results.",
+    "tagline": "Productos digitales claros, útiles y con vida.",
     "sections": {
-      "quickLinks": "Quick Links",
-      "company": "Company"
+      "quickLinks": "Explora",
+      "company": "Estudio"
     },
     "links": {
-      "home": "Home",
-      "services": "Services",
-      "portfolio": "Portfolio",
-      "about": "About",
-      "contact": "Contact Us",
-      "careers": "Careers",
-      "privacy": "Privacy Policy",
-      "terms": "Terms of Service"
+      "home": "Inicio",
+      "services": "Servicios",
+      "portfolio": "Trabajo",
+      "about": "Nosotros",
+      "contact": "Contacto",
+      "careers": "Carreras",
+      "privacy": "Privacidad",
+      "terms": "Términos"
     },
-    "connect": "Connect With Us",
-    "copyright": "All Rights Reserved."
+    "connect": "Conecta",
+    "copyright": "Todos los derechos reservados."
   },
   "newsletter": {
     "title": "¿Quieres Más Contenido?",
@@ -448,8 +448,8 @@
   },
   "seo": {
     "home": {
-      "title": "Diseño UI/UX México | Agencia UX Latinoamérica",
-      "description": "Una de las mejores agencias de diseño UI/UX en México y Latinoamérica. Especializada en diseño de interfaces, auditorías UX, investigación de mercado, arquitectura de información, wireframes, pruebas de usabilidad, user personas, journey mapping, card sorting, pruebas A/B y más servicios de experiencia de usuario.",
+      "title": "Estudio de producto digital y diseño UI/UX",
+      "description": "Estudio independiente de producto digital en México y Latinoamérica. Diseñamos experiencias claras y útiles mediante estrategia, investigación, diseño UI/UX, prototipado y sistemas de diseño.",
       "keywords": "agencias de diseño UI UX, agencias de diseño ui ux, agencia de diseño UI UX, mejores agencias diseño UI UX México, agencias UX Latinoamérica, agencias diseño UI UX México, top agencias UX, agencia de diseño UI/UX, diseño UI/UX, agencia creativa, marketing digital, diseño web, branding, desarrollo web, Latinoamérica, agencia de diseño, consultoría UX, consultoría experiencia de usuario, auditoría UX, auditoría experiencia de usuario, evaluaciones heurísticas, evaluación heurística UX, investigación de mercado, arquitectura de información, wireframes, diseño de interfaces, pruebas de usabilidad, user personas, journey mapping, card sorting, pruebas A/B, focus groups, análisis de competidores, benchmark, diseño responsivo, aplicaciones móviles, accesibilidad web, sistemas de diseño, UX writing, pruebas remotas moderadas, pruebas remotas no moderadas, auditorías de accesibilidad, análisis técnico UX, análisis de rendimiento, análisis de embudo de ventas, entrevistas de usuarios, encuestas usuarios, cuestionarios, análisis de tendencias"
     },
     "blog": {

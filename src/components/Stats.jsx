@@ -1,5 +1,5 @@
 import React from 'react';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -37,78 +37,79 @@ const AnimatedCounter = ({ to, suffix }) => {
 }
 
 const Stats = ({ customStats }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isProjectPage = !!customStats;
+  const isSpanish = i18n.language?.startsWith('es');
   
   const defaultStats = useMemo(() => [
     {
       value: 20,
       suffix: '+',
-      label: t('stats.stats.projects.label'),
-      description: t('stats.stats.projects.description'),
+      label: isSpanish ? 'Proyectos' : 'Projects',
+      description: isSpanish ? 'Productos y experiencias entregadas.' : 'Products and experiences delivered.',
     },
     {
-      value: 100,
-      suffix: '%',
-      label: t('stats.stats.satisfaction.label'),
-      description: t('stats.stats.satisfaction.description'),
-    },
-    {
-      value: 300,
+      value: 13,
       suffix: '+',
-      label: t('stats.stats.innovation.label'),
-      description: t('stats.stats.innovation.description'),
+      label: isSpanish ? 'Equipos' : 'Teams',
+      description: isSpanish ? 'Que nos han invitado a resolver juntos.' : 'Who invited us to solve together.',
     },
     {
       value: 10,
       suffix: '+',
-      label: t('stats.stats.industries.label'),
-      description: t('stats.stats.industries.description'),
+      label: isSpanish ? 'Industrias' : 'Industries',
+      description: isSpanish ? 'Contextos distintos, una obsesión por la claridad.' : 'Different contexts, one obsession with clarity.',
     },
-  ], [t]);
+    {
+      value: 2,
+      suffix: '',
+      label: isSpanish ? 'Idiomas' : 'Languages',
+      description: isSpanish ? 'ES / EN para colaborar sin fronteras.' : 'ES / EN to collaborate across borders.',
+    },
+  ], [isSpanish]);
   
   const stats = customStats || defaultStats;
 
   return (
-    <section id="stats-section" className="py-24 bg-white dark:bg-[#0C0D0D]">
+    <section id="stats-section" className="bg-[#101114] py-24 text-white md:py-32">
       <div className="container mx-auto px-6">
         {!isProjectPage && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          <div className="mb-16 grid gap-8 md:grid-cols-2">
             <div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white uppercase">
-                {t('stats.title')} <span className="text-accent-purple">{t('stats.titleHighlight')}</span>
+              <p className="rium-kicker mb-6 text-[#DFFF4F]"><span className="h-2 w-2 rounded-full bg-[#DFFF4F]" />{isSpanish ? 'Rium en números' : 'Rium in numbers'}</p>
+              <h2 className="max-w-xl text-5xl font-semibold leading-[.95] tracking-[-.05em] md:text-7xl">
+                {isSpanish ? 'La confianza se construye proyecto a proyecto.' : 'Trust is built one project at a time.'}
               </h2>
-            </div>
-            <div className="flex items-end">
-              <p className="text-lg text-gray-700 dark:text-gray-400 max-w-md">
-                {t('stats.description')}
-              </p>
             </div>
           </div>
         )}
         
         {isProjectPage && (
             <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white uppercase">
-                    {t('stats.projectTitle')} <span className="text-accent-purple">{t('stats.projectTitleHighlight')}</span>
+                <h2 className="text-4xl font-bold uppercase text-white md:text-5xl lg:text-6xl">
+                    {t('stats.projectTitle')} <span className="text-[#DFFF4F]">{t('stats.projectTitleHighlight')}</span>
                 </h2>
             </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((stat) => (
-            <div
+        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[2rem] bg-white/15 md:grid-cols-2 lg:grid-cols-4">
+          {stats.map((stat, index) => (
+            <motion.div
               key={stat.label}
-              className="bg-gray-50 dark:bg-[#1E1E2A] p-8 rounded-2xl h-full"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: .35 }}
+              transition={{ duration: .5, delay: index * .08 }}
+              className="h-full bg-[#17181D] p-8 md:min-h-[300px]"
             >
-              <div className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+              <div className="mb-14 text-6xl font-semibold tracking-[-.05em] text-[#DFFF4F] md:text-7xl">
                 <AnimatedCounter to={stat.value} suffix={stat.suffix} />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{stat.label}</h3>
-                <p className="text-gray-700 dark:text-gray-400">{stat.description}</p>
+                <h3 className="mb-2 text-xl font-semibold text-white">{stat.label}</h3>
+                <p className="text-sm leading-relaxed text-white/45">{stat.description}</p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 import SEO from '@/components/SEO';
 import Hero from '@/components/Hero';
 import TrustedClients from '@/components/TrustedClients';
+import SelectedWork from '@/components/SelectedWork';
 import Services from '@/components/Services';
+import AgenticDigitalization from '@/components/AgenticDigitalization';
 import About from '@/components/About';
-import Portfolio from '@/components/Portfolio';
-import Testimonials from '@/components/Testimonials';
 import Stats from '@/components/Stats';
 import SectionBlog from '@/components/SectionBlog';
 import CTA from '@/components/CTA';
@@ -24,12 +24,12 @@ const Home = () => {
         url="https://rium.com.mx/"
       />
       <Hero />
-      <SectionAnimator><About /></SectionAnimator>
-      <SectionAnimator><TrustedClients /></SectionAnimator>
       <SectionAnimator><Services /></SectionAnimator>
-      {/* <SectionAnimator><Portfolio /></SectionAnimator> */}
-      {/* <SectionAnimator><Testimonials /></SectionAnimator> */}
+      <AgenticDigitalization />
+      <SelectedWork />
       <SectionAnimator><Stats /></SectionAnimator>
+      <SectionAnimator><TrustedClients /></SectionAnimator>
+      <SectionAnimator><About /></SectionAnimator>
       <SectionBlog />
       <SectionAnimator><CTA /></SectionAnimator>
     </>

@@ -1,11 +1,11 @@
 {
   "hero": {
-    "title1": "We are the leading agency",
-    "title2": "for UI/UX design in",
-    "title3": "Latin America",
-    "description1": "We improve digital products that don't convert.",
-    "description2": "We design interfaces that increase sales, reduce development costs",
-    "description3": "and improve your users' satisfaction.",
+    "title1": "We design",
+    "title2": "products that",
+    "title3": "feel alive.",
+    "description1": "We turn confusing products",
+    "description2": "into clear, useful experiences",
+    "description3": "that are hard to forget.",
     "cta": "Let's Talk",
     "viewWork": "View Our Work"
   },
@@ -448,8 +448,8 @@
   },
   "seo": {
     "home": {
-      "title": "UI/UX Design Mexico | UX Agency Latin America",
-      "description": "One of the best UI/UX design agencies in Mexico and Latin America. Specialized in interface design, UX audits, market research, information architecture, wireframes, usability testing, user personas, journey mapping, card sorting, A/B testing, and more user experience services.",
+      "title": "Digital product and UI/UX design studio",
+      "description": "Independent digital product studio in Mexico and Latin America. We design clear, useful experiences through strategy, research, UI/UX design, prototyping and design systems.",
       "keywords": "UI UX design agencies, ui ux design agencies, UI UX design agency, best UI UX design agencies Mexico, UX agencies Latin America, UI UX design agencies Mexico, top UX agencies, UI/UX design agency, UI/UX design, creative agency, digital marketing, web design, branding, web development, Latin America, design agency, UX consulting, user experience consulting, UX audit, user experience audit, heuristic evaluations, heuristic UX evaluation, market research, information architecture, wireframes, interface design, usability testing, user personas, journey mapping, card sorting, A/B testing, focus groups, competitor analysis, benchmark, responsive design, mobile applications, web accessibility, design systems, UX writing, moderated remote testing, unmoderated remote testing, accessibility audits, technical UX analysis, performance analysis, sales funnel analysis, user interviews, user surveys, questionnaires, trend analysis"
     },
     "blog": {
