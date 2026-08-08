@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 import SEO from '@/components/SEO';
 import Hero from '@/components/Hero';
-import TrustedClients from '@/components/TrustedClients';
-import SelectedWork from '@/components/SelectedWork';
 import Services from '@/components/Services';
-import AgenticDigitalization from '@/components/AgenticDigitalization';
-import About from '@/components/About';
-import Stats from '@/components/Stats';
-import SectionBlog from '@/components/SectionBlog';
-import CTA from '@/components/CTA';
 import SectionAnimator from '@/components/SectionAnimator';
+import DeferredSection from '@/components/DeferredSection';
+
+const AgenticDigitalization = lazy(() => import('@/components/AgenticDigitalization'));
+const SelectedWork = lazy(() => import('@/components/SelectedWork'));
+const Stats = lazy(() => import('@/components/Stats'));
+const TrustedClients = lazy(() => import('@/components/TrustedClients'));
+const About = lazy(() => import('@/components/About'));
+const SectionBlog = lazy(() => import('@/components/SectionBlog'));
+const CTA = lazy(() => import('@/components/CTA'));
 
 const Home = () => {
   const { t } = useTranslation();
@@ -25,13 +27,27 @@ const Home = () => {
       />
       <Hero />
       <SectionAnimator><Services /></SectionAnimator>
-      <AgenticDigitalization />
-      <SelectedWork />
-      <SectionAnimator><Stats /></SectionAnimator>
-      <SectionAnimator><TrustedClients /></SectionAnimator>
-      <SectionAnimator><About /></SectionAnimator>
-      <SectionBlog />
-      <SectionAnimator><CTA /></SectionAnimator>
+      <DeferredSection minHeight={820} tone="dark">
+        <AgenticDigitalization />
+      </DeferredSection>
+      <DeferredSection minHeight={820} tone="paper">
+        <SelectedWork />
+      </DeferredSection>
+      <DeferredSection minHeight={620} tone="dark">
+        <SectionAnimator><Stats /></SectionAnimator>
+      </DeferredSection>
+      <DeferredSection minHeight={680} tone="paper">
+        <SectionAnimator><TrustedClients /></SectionAnimator>
+      </DeferredSection>
+      <DeferredSection minHeight={760} tone="dark">
+        <SectionAnimator><About /></SectionAnimator>
+      </DeferredSection>
+      <DeferredSection minHeight={780} tone="paper">
+        <SectionBlog />
+      </DeferredSection>
+      <DeferredSection minHeight={560} tone="acid">
+        <SectionAnimator><CTA /></SectionAnimator>
+      </DeferredSection>
     </>
   );
 };

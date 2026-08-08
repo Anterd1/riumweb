@@ -15,19 +15,17 @@
 
 #### Variable 1:
 - **Name**: `VITE_SUPABASE_URL`
-- **Value**: `https://olmlyfgzucemnxiddgda.supabase.co`
+- **Value**: `https://<tu-project-ref>.supabase.co`
 - **Environment**: Selecciona todas (Production, Preview, Development) ✅
 
 #### Variable 2:
 - **Name**: `VITE_SUPABASE_ANON_KEY`
-- **Value**: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9sbWx5Zmd6dWNlbW54aWRkZ2RhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyNjQ1MDUsImV4cCI6MjA3Nzg0MDUwNX0.oU3JQNUdFu-Ztip8V1FoRiHirSQP4T1mniEkseXJmlc`
+- **Value**: `<tu_supabase_anon_key>`
 - **Environment**: Selecciona todas (Production, Preview, Development) ✅
 
-#### Variable 3:
-- **Name**: `VITE_SUPABASE_SERVICE_ROLE_KEY`
-- **Value**: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9sbWx5Zmd6dWNlbW54aWRkZ2RhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MjI2NDUwNSwiZXhwIjoyMDc3ODQwNTA1fQ.Sn91w8Xqi3AUANOdak3hwm8FCaERdql7UYBf4ZYlWu0`
-- **Environment**: Selecciona todas (Production, Preview, Development) ✅
-- **Nota**: Esta clave es necesaria para gestionar usuarios desde el panel de administración
+La `SUPABASE_SERVICE_ROLE_KEY` nunca debe usar el prefijo `VITE_` ni incluirse
+en el frontend. Si una función de servidor la necesita, configúrala únicamente
+en el entorno privado del backend.
 
 4. Click en **Save** para cada variable
 
@@ -70,7 +68,6 @@ Después de agregar las variables de entorno:
 2. Deberías ver las tres variables listadas:
    - `VITE_SUPABASE_URL`
    - `VITE_SUPABASE_ANON_KEY`
-   - `VITE_SUPABASE_SERVICE_ROLE_KEY`
 
 ### Método 2: Desde el Build Log
 1. Ve a **Deployments**
@@ -119,7 +116,7 @@ Después de agregar las variables de entorno:
 - ✅ Puedes tener diferentes valores para Production, Preview y Development
 - ✅ El `VITE_` prefix es necesario para que Vite exponga las variables al cliente
 - ⚠️ El `VITE_SUPABASE_ANON_KEY` es seguro de exponer (es la clave pública/anónima)
-- ⚠️ **IMPORTANTE**: El `VITE_SUPABASE_SERVICE_ROLE_KEY` es una clave de administrador. Aunque se expone al cliente con el prefijo `VITE_`, solo debe usarse en el panel de administración protegido. Nunca uses esta clave en código público o no protegido.
+- 🚫 La `SUPABASE_SERVICE_ROLE_KEY` es una clave de administrador y nunca debe exponerse con el prefijo `VITE_`, almacenarse en el repositorio ni enviarse al navegador.
 
 ## 🔗 Enlaces Útiles
 

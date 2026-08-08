@@ -8,6 +8,31 @@ import OptimizedImage from '@/components/OptimizedImage';
 import { Button } from '@/components/ui/button';
 import SectionAnimator from '@/components/SectionAnimator';
 
+const BlogCardsSkeleton = () => (
+  <div
+    className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+    role="status"
+    aria-label="Cargando artículos"
+  >
+    {[0, 1, 2].map((item) => (
+      <div
+        key={item}
+        className="animate-pulse overflow-hidden rounded-[1.5rem] border border-black/10 bg-white"
+      >
+        <div className="aspect-video bg-black/10" />
+        <div className="space-y-4 p-6">
+          <div className="h-3 w-24 rounded-full bg-black/10" />
+          <div className="h-6 w-full rounded-lg bg-black/10" />
+          <div className="h-6 w-3/4 rounded-lg bg-black/10" />
+          <div className="h-4 w-full rounded-lg bg-black/10" />
+          <div className="h-4 w-2/3 rounded-lg bg-black/10" />
+        </div>
+      </div>
+    ))}
+    <span className="sr-only">Cargando artículos...</span>
+  </div>
+);
+
 const SectionBlog = React.memo(() => {
   const { t, i18n } = useTranslation();
   const { posts, loading } = useBlogPosts(null, 'article'); // Solo artículos, no noticias
@@ -56,11 +81,7 @@ const SectionBlog = React.memo(() => {
           </div>
 
           {/* Loading State */}
-          {loading && (
-            <div className="flex justify-center items-center py-16">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent-purple"></div>
-            </div>
-          )}
+          {loading && <BlogCardsSkeleton />}
 
           {/* Blog Posts Grid */}
           {!loading && latestPosts.length > 0 && (

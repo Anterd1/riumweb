@@ -23,15 +23,6 @@ export default defineConfig({
             '@radix-ui/react-slot',
             '@radix-ui/react-toast',
           ],
-          'tiptap': [
-            '@tiptap/react',
-            '@tiptap/starter-kit',
-            '@tiptap/extension-image',
-            '@tiptap/extension-link',
-            '@tiptap/extension-placeholder',
-            '@tiptap/extension-color',
-            '@tiptap/extension-text-style',
-          ],
         },
         // Optimizar nombres de archivos de chunks
         chunkFileNames: 'assets/js/[name]-[hash].js',

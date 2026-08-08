@@ -11,8 +11,8 @@ El problema más común es que las variables de entorno no están configuradas e
 1. En tu hosting (Vercel, Netlify, etc.), ve a **Settings** > **Environment Variables**
 2. Agrega las siguientes variables:
    ```
-   VITE_SUPABASE_URL=https://olmlyfgzucemnxiddgda.supabase.co
-   VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9sbWx5Zmd6dWNlbW54aWRkZ2RhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyNjQ1MDUsImV4cCI6MjA3Nzg0MDUwNX0.oU3JQNUdFu-Ztip8V1FoRiHirSQP4T1mniEkseXJmlc
+   VITE_SUPABASE_URL=https://<tu-project-ref>.supabase.co
+   VITE_SUPABASE_ANON_KEY=<tu_supabase_anon_key>
    ```
 3. **Re-deploy** la aplicación después de agregar las variables
 
