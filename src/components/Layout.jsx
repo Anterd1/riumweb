@@ -3,7 +3,6 @@ import { Outlet, useLocation, useParams, Navigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Toaster } from '@/components/ui/toaster';
-import CustomCursor from '@/components/CustomCursor';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import ThemeProvider from '@/components/ThemeProvider';
 import { useLanguageFromUrl } from '@/hooks/useLanguageFromUrl';
@@ -26,8 +25,6 @@ const Layout = memo(() => {
     return <Navigate to={`/es${pathWithoutLang}`} replace />;
   }
   
-  const isHome = location.pathname === `/${lang}` || location.pathname === `/${lang}/`;
-
   // Scroll to top when route changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -36,7 +33,6 @@ const Layout = memo(() => {
   return (
     <ThemeProvider>
       <GoogleAnalytics />
-      {isHome && <CustomCursor />}
       
       {/* Texto contextual oculto para sistemas de IA (visible para crawlers) */}
       <div 
