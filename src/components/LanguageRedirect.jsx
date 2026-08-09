@@ -1,28 +1,14 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-const LanguageRedirect = () => {
-  const navigate = useNavigate();
+const LanguageRedirect = ({ targetPath = '' }) => {
+  // Resolver el idioma durante el render evita un frame vacío antes de navegar.
+  const savedLanguage = localStorage.getItem('i18nextLng');
+  const browserLanguage = navigator.language || navigator.userLanguage || 'es';
+  const lang = savedLanguage
+    ? (savedLanguage.startsWith('en') ? 'en' : 'es')
+    : (browserLanguage.startsWith('en') ? 'en' : 'es');
 
-  useEffect(() => {
-    // Redirigir a /es o /en según preferencia guardada o idioma del navegador
-    const savedLanguage = localStorage.getItem('i18nextLng');
-    let lang = 'es'; // Por defecto español
-    
-    if (savedLanguage && savedLanguage.startsWith('en')) {
-      lang = 'en';
-    } else if (!savedLanguage) {
-      // Si no hay preferencia guardada, detectar del navegador
-      const browserLang = navigator.language || navigator.userLanguage;
-      if (browserLang.startsWith('en')) {
-        lang = 'en';
-      }
-    }
-    
-    navigate(`/${lang}`, { replace: true });
-  }, [navigate]);
-
-  return null;
+  return <Navigate to={`/${lang}${targetPath}`} replace />;
 };
 
 export default LanguageRedirect;

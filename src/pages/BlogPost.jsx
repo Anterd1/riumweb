@@ -5,7 +5,6 @@ import { Calendar, Clock, ArrowLeft, Tag, Facebook, Twitter, Linkedin, MessageCi
 import { getSupabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
-import { Toaster } from '@/components/ui/toaster'
 import OptimizedImage from '@/components/OptimizedImage'
 import { useLocalizedLink } from '@/hooks/useLocalizedLink'
 
@@ -131,8 +130,8 @@ const BlogPost = () => {
   if (error || !post) {
     return (
       <div className="bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white min-h-screen pt-24">
-        <div className="container mx-auto px-6 py-16">
-          <div className="bg-red-500/10 border border-red-500/50 rounded-2xl p-8 text-center">
+        <div className="container mx-auto px-4 py-10 sm:px-6 sm:py-16">
+          <div className="rounded-2xl border border-red-500/50 bg-red-500/10 p-5 text-center sm:p-8">
             <p className="text-red-400 mb-4">Error al cargar el artículo</p>
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">{error || 'Artículo no encontrado'}</p>
             <Button onClick={() => navigate(getLocalizedLink('/blog'))} className="bg-accent-purple hover:bg-accent-purple/90">
@@ -148,6 +147,10 @@ const BlogPost = () => {
   const postTags = parseTags(post?.tags || [])
   const articleUrl = `https://rium.com.mx/${currentLang}/blog/${post?.slug || post?.id || slug}`
   const shareText = `${post?.title || ''} - rium`
+  const localizedContent = (post.content || post.excerpt || '').replace(
+    /href=(["'])\/(?!\/|es(?:\/|["'])|en(?:\/|["']))/gi,
+    `href=$1/${currentLang}/`
+  )
 
   // Funciones de compartir
   const handleShare = (platform) => {
@@ -217,7 +220,7 @@ const BlogPost = () => {
     : 'https://rium.com.mx/images/HERO.png'
 
   return (
-    <div className="bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white min-h-screen pt-24">
+    <div className="min-h-screen overflow-x-hidden bg-white pt-20 text-gray-900 dark:bg-[#0C0D0D] dark:text-white sm:pt-24">
       <Helmet prioritizeSeoTags>
         {/* Meta tags básicos */}
         <title>{post.title} | rium - Blog</title>
@@ -268,10 +271,10 @@ const BlogPost = () => {
       <main>
         {/* Header */}
         <div>
-          <div className="container mx-auto px-6 pt-16 pb-8">
+          <div className="container mx-auto px-4 pb-6 pt-8 sm:px-6 sm:pb-8 sm:pt-12 md:pt-16">
             <Link
               to={getLocalizedLink('/blog')}
-              className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-accent-purple transition-colors mb-8"
+              className="mb-6 inline-flex min-h-11 items-center gap-2 text-gray-600 transition-colors active:text-accent-purple dark:text-gray-400 sm:mb-8 md:hover:text-accent-purple"
             >
               <ArrowLeft size={20} />
               Volver al Blog
@@ -279,21 +282,21 @@ const BlogPost = () => {
 
             <div className="max-w-4xl mx-auto">
               {/* Category Badge */}
-              <div className="mb-6">
-                <span className="px-4 py-2 bg-accent-purple/20 text-accent-purple rounded-full text-sm font-semibold uppercase">
+              <div className="mb-4 sm:mb-6">
+                <span className="inline-block max-w-full break-words rounded-full bg-accent-purple/20 px-3 py-1.5 text-xs font-semibold uppercase text-accent-purple sm:px-4 sm:py-2 sm:text-sm">
                   {post.category}
                 </span>
               </div>
 
               {/* Title */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900 dark:text-white">
+              <h1 className="mb-5 break-words text-[clamp(1.875rem,9vw,3rem)] font-bold leading-[1.1] text-gray-900 dark:text-white md:mb-6 md:text-5xl lg:text-6xl">
                 {post.title}
               </h1>
 
               {/* Meta Info */}
-              <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-8">
+              <div className="mb-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-600 dark:text-gray-400 sm:mb-8 sm:gap-6 sm:text-base">
                 {post.author && (
-                  <span className="text-lg">Por {post.author}</span>
+                  <span className="break-words sm:text-lg">Por {post.author}</span>
                 )}
                 <span className="flex items-center gap-2">
                   <Calendar size={18} />
@@ -325,12 +328,12 @@ const BlogPost = () => {
               {/* Share Buttons */}
               <div className="mb-8 pt-6 border-t border-gray-200 dark:border-white/10">
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 uppercase tracking-wider">Compartir este artículo</p>
-                <div className="flex flex-wrap gap-3">
+                <div className="grid grid-cols-2 gap-2 min-[430px]:flex min-[430px]:flex-wrap min-[430px]:gap-3">
                   <Button
                     onClick={() => handleShare('facebook')}
                     variant="outline"
                     size="sm"
-                    className="bg-gray-100 dark:bg-white/5 border-gray-300 dark:border-white/20 text-gray-900 dark:text-white hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all"
+                    className="min-h-11 bg-gray-100 text-gray-900 transition-all active:scale-[.97] dark:bg-white/5 dark:text-white motion-reduce:transition-none md:hover:border-blue-600 md:hover:bg-blue-600 md:hover:text-white"
                   >
                     <Facebook size={18} className="mr-2" />
                     Facebook
@@ -339,7 +342,7 @@ const BlogPost = () => {
                     onClick={() => handleShare('twitter')}
                     variant="outline"
                     size="sm"
-                    className="bg-gray-100 dark:bg-white/5 border-gray-300 dark:border-white/20 text-gray-900 dark:text-white hover:bg-blue-400 hover:border-blue-400 hover:text-white transition-all"
+                    className="min-h-11 bg-gray-100 text-gray-900 transition-all active:scale-[.97] dark:bg-white/5 dark:text-white motion-reduce:transition-none md:hover:border-blue-400 md:hover:bg-blue-400 md:hover:text-white"
                   >
                     <Twitter size={18} className="mr-2" />
                     Twitter
@@ -348,7 +351,7 @@ const BlogPost = () => {
                     onClick={() => handleShare('linkedin')}
                     variant="outline"
                     size="sm"
-                    className="bg-gray-100 dark:bg-white/5 border-gray-300 dark:border-white/20 text-gray-900 dark:text-white hover:bg-blue-700 hover:border-blue-700 hover:text-white transition-all"
+                    className="min-h-11 bg-gray-100 text-gray-900 transition-all active:scale-[.97] dark:bg-white/5 dark:text-white motion-reduce:transition-none md:hover:border-blue-700 md:hover:bg-blue-700 md:hover:text-white"
                   >
                     <Linkedin size={18} className="mr-2" />
                     LinkedIn
@@ -357,7 +360,7 @@ const BlogPost = () => {
                     onClick={() => handleShare('whatsapp')}
                     variant="outline"
                     size="sm"
-                    className="bg-gray-100 dark:bg-white/5 border-gray-300 dark:border-white/20 text-gray-900 dark:text-white hover:bg-green-600 hover:border-green-600 hover:text-white transition-all"
+                    className="min-h-11 bg-gray-100 text-gray-900 transition-all active:scale-[.97] dark:bg-white/5 dark:text-white motion-reduce:transition-none md:hover:border-green-600 md:hover:bg-green-600 md:hover:text-white"
                   >
                     <MessageCircle size={18} className="mr-2" />
                     WhatsApp
@@ -366,7 +369,7 @@ const BlogPost = () => {
                     onClick={() => handleShare('copy')}
                     variant="outline"
                     size="sm"
-                    className="bg-gray-100 dark:bg-white/5 border-gray-300 dark:border-white/20 text-gray-900 dark:text-white hover:bg-accent-purple hover:border-accent-purple hover:text-white transition-all"
+                    className="col-span-2 min-h-11 bg-gray-100 text-gray-900 transition-all active:scale-[.97] dark:bg-white/5 dark:text-white motion-reduce:transition-none min-[430px]:col-span-1 md:hover:border-accent-purple md:hover:bg-accent-purple md:hover:text-white"
                   >
                     {copied ? (
                       <>
@@ -389,9 +392,9 @@ const BlogPost = () => {
         {/* Featured Image */}
         {post.image && (
           <div>
-            <div className="container mx-auto px-6 mb-12">
+            <div className="container mx-auto mb-8 px-4 sm:mb-12 sm:px-6">
               <div className="max-w-4xl mx-auto">
-                <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl">
+                <div className="aspect-video overflow-hidden rounded-xl shadow-2xl sm:rounded-2xl">
                   <OptimizedImage
                     src={post.image}
                     alt={post.title}
@@ -408,15 +411,17 @@ const BlogPost = () => {
 
         {/* Content */}
         <div>
-          <div className="container mx-auto px-6 pb-24">
+          <div className="container mx-auto px-4 pb-16 sm:px-6 md:pb-24">
             <div className="max-w-4xl mx-auto">
               <div 
                 className="prose prose-lg max-w-none blog-content"
-                dangerouslySetInnerHTML={{ __html: post.content || post.excerpt }}
+                dangerouslySetInnerHTML={{ __html: localizedContent }}
               />
               <style>{`
                 .blog-content {
                   color: #374151;
+                  min-width: 0;
+                  overflow-wrap: anywhere;
                 }
                 
                 .dark .blog-content {
@@ -534,6 +539,7 @@ const BlogPost = () => {
                   margin: 1.5rem 0;
                   width: 100%;
                   height: auto;
+                  max-width: 100%;
                 }
                 
                 .blog-content code {
@@ -542,6 +548,7 @@ const BlogPost = () => {
                   border-radius: 0.25rem;
                   color: #3B82F6;
                   font-size: 1rem;
+                  overflow-wrap: anywhere;
                 }
                 
                 .dark .blog-content code {
@@ -600,6 +607,10 @@ const BlogPost = () => {
                   width: 100%;
                   margin: 1.5rem 0;
                   border-collapse: collapse;
+                  display: block;
+                  max-width: 100%;
+                  overflow-x: auto;
+                  -webkit-overflow-scrolling: touch;
                 }
                 
                 .blog-content th {
@@ -626,6 +637,20 @@ const BlogPost = () => {
                   border: 1px solid rgba(255, 255, 255, 0.2);
                   color: #d1d5db;
                 }
+
+                .blog-content iframe, .blog-content video {
+                  max-width: 100%;
+                }
+
+                @media (max-width: 639px) {
+                  .blog-content h1 { font-size: 1.875rem; }
+                  .blog-content h2 { font-size: 1.5rem; margin-top: 1.75rem; }
+                  .blog-content h3 { font-size: 1.25rem; }
+                  .blog-content p, .blog-content li { font-size: 1rem; line-height: 1.7; }
+                  .blog-content blockquote { padding-left: 1rem; }
+                  .blog-content pre { max-width: 100%; padding: .875rem; font-size: .875rem; }
+                  .blog-content th, .blog-content td { min-width: 8rem; padding: .5rem .75rem; }
+                }
               `}</style>
             </div>
           </div>
@@ -633,9 +658,9 @@ const BlogPost = () => {
 
         {/* Back to Blog CTA */}
         <div>
-          <div className="container mx-auto px-6 pb-24">
+          <div className="container mx-auto px-4 pb-16 sm:px-6 md:pb-24">
             <div className="max-w-4xl mx-auto">
-              <div className="bg-gray-50 dark:bg-[#1E1E2A] rounded-2xl p-8 border border-gray-200 dark:border-white/10 text-center">
+              <div className="rounded-2xl border border-gray-200 bg-gray-50 p-5 text-center dark:border-white/10 dark:bg-[#1E1E2A] sm:p-8">
                 <h2 className="text-2xl font-bold mb-4">¿Te gustó este artículo?</h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-6">
                   Explora más artículos sobre diseño UI/UX y experiencia de usuario.
@@ -652,7 +677,6 @@ const BlogPost = () => {
           </div>
         </div>
       </main>
-      <Toaster />
     </div>
   )
 }

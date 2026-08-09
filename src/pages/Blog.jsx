@@ -1,19 +1,19 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight, Tag, Loader2 } from 'lucide-react';
 import SEO from '@/components/SEO';
 import SectionAnimator from '@/components/SectionAnimator';
 import { Button } from '@/components/ui/button';
 import { useBlogPosts } from '@/hooks/useBlogPosts';
 import NewsletterSubscription from '@/components/NewsletterSubscription';
-import { Toaster } from '@/components/ui/toaster';
 import OptimizedImage from '@/components/OptimizedImage';
 import { useLocalizedLink } from '@/hooks/useLocalizedLink';
 
 const Blog = () => {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const getLocalizedLink = useLocalizedLink();
+  const shouldReduceMotion = useReducedMotion();
   const { posts, loading, error } = useBlogPosts(
     selectedCategory === 'Todos' ? null : selectedCategory,
     'article' // Solo artículos del blog, no noticias
@@ -61,15 +61,15 @@ const Blog = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          <header className="pt-4 md:pt-8 pb-6 md:pb-8">
-            <div className="container mx-auto px-6 max-w-4xl">
+          <header className="pb-5 pt-3 sm:pb-6 sm:pt-4 md:pb-8 md:pt-8">
+            <div className="container mx-auto max-w-4xl px-4 sm:px-6">
               <div className="inline-block px-4 py-1.5 border border-gray-300 dark:border-white/20 rounded-full text-sm mb-3 md:mb-4 uppercase text-gray-700 dark:text-white">
                 Blog
               </div>
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 uppercase text-gray-900 dark:text-white">
+              <h1 className="mb-3 text-[clamp(1.75rem,9vw,3rem)] font-bold uppercase leading-[1.05] text-gray-900 dark:text-white sm:mb-4 md:mb-6 md:text-5xl lg:text-6xl">
                 Nuestros <span className="text-accent-purple">Artículos</span>
               </h1>
-              <p className="text-base md:text-xl text-gray-700 dark:text-gray-400 max-w-2xl mx-auto">
+              <p className="mx-auto max-w-2xl text-sm leading-relaxed text-gray-700 dark:text-gray-400 sm:text-base md:text-xl">
                 Explora nuestros artículos sobre diseño UI/UX, experiencia de usuario, y mejores prácticas en diseño digital.
               </p>
             </div>
@@ -78,13 +78,13 @@ const Blog = () => {
 
         {/* Category Filters - Horizontal Scroll */}
         <SectionAnimator>
-          <div className="container mx-auto px-6 mb-6 md:mb-8">
-            <div className="flex overflow-x-auto pb-4 gap-3 scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0 md:justify-center md:flex-wrap">
+          <div className="container mx-auto mb-5 px-4 sm:px-6 md:mb-8">
+            <div className="-mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-3 scrollbar-hide sm:-mx-6 sm:px-6 md:mx-0 md:flex-wrap md:justify-center md:px-0">
               {categories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`whitespace-nowrap px-6 py-2 rounded-full text-sm font-medium transition-all uppercase tracking-wider flex-shrink-0 ${
+                  className={`min-h-11 flex-shrink-0 snap-start whitespace-nowrap rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wider transition-all active:scale-[.97] motion-reduce:transition-none sm:text-sm ${
                     selectedCategory === category
                       ? 'bg-accent-purple text-white shadow-lg shadow-accent-purple/25'
                       : 'bg-gray-100 dark:bg-[#1E1E2A] text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-white/10 hover:border-gray-400 dark:hover:border-white/30'
@@ -109,7 +109,7 @@ const Blog = () => {
 
         {/* Error State */}
         {error && !loading && (
-          <div className="container mx-auto px-6 pb-24">
+          <div className="container mx-auto px-4 pb-16 sm:px-6 md:pb-24">
             <div className="bg-red-500/10 border border-red-500/50 rounded-2xl p-8 text-center">
               <p className="text-red-400 mb-4">Error al cargar los artículos</p>
               <p className="text-gray-700 dark:text-gray-400 text-sm">{error}</p>
@@ -125,7 +125,7 @@ const Blog = () => {
                 <p className="text-gray-700 dark:text-gray-400 text-xl">No hay artículos disponibles aún.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
                 {posts.map((post, index) => {
                   const postTags = parseTags(post.tags);
                   // Primera tarjeta visible inmediatamente, las demás con animación
@@ -137,17 +137,17 @@ const Blog = () => {
                   className="block"
                 >
                   <motion.article
-                    initial={isFirstCard ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                    initial={isFirstCard || shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={isFirstCard ? { duration: 0 } : { duration: 0.5, delay: (index - 1) * 0.1 }}
-                    className="bg-gray-50 dark:bg-[#1E1E2A] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-accent-purple/10 transition-all duration-300 group cursor-pointer h-full"
+                    transition={isFirstCard || shouldReduceMotion ? { duration: 0 } : { duration: 0.5, delay: (index - 1) * 0.1 }}
+                    className="group h-full cursor-pointer overflow-hidden rounded-2xl bg-gray-50 transition-all duration-300 active:scale-[.99] dark:bg-[#1E1E2A] motion-reduce:transition-none md:hover:shadow-2xl md:hover:shadow-accent-purple/10"
                   >
                   {/* Image - Optimizado para móvil con aspect-ratio */}
                   <div className="relative aspect-video overflow-hidden">
                     <OptimizedImage
                       src={post.image}
                       alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="h-full w-full object-cover transition-transform duration-500 motion-reduce:transition-none md:group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     <div className="absolute top-4 left-4">
@@ -158,7 +158,7 @@ const Blog = () => {
                   </div>
 
                   {/* Content */}
-                  <div className="p-6">
+                  <div className="p-4 sm:p-6">
                     {/* Tags - Horizontal Scroll */}
                     {postTags.length > 0 && (
                       <div className="mb-4 overflow-x-auto scrollbar-hide">
@@ -187,9 +187,9 @@ const Blog = () => {
                     </p>
 
                     {/* Meta Info */}
-                    <div className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-500 mb-4">
-                      <div className="flex items-center gap-4">
-                        <span className="flex items-center gap-1">
+                    <div className="mb-4 text-xs text-gray-700 dark:text-gray-500 sm:text-sm">
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                        <span className="flex min-w-0 items-center gap-1">
                           <Calendar size={14} />
                           {formatDate(post.created_at || post.date)}
                         </span>
@@ -222,7 +222,7 @@ const Blog = () => {
 
         {/* CTA Section */}
         <SectionAnimator>
-          <div className="container mx-auto px-6 pb-24">
+          <div className="container mx-auto px-4 pb-16 sm:px-6 md:pb-24">
             <NewsletterSubscription
               title="¿Quieres Más Contenido?"
               description="Suscríbete a nuestro newsletter para recibir los últimos artículos sobre diseño UI/UX directamente en tu correo."
@@ -232,7 +232,6 @@ const Blog = () => {
           </div>
         </SectionAnimator>
         
-        <Toaster />
       </main>
     </div>
   );

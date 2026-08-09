@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 const Services = () => {
   const { i18n } = useTranslation();
   const reduceMotion = useReducedMotion();
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches;
   const isSpanish = i18n.language?.startsWith('es');
   const copy = isSpanish ? {
     kicker: 'Cómo ayudamos',
@@ -28,51 +29,51 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="bg-[#5B72FF] py-24 text-white md:py-32" itemScope itemType="https://schema.org/Service">
-      <div className="container mx-auto px-6">
-        <div className="grid gap-8 lg:grid-cols-[1fr_.65fr] lg:items-end">
+    <section id="services" className="overflow-hidden bg-[#5B72FF] py-16 text-white sm:py-20 md:py-32" itemScope itemType="https://schema.org/Service">
+      <div className="container mx-auto px-5 sm:px-6">
+        <div className="grid gap-6 sm:gap-8 lg:grid-cols-[1fr_.65fr] lg:items-end">
           <div>
             <p className="rium-kicker mb-6 text-[#DFFF4F]"><span className="h-2 w-2 rounded-full bg-[#DFFF4F]" />{copy.kicker}</p>
-            <h2 className="max-w-4xl text-5xl font-semibold leading-[.94] tracking-[-.055em] md:text-7xl">{copy.title}</h2>
+            <h2 className="max-w-4xl text-[clamp(2.35rem,11vw,3.5rem)] font-semibold leading-[.96] tracking-[-.05em] md:text-7xl md:leading-[.94] md:tracking-[-.055em]">{copy.title}</h2>
           </div>
-          <p className="max-w-xl text-lg leading-relaxed text-white/70 lg:justify-self-end" itemProp="description">{copy.description}</p>
+          <p className="max-w-xl text-base leading-relaxed text-white/70 sm:text-lg lg:justify-self-end" itemProp="description">{copy.description}</p>
         </div>
 
-        <div className="mt-16 grid gap-px overflow-hidden rounded-[2rem] bg-white/20 lg:grid-cols-3">
+        <div className="mt-10 grid gap-px overflow-hidden rounded-[1.5rem] bg-white/20 sm:mt-16 sm:rounded-[2rem] lg:grid-cols-3">
           {copy.services.map((service, index) => {
             const Icon = service.icon;
             return (
               <motion.article
                 key={service.number}
-                initial={{ opacity: 0, y: 24 }}
+                initial={reduceMotion ? false : { opacity: 0, y: isMobile ? 12 : 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: .6, delay: index * .1, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative min-h-[460px] bg-[#101114] p-8 md:p-10"
+                transition={{ duration: isMobile ? .8 : .6, delay: reduceMotion ? 0 : index * .1, ease: [0.22, 1, 0.36, 1] }}
+                className="group relative min-h-[360px] bg-[#101114] p-6 sm:min-h-[400px] sm:p-8 md:min-h-[460px] md:p-10"
                 itemScope
                 itemType="https://schema.org/Service"
               >
                 <div className="flex items-start justify-between">
                   <span className="font-mono text-sm text-[#DFFF4F]">{service.number}</span>
                   <motion.div
-                    animate={reduceMotion ? undefined : { rotate: [0, 10, 0], scale: [1, 1.1, 1], color: ['rgba(255,255,255,.35)', '#DFFF4F', 'rgba(255,255,255,.35)'] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: index * .7 }}
+                    animate={reduceMotion ? undefined : { rotate: [0, isMobile ? 5 : 10, 0], scale: [1, isMobile ? 1.05 : 1.1, 1], color: ['rgba(255,255,255,.35)', '#DFFF4F', 'rgba(255,255,255,.35)'] }}
+                    transition={{ duration: isMobile ? 5.5 : 4, repeat: Infinity, ease: 'easeInOut', delay: index * .7 }}
                     className="text-white/35"
                   >
                     <Icon className="h-8 w-8" />
                   </motion.div>
                 </div>
-                <div className="mt-24">
-                  <h3 className="text-4xl font-semibold tracking-tight" itemProp="name">{service.title}</h3>
-                  <p className="mt-4 min-h-[72px] leading-relaxed text-white/55" itemProp="description">{service.description}</p>
-                  <div className="mt-8 flex flex-wrap gap-2">
+                <div className="mt-14 sm:mt-20 md:mt-24">
+                  <h3 className="text-3xl font-semibold tracking-tight sm:text-4xl" itemProp="name">{service.title}</h3>
+                  <p className="mt-4 leading-relaxed text-white/55 md:min-h-[72px]" itemProp="description">{service.description}</p>
+                  <div className="mt-6 flex flex-wrap gap-2 sm:mt-8">
                     {service.tags.map((tag, tagIndex) => (
                       <motion.span
                         key={tag}
-                        initial={{ opacity: 0, y: 8 }}
+                        initial={reduceMotion ? false : { opacity: 0, y: isMobile ? 4 : 8 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: index * .1 + tagIndex * .05 }}
+                        transition={{ duration: isMobile ? .6 : .4, delay: reduceMotion ? 0 : index * .1 + tagIndex * .05 }}
                         className="rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/60"
                       >
                         {tag}
@@ -81,9 +82,9 @@ const Services = () => {
                   </div>
                 </div>
                 <motion.div
-                  animate={reduceMotion ? undefined : { x: [0, 4, 0], y: [0, -4, 0], color: ['rgba(255,255,255,.2)', '#DFFF4F', 'rgba(255,255,255,.2)'] }}
-                  transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: index * .55 }}
-                  className="absolute bottom-8 right-8"
+                  animate={reduceMotion ? undefined : { x: [0, isMobile ? 2 : 4, 0], y: [0, isMobile ? -2 : -4, 0], color: ['rgba(255,255,255,.2)', '#DFFF4F', 'rgba(255,255,255,.2)'] }}
+                  transition={{ duration: isMobile ? 5 : 3.5, repeat: Infinity, ease: 'easeInOut', delay: index * .55 }}
+                  className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8"
                 >
                   <ArrowUpRight className="h-6 w-6" />
                 </motion.div>

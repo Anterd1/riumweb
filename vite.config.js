@@ -5,6 +5,9 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  // Usa una ruta nueva para invalidar módulos de desarrollo que algunos
+  // navegadores conservaron con la antigua política de caché anual.
+  cacheDir: 'node_modules/.vite-rium',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

@@ -11,9 +11,9 @@ const paths = [
   { id: 'agent-action', d: 'M265 174 C336 174 350 244 408 244', delay: 1.05 }
 ];
 
-const FlowMap = ({ copy, reduceMotion }) => (
+const FlowMap = ({ copy, reduceMotion, isMobile }) => (
   <figure
-    className="relative min-h-[430px] overflow-hidden rounded-[2rem] border border-white/10 bg-[#15171C] p-5 sm:min-h-[500px] sm:p-8"
+    className="relative min-h-[330px] overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#15171C] p-4 sm:min-h-[430px] sm:rounded-[2rem] sm:p-5 md:min-h-[500px] md:p-8"
     role="img"
     aria-labelledby="agentic-flow-title agentic-flow-description"
   >
@@ -22,19 +22,19 @@ const FlowMap = ({ copy, reduceMotion }) => (
       <span id="agentic-flow-description">{copy.visualDescription}</span>
     </figcaption>
     <div className="rium-grid absolute inset-0 opacity-60" aria-hidden="true" />
-    <div className="absolute inset-x-5 top-5 flex items-center justify-between sm:inset-x-8 sm:top-8">
+    <div className="absolute inset-x-4 top-4 flex items-center justify-between gap-3 sm:inset-x-5 sm:top-5 md:inset-x-8 md:top-8">
       <span className="font-mono text-[10px] uppercase tracking-[.18em] text-white/40">{copy.mapLabel}</span>
       <span className="flex items-center gap-2 rounded-full border border-[#DFFF4F]/25 bg-[#DFFF4F]/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.16em] text-[#DFFF4F]">
         <motion.span
           className="h-1.5 w-1.5 rounded-full bg-[#DFFF4F]"
           animate={reduceMotion ? undefined : { opacity: [.35, 1, .35] }}
-          transition={{ duration: 1.8, repeat: Infinity }}
+          transition={{ duration: isMobile ? 2.6 : 1.8, repeat: Infinity }}
         />
         {copy.active}
       </span>
     </div>
 
-    <div className="absolute inset-x-4 bottom-5 top-20 sm:inset-x-8 sm:bottom-8">
+    <div className="absolute inset-x-2 bottom-3 top-16 sm:inset-x-4 sm:bottom-5 sm:top-20 md:inset-x-8 md:bottom-8">
       <svg className="h-full w-full" viewBox="0 0 500 340" aria-hidden="true">
         <defs>
           <filter id="agentic-glow">
@@ -54,7 +54,7 @@ const FlowMap = ({ copy, reduceMotion }) => (
               strokeLinecap="round"
               strokeDasharray="7 12"
               animate={reduceMotion ? undefined : { strokeDashoffset: [38, 0] }}
-              transition={{ duration: 2.2, repeat: Infinity, ease: 'linear', delay: path.delay }}
+              transition={{ duration: isMobile ? 3.4 : 2.2, repeat: Infinity, ease: 'linear', delay: path.delay }}
             />
             {!reduceMotion && (
               <motion.circle
@@ -63,7 +63,7 @@ const FlowMap = ({ copy, reduceMotion }) => (
                 filter="url(#agentic-glow)"
                 initial={{ offsetDistance: '0%' }}
                 animate={{ offsetDistance: '100%' }}
-                transition={{ duration: 3.2, repeat: Infinity, ease: 'linear', delay: path.delay }}
+                transition={{ duration: isMobile ? 4.5 : 3.2, repeat: Infinity, ease: 'linear', delay: path.delay }}
                 style={{ offsetPath: `path("${path.d}")` }}
               />
             )}
@@ -74,7 +74,7 @@ const FlowMap = ({ copy, reduceMotion }) => (
           <motion.g
             key={y}
             animate={reduceMotion ? undefined : { opacity: [.55, 1, .55] }}
-            transition={{ duration: 3, repeat: Infinity, delay: index * .5 }}
+            transition={{ duration: isMobile ? 4.2 : 3, repeat: Infinity, delay: index * .5 }}
           >
             <circle cx="72" cy={y} r="20" fill="#101114" stroke="rgba(255,255,255,.25)" />
             <circle cx="72" cy={y} r="5" fill="#5B72FF" />
@@ -82,8 +82,8 @@ const FlowMap = ({ copy, reduceMotion }) => (
         ))}
 
         <motion.g
-          animate={reduceMotion ? undefined : { scale: [1, 1.045, 1] }}
-          transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }}
+          animate={reduceMotion ? undefined : { scale: [1, isMobile ? 1.02 : 1.045, 1] }}
+          transition={{ duration: isMobile ? 5 : 3.6, repeat: Infinity, ease: 'easeInOut' }}
           style={{ transformOrigin: '250px 174px' }}
         >
           <circle cx="250" cy="174" r="43" fill="#5B72FF" />
@@ -94,8 +94,8 @@ const FlowMap = ({ copy, reduceMotion }) => (
         {[104, 244].map((y, index) => (
           <motion.g
             key={y}
-            animate={reduceMotion ? undefined : { y: [0, index ? 4 : -4, 0] }}
-            transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: index * .8 }}
+            animate={reduceMotion ? undefined : { y: [0, index ? (isMobile ? 2 : 4) : (isMobile ? -2 : -4), 0] }}
+            transition={{ duration: isMobile ? 5.6 : 4.2, repeat: Infinity, ease: 'easeInOut', delay: index * .8 }}
           >
             <rect x="408" y={y - 28} width="72" height="56" rx="18" fill={index ? '#DFFF4F' : '#F2F0E9'} />
             <path d={`M430 ${y}h28`} stroke="#101114" strokeWidth="3" strokeLinecap="round" />
@@ -104,7 +104,7 @@ const FlowMap = ({ copy, reduceMotion }) => (
         ))}
       </svg>
 
-      <div className="pointer-events-none absolute inset-0 font-mono text-[9px] uppercase tracking-[.12em] text-white/50 sm:text-[10px]">
+      <div className="pointer-events-none absolute inset-0 font-mono text-[8px] uppercase tracking-[.08em] text-white/50 sm:text-[9px] sm:tracking-[.12em] md:text-[10px]">
         <span className="absolute left-[1%] top-[13%]">{copy.nodes.tools}</span>
         <span className="absolute left-[1%] top-[37%]">{copy.nodes.data}</span>
         <span className="absolute left-[1%] top-[61%]">{copy.nodes.teams}</span>
@@ -119,6 +119,7 @@ const FlowMap = ({ copy, reduceMotion }) => (
 const AgenticDigitalization = () => {
   const { i18n } = useTranslation();
   const reduceMotion = useReducedMotion();
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches;
   const isSpanish = i18n.language?.startsWith('es');
   const copy = isSpanish ? {
     kicker: 'Digitalización agéntica',
@@ -153,30 +154,30 @@ const AgenticDigitalization = () => {
   };
 
   return (
-    <section id="agentic-digitalization" className="overflow-hidden bg-[#101114] py-24 text-white md:py-32">
-      <div className="container mx-auto px-6">
-        <div className="grid gap-8 lg:grid-cols-[1fr_.72fr] lg:items-end">
+    <section id="agentic-digitalization" className="overflow-hidden bg-[#101114] py-16 text-white sm:py-20 md:py-32">
+      <div className="container mx-auto px-5 sm:px-6">
+        <div className="grid gap-6 sm:gap-8 lg:grid-cols-[1fr_.72fr] lg:items-end">
           <div>
             <p className="rium-kicker mb-6 text-[#DFFF4F]"><span className="h-2 w-2 rounded-full bg-[#DFFF4F]" />{copy.kicker}</p>
-            <h2 className="max-w-4xl text-5xl font-semibold leading-[.94] tracking-[-.055em] md:text-7xl">{copy.title}</h2>
+            <h2 className="max-w-4xl text-[clamp(2.35rem,11vw,3.5rem)] font-semibold leading-[.96] tracking-[-.05em] md:text-7xl md:leading-[.94] md:tracking-[-.055em]">{copy.title}</h2>
           </div>
-          <p className="max-w-xl text-lg leading-relaxed text-white/65 lg:justify-self-end">{copy.intro}</p>
+          <p className="max-w-xl text-base leading-relaxed text-white/65 sm:text-lg lg:justify-self-end">{copy.intro}</p>
         </div>
 
-        <div className="mt-16 grid gap-10 lg:grid-cols-[.82fr_1.18fr] lg:items-stretch">
+        <div className="mt-10 grid gap-8 sm:mt-16 sm:gap-10 lg:grid-cols-[.82fr_1.18fr] lg:items-stretch">
           <div className="flex flex-col">
-            <p className="max-w-xl text-xl font-medium leading-relaxed text-white/90 md:text-2xl">{copy.difference}</p>
-            <div className="mt-10 divide-y divide-white/10 border-y border-white/10">
+            <p className="max-w-xl text-lg font-medium leading-relaxed text-white/90 sm:text-xl md:text-2xl">{copy.difference}</p>
+            <div className="mt-8 divide-y divide-white/10 border-y border-white/10 sm:mt-10">
               {copy.benefits.map((benefit, index) => {
                 const Icon = benefit.icon;
                 return (
                   <motion.article
                     key={benefit.title}
-                    initial={{ opacity: 0, x: -18 }}
+                    initial={reduceMotion ? false : { opacity: 0, x: isMobile ? -9 : -18 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, amount: .6 }}
-                    transition={{ duration: .55, delay: index * .1, ease: [0.22, 1, 0.36, 1] }}
-                    className="grid grid-cols-[auto_1fr] gap-4 py-6"
+                    transition={{ duration: isMobile ? .75 : .55, delay: reduceMotion ? 0 : index * .1, ease: [0.22, 1, 0.36, 1] }}
+                    className="grid grid-cols-[auto_1fr] gap-3 py-5 sm:gap-4 sm:py-6"
                   >
                     <span className="grid h-10 w-10 place-items-center rounded-full bg-[#5B72FF] text-white"><Icon className="h-5 w-5" aria-hidden="true" /></span>
                     <div>
@@ -189,7 +190,7 @@ const AgenticDigitalization = () => {
             </div>
           </div>
 
-          <FlowMap copy={copy} reduceMotion={reduceMotion} />
+          <FlowMap copy={copy} reduceMotion={reduceMotion} isMobile={isMobile} />
         </div>
       </div>
     </section>

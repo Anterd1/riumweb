@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import SEO from '@/components/SEO';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Stats from '@/components/Stats';
 import SectionAnimator from '@/components/SectionAnimator';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import OptimizedImage from '@/components/OptimizedImage';
+import { useLocalizedLink } from '@/hooks/useLocalizedLink';
 
 // Mock data for projects
 const projectData = {
@@ -185,12 +186,14 @@ const Project = () => {
     projectId
   } = useParams();
   const project = projectData[projectId] || projectData['fintech-dashboard']; // Fallback
+  const getLocalizedLink = useLocalizedLink();
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [projectId]);
 
-  return <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition} className="bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white">
+  return <motion.div initial={shouldReduceMotion ? false : 'initial'} animate="in" exit="out" variants={pageVariants} transition={shouldReduceMotion ? { duration: 0 } : pageTransition} className="overflow-x-hidden bg-white text-gray-900 dark:bg-[#0C0D0D] dark:text-white">
       <SEO
         title={project.title}
         description={project.description}
@@ -202,18 +205,18 @@ const Project = () => {
       <main>
         {/* Top Section */}
         <SectionAnimator>
-          <header className="pt-48 pb-16"> {/* Increased padding-top */}
-            <div className="container mx-auto px-6 text-center max-w-4xl">
-              <h1 className="text-4xl md:text-6xl font-bold uppercase mb-4">{project.title}</h1>
-              <p className="text-lg md:text-xl text-gray-700 dark:text-gray-400">{project.description}</p>
+          <header className="pb-10 pt-28 sm:pb-12 sm:pt-36 md:pb-16 md:pt-48">
+            <div className="container mx-auto max-w-4xl px-4 text-center sm:px-6">
+              <h1 className="mb-4 break-words text-[clamp(2rem,10vw,3rem)] font-bold uppercase leading-[1.05] md:text-6xl">{project.title}</h1>
+              <p className="text-base leading-relaxed text-gray-700 dark:text-gray-400 sm:text-lg md:text-xl">{project.description}</p>
             </div>
           </header>
         </SectionAnimator>
         
         {/* Hero Image */}
         <SectionAnimator>
-            <div className="container mx-auto px-6 mb-16">
-                 <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl shadow-accent-purple/10">
+            <div className="container mx-auto mb-10 px-4 sm:mb-12 sm:px-6 md:mb-16">
+                 <div className="aspect-video overflow-hidden rounded-xl shadow-2xl shadow-accent-purple/10 sm:rounded-2xl">
                     <OptimizedImage 
                       className="w-full h-full object-cover" 
                       alt={project.images.hero.alt} 
@@ -228,11 +231,11 @@ const Project = () => {
 
         {/* Gallery - now starts with two images */}
         <SectionAnimator>
-            <div className="container mx-auto px-6 mb-16">
+            <div className="container mx-auto mb-10 px-4 sm:mb-12 sm:px-6 md:mb-16">
                 <div className="grid grid-cols-1 gap-8">
                     {/* Two images */}
-                    <div className="grid md:grid-cols-2 gap-8">
-                        <div className="aspect-square rounded-2xl overflow-hidden">
+                    <div className="grid gap-4 sm:gap-6 md:grid-cols-2 md:gap-8">
+                        <div className="aspect-square overflow-hidden rounded-xl sm:rounded-2xl">
                            <OptimizedImage 
                              className="w-full h-full object-cover" 
                              alt={project.images.gallery[1].alt} 
@@ -241,7 +244,7 @@ const Project = () => {
                              height={1200}
                            />
                         </div>
-                        <div className="aspect-square rounded-2xl overflow-hidden">
+                        <div className="aspect-square overflow-hidden rounded-xl sm:rounded-2xl">
                             <OptimizedImage 
                               className="w-full h-full object-cover" 
                               alt={project.images.gallery[2].alt} 
@@ -257,15 +260,15 @@ const Project = () => {
         
         {/* Text Section */}
         <SectionAnimator>
-            <section className="py-16">
-                <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-start">
+            <section className="py-10 sm:py-12 md:py-16">
+                <div className="container mx-auto grid items-start gap-10 px-4 sm:px-6 md:grid-cols-2 md:gap-16">
                     <div>
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6">El Desafío</h2>
-                        <p className="text-lg text-gray-700 dark:text-gray-400">{project.challenge}</p>
+                        <h2 className="mb-4 text-2xl font-bold sm:text-3xl md:mb-6 md:text-4xl">El Desafío</h2>
+                        <p className="text-base leading-relaxed text-gray-700 dark:text-gray-400 sm:text-lg">{project.challenge}</p>
                     </div>
                      <div>
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6">La Solución</h2>
-                        <p className="text-lg text-gray-700 dark:text-gray-400">{project.solution}</p>
+                        <h2 className="mb-4 text-2xl font-bold sm:text-3xl md:mb-6 md:text-4xl">La Solución</h2>
+                        <p className="text-base leading-relaxed text-gray-700 dark:text-gray-400 sm:text-lg">{project.solution}</p>
                     </div>
                 </div>
             </section>
@@ -273,8 +276,8 @@ const Project = () => {
         
         {/* Second Gallery - changed to single image */}
         <SectionAnimator>
-            <div className="container mx-auto px-6 mb-16">
-                <div className="aspect-video rounded-2xl overflow-hidden">
+            <div className="container mx-auto mb-10 px-4 sm:mb-12 sm:px-6 md:mb-16">
+                <div className="aspect-video overflow-hidden rounded-xl sm:rounded-2xl">
                     <OptimizedImage 
                       className="w-full h-full object-cover" 
                       alt={project.images.gallery2[0].alt} 
@@ -291,12 +294,12 @@ const Project = () => {
 
         {/* Work Together CTA */}
         <SectionAnimator>
-            <section className="py-24 text-center">
-                <div className="container mx-auto px-6">
+            <section className="py-16 text-center md:py-24">
+                <div className="container mx-auto px-4 sm:px-6">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4">¿Listo para Trabajar Juntos?</h2>
                     <p className="text-lg text-gray-700 dark:text-gray-400 mb-8">Hablemos sobre tu próxima gran idea y cómo podemos hacerla realidad.</p>
-                     <Button asChild size="lg" className="bg-accent-purple text-white hover:bg-accent-purple/90 group rounded-full text-lg py-7 px-10">
-                        <Link to="/contact">
+                     <Button asChild size="lg" className="group min-h-12 rounded-full bg-accent-purple px-7 py-6 text-base text-white active:scale-[.98] motion-reduce:transition-none sm:px-10 sm:py-7 sm:text-lg md:hover:bg-accent-purple/90">
+                        <Link to={getLocalizedLink('/contact')}>
                             Hablemos <ArrowRight className="ml-2 h-5 w-5 transform transition-transform duration-300 group-hover:translate-x-1" />
                         </Link>
                     </Button>

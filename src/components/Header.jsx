@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import { motion, AnimatePresence, LayoutGroup, useReducedMotion } from 'framer-motion';
 import { ChevronDown, Users, Briefcase, Mail, Monitor, Smartphone, Search, FileText, Newspaper, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
@@ -19,6 +19,7 @@ const Header = memo(() => {
   const location = useLocation();
   const navigate = useNavigate();
   const getLocalizedLink = useLocalizedLink();
+  const shouldReduceMotion = useReducedMotion();
   
   const currentLang = lang || (location.pathname.startsWith('/en') ? 'en' : 'es');
   
@@ -66,8 +67,8 @@ const Header = memo(() => {
         setActiveDropdown(null);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('pointerdown', handleClickOutside);
+    return () => document.removeEventListener('pointerdown', handleClickOutside);
   }, []);
 
   useEffect(() => {
@@ -183,9 +184,9 @@ const Header = memo(() => {
     <>
       <header
         ref={headerRef}
-        className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300 py-4"
+        className="fixed left-0 right-0 top-0 z-[100] pb-4 pt-[calc(1rem+env(safe-area-inset-top))] transition-all duration-300 md:py-4"
       >
-        <nav className="container mx-auto px-6 h-20 flex items-center justify-between relative">
+        <nav className="container relative mx-auto flex h-20 items-center justify-between px-4 sm:px-6">
           <div className="z-[101] flex items-center h-full">
             <Link 
               to={getLocalizedLink('/')} 
@@ -205,7 +206,7 @@ const Header = memo(() => {
             <button
               onClick={() => changeLanguage('es')}
               className={`
-                w-9 h-9 rounded-full text-base transition-all flex items-center justify-center
+                flex h-11 w-11 items-center justify-center rounded-full text-base transition-all
                 ${i18n.language === 'es'
                   ? isDarkHeader
                     ? isDarkTheme ? 'bg-white/20 ring-2 ring-white/50' : 'bg-gray-900/20 ring-2 ring-gray-900/50'
@@ -222,7 +223,7 @@ const Header = memo(() => {
             <button
               onClick={() => changeLanguage('en')}
               className={`
-                w-9 h-9 rounded-full text-base transition-all flex items-center justify-center
+                flex h-11 w-11 items-center justify-center rounded-full text-base transition-all
                 ${i18n.language === 'en'
                   ? isDarkHeader
                     ? isDarkTheme ? 'bg-white/20 ring-2 ring-white/50' : 'bg-gray-900/20 ring-2 ring-gray-900/50'
@@ -433,7 +434,7 @@ const Header = memo(() => {
               <button
                 onClick={() => changeLanguage('es')}
                 className={`
-                  w-9 h-9 rounded-full text-base transition-all flex items-center justify-center
+                  flex h-11 w-11 items-center justify-center rounded-full text-base transition-all
                   ${i18n.language === 'es'
                     ? isDarkHeader
                       ? isDarkTheme ? 'bg-white/20 ring-2 ring-white/50' : 'bg-gray-900/20 ring-2 ring-gray-900/50'
@@ -450,7 +451,7 @@ const Header = memo(() => {
               <button
                 onClick={() => changeLanguage('en')}
                 className={`
-                  w-9 h-9 rounded-full text-base transition-all flex items-center justify-center
+                  flex h-11 w-11 items-center justify-center rounded-full text-base transition-all
                   ${i18n.language === 'en'
                     ? isDarkHeader
                       ? isDarkTheme ? 'bg-white/20 ring-2 ring-white/50' : 'bg-gray-900/20 ring-2 ring-gray-900/50'
@@ -485,11 +486,11 @@ const Header = memo(() => {
               <motion.nav
                 ref={mobileNavRef}
                 layout
-                initial={{ y: 100, opacity: 0 }}
+                initial={shouldReduceMotion ? false : { y: 48, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
+                transition={{ duration: shouldReduceMotion ? 0 : 0.35, ease: [0.21, 0.47, 0.32, 0.98] }}
                 className={`
-                  pointer-events-auto mx-4 mb-6 rounded-3xl backdrop-blur-xl border shadow-lg overflow-hidden
+                  pointer-events-auto mx-3 mb-[calc(0.75rem+env(safe-area-inset-bottom))] overflow-hidden rounded-3xl border backdrop-blur-md shadow-lg sm:mx-4
                   ${isDarkHeader 
                     ? isDarkTheme
                       ? 'bg-[#1E1E2A]/98 border-white/15'
@@ -508,7 +509,7 @@ const Header = memo(() => {
                   return (
                     <motion.div
                       key={activeDropdown}
-                      initial={{ opacity: 0, height: 0 }}
+                      initial={shouldReduceMotion ? false : { opacity: 0, height: 0 }}
                       animate={{ 
                         opacity: 1, 
                         height: 'auto',
@@ -542,9 +543,9 @@ const Header = memo(() => {
                             return (
                               <motion.button
                                 key={item.name}
-                                initial={{ opacity: 0, x: -10 }}
+                                initial={shouldReduceMotion ? false : { opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: idx * 0.04, duration: 0.2 }}
+                                transition={{ delay: shouldReduceMotion ? 0 : idx * 0.04, duration: shouldReduceMotion ? 0 : 0.2 }}
                                 onClick={(e) => {
                                   handleNavClick(e, item.href);
                                   setActiveDropdown(null);
@@ -583,7 +584,7 @@ const Header = memo(() => {
               </AnimatePresence>
 
               {/* Navigation Buttons */}
-              <motion.div layout="position" className="flex items-center justify-around gap-0.5 px-3 py-2.5">
+              <motion.div layout="position" className="flex items-center justify-around gap-0.5 px-2 py-2">
                 {/* Home */}
                 {(() => {
                   const isHomeActive = (location.pathname === `/${currentLang}` || location.pathname === `/${currentLang}/`) && !currentHash;
@@ -592,7 +593,7 @@ const Header = memo(() => {
                       layout="position"
                       key="home"
                       onClick={(e) => handleNavClick(e, getLocalizedLink('/'))}
-                      className="relative px-3 py-1.5 rounded-full text-[11px] font-medium transition-all min-w-[60px]"
+                      className="relative min-h-11 min-w-0 flex-1 rounded-full px-2 py-2 text-[10px] font-medium transition-all sm:text-[11px]"
                     >
                       {isHomeActive && (
                         <motion.div
@@ -638,7 +639,7 @@ const Header = memo(() => {
                         e.stopPropagation();
                         setActiveDropdown(activeDropdown === 'services' ? null : 'services');
                       }}
-                      className="relative px-3 py-1.5 rounded-full text-[11px] font-medium transition-all min-w-[60px]"
+                      className="relative min-h-11 min-w-0 flex-1 rounded-full px-2 py-2 text-[10px] font-medium transition-all sm:text-[11px]"
                     >
                       {(isServicesDropdownOpen || isServicesActive) && (
                         <motion.div
@@ -693,7 +694,7 @@ const Header = memo(() => {
                         e.stopPropagation();
                         setActiveDropdown(activeDropdown === 'explore' ? null : 'explore');
                       }}
-                      className="relative px-3 py-1.5 rounded-full text-[11px] font-medium transition-all min-w-[60px]"
+                      className="relative min-h-11 min-w-0 flex-1 rounded-full px-2 py-2 text-[10px] font-medium transition-all sm:text-[11px]"
                     >
                       {(isExploreDropdownOpen || isExploreActive) && (
                         <motion.div
@@ -737,7 +738,7 @@ const Header = memo(() => {
                       layout="position"
                       key="contact"
                       onClick={(e) => handleNavClick(e, getLocalizedLink('/contact'))}
-                      className="relative px-3 py-1.5 rounded-full text-[11px] font-medium transition-all min-w-[60px]"
+                      className="relative min-h-11 min-w-0 flex-1 rounded-full px-2 py-2 text-[10px] font-medium transition-all sm:text-[11px]"
                     >
                       {isContactActive && (
                         <motion.div

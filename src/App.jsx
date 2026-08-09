@@ -2,16 +2,14 @@ import React, { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import Home from '@/pages/Home';
-import Contact from '@/pages/Contact';
-import Login from '@/pages/admin/Login';
 import ProtectedRoute from '@/components/ProtectedRoute';
-import AdminLayout from '@/components/AdminLayout';
 import PageLoader from '@/components/PageLoader';
 import LanguageRedirect from '@/components/LanguageRedirect';
 import BlogPostRedirect from '@/components/BlogPostRedirect';
 import NewsPostRedirect from '@/components/NewsPostRedirect';
 
 // Lazy load de páginas públicas
+const Contact = lazy(() => import('./pages/Contact'));
 const Blog = lazy(() => import('./pages/Blog'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
 const News = lazy(() => import('./pages/News'));
@@ -22,6 +20,8 @@ const Sitemap = lazy(() => import('./pages/Sitemap'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Lazy load de páginas admin
+const Login = lazy(() => import('./pages/admin/Login'));
+const AdminLayout = lazy(() => import('./components/AdminLayout'));
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const NewsDashboard = lazy(() => import('./pages/admin/NewsDashboard'));
 const PostEditor = lazy(() => import('./pages/admin/PostEditor'));
@@ -39,11 +39,11 @@ function App() {
           <Route path="/" element={<LanguageRedirect />} />
           
           {/* Redirect old blog routes without language prefix */}
-          <Route path="/blog" element={<LanguageRedirect />} />
+          <Route path="/blog" element={<LanguageRedirect targetPath="/blog" />} />
           <Route path="/blog/:slug" element={<BlogPostRedirect />} />
           
           {/* Redirect old news routes without language prefix */}
-          <Route path="/noticias" element={<LanguageRedirect />} />
+          <Route path="/noticias" element={<LanguageRedirect targetPath="/noticias" />} />
           <Route path="/noticias/:slug" element={<NewsPostRedirect />} />
           
           {/* Language-specific routes */}

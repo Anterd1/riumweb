@@ -1,29 +1,14 @@
-import { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
 const BlogPostRedirect = () => {
   const { slug } = useParams();
-  const navigate = useNavigate();
+  const savedLanguage = localStorage.getItem('i18nextLng');
+  const browserLanguage = navigator.language || navigator.userLanguage || 'es';
+  const lang = savedLanguage
+    ? (savedLanguage.startsWith('en') ? 'en' : 'es')
+    : (browserLanguage.startsWith('en') ? 'en' : 'es');
 
-  useEffect(() => {
-    // Detectar idioma preferido
-    const savedLanguage = localStorage.getItem('i18nextLng');
-    let lang = 'es'; // Por defecto español
-    
-    if (savedLanguage && savedLanguage.startsWith('en')) {
-      lang = 'en';
-    } else if (!savedLanguage) {
-      const browserLang = navigator.language || navigator.userLanguage;
-      if (browserLang.startsWith('en')) {
-        lang = 'en';
-      }
-    }
-    
-    // Redirigir a la ruta con prefijo de idioma
-    navigate(`/${lang}/blog/${slug}`, { replace: true });
-  }, [slug, navigate]);
-
-  return null;
+  return <Navigate to={`/${lang}/blog${slug ? `/${slug}` : ''}`} replace />;
 };
 
 export default BlogPostRedirect;

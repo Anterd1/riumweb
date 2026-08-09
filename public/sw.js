@@ -1,9 +1,9 @@
 // Service Worker básico para caché de assets estáticos
-const CACHE_NAME = 'rium-v2';
+const CACHE_NAME = 'rium-v3';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/images/HERO.png',
+  '/favicon.svg',
 ];
 
 // Instalación del Service Worker

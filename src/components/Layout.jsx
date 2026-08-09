@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, Suspense, useEffect } from 'react';
 import { Outlet, useLocation, useParams, Navigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -13,6 +13,11 @@ const Layout = memo(() => {
   const { lang } = params || {};
   
   useLanguageFromUrl(); // Hook para sincronizar idioma con URL
+
+  // Scroll to top when route changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [location?.pathname]);
   
   // Guard: Si location o params no están disponibles (StrictMode double render), retornar null temporalmente
   if (!location || !params) {
@@ -24,12 +29,6 @@ const Layout = memo(() => {
     const pathWithoutLang = location.pathname || '';
     return <Navigate to={`/es${pathWithoutLang}`} replace />;
   }
-  
-  // Scroll to top when route changes
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [location?.pathname]);
-
   return (
     <ThemeProvider>
       <GoogleAnalytics />
@@ -48,8 +47,24 @@ const Layout = memo(() => {
 
       <div className="min-h-screen bg-white dark:bg-[#0C0D0D] text-gray-900 dark:text-white overflow-x-hidden flex flex-col">
         <Header />
-        <main className="flex-grow pb-24 md:pb-0">
-          <Outlet />
+        <main className="flex-grow pb-20 md:pb-0">
+          <Suspense
+            fallback={
+              <div
+                className="min-h-[45svh] animate-pulse bg-[#F2F0E9] px-4 pb-16 pt-28 sm:px-6"
+                role="status"
+                aria-label="Cargando página"
+              >
+                <div className="container mx-auto">
+                  <div className="h-4 w-28 rounded-full bg-black/10" />
+                  <div className="mt-6 h-12 max-w-2xl rounded-2xl bg-black/10 sm:h-16" />
+                  <div className="mt-4 h-5 max-w-lg rounded-full bg-black/10" />
+                </div>
+              </div>
+            }
+          >
+            <Outlet />
+          </Suspense>
         </main>
         <Footer />
         <Toaster />

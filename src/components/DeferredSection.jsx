@@ -14,24 +14,31 @@ const shimmerClasses = {
   acid: 'bg-black/10',
 };
 
-const SectionSkeleton = ({ minHeight = 640, tone = 'paper' }) => (
-  <div
-    className={`${toneClasses[tone] || toneClasses.paper} flex items-center py-24 md:py-32`}
-    style={{ minHeight }}
-    aria-hidden="true"
-  >
-    <div className="container mx-auto animate-pulse px-6">
-      <div className={`mb-8 h-3 w-36 rounded-full ${shimmerClasses[tone]}`} />
-      <div className={`h-12 max-w-3xl rounded-2xl md:h-20 ${shimmerClasses[tone]}`} />
-      <div className={`mt-4 h-12 max-w-2xl rounded-2xl md:h-20 ${shimmerClasses[tone]}`} />
-      <div className="mt-14 grid gap-4 md:grid-cols-3">
-        {[0, 1, 2].map((item) => (
-          <div key={item} className={`h-44 rounded-[1.5rem] ${shimmerClasses[tone]}`} />
-        ))}
+const SectionSkeleton = ({ minHeight = 640, tone = 'paper' }) => {
+  const mobileMinHeight = Math.min(620, Math.max(420, Math.round(minHeight * .72)));
+
+  return (
+    <div
+      className={`${toneClasses[tone] || toneClasses.paper} flex min-h-[var(--mobile-skeleton-height)] items-center py-16 sm:py-20 md:min-h-[var(--desktop-skeleton-height)] md:py-32`}
+      style={{
+        '--mobile-skeleton-height': `${mobileMinHeight}px`,
+        '--desktop-skeleton-height': `${minHeight}px`,
+      }}
+      aria-hidden="true"
+    >
+      <div className="container mx-auto animate-pulse px-5 motion-reduce:animate-none sm:px-6">
+        <div className={`mb-6 h-3 w-28 rounded-full sm:mb-8 sm:w-36 ${shimmerClasses[tone]}`} />
+        <div className={`h-10 max-w-3xl rounded-xl sm:h-12 sm:rounded-2xl md:h-20 ${shimmerClasses[tone]}`} />
+        <div className={`mt-3 h-10 max-w-2xl rounded-xl sm:mt-4 sm:h-12 sm:rounded-2xl md:h-20 ${shimmerClasses[tone]}`} />
+        <div className="mt-10 grid grid-cols-3 gap-2 sm:mt-14 sm:gap-4">
+          {[0, 1, 2].map((item) => (
+            <div key={item} className={`h-24 rounded-xl sm:h-36 sm:rounded-[1.5rem] md:h-44 ${shimmerClasses[tone]}`} />
+          ))}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const DeferredSection = ({
   children,

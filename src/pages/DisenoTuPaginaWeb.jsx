@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import SEO from '@/components/SEO';
 import SectionAnimator from '@/components/SectionAnimator';
@@ -10,6 +10,7 @@ import { useLocalizedLink } from '@/hooks/useLocalizedLink';
 const DisenoTuPaginaWeb = () => {
   const navigate = useNavigate();
   const getLocalizedLink = useLocalizedLink();
+  const shouldReduceMotion = useReducedMotion();
 
   const benefits = [
     {
@@ -74,20 +75,21 @@ const DisenoTuPaginaWeb = () => {
       <div className="min-h-screen bg-[#0C0D0D] text-white">
         {/* Hero Section */}
         <SectionAnimator>
-          <section className="pt-32 pb-20 px-6">
+          <section className="px-4 pb-14 pt-24 sm:px-6 sm:pb-16 sm:pt-28 md:pb-20 md:pt-32">
             <div className="container mx-auto max-w-4xl text-center">
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight uppercase"
+                transition={{ duration: shouldReduceMotion ? 0 : 0.5 }}
+                className="mb-5 break-words text-[clamp(2.5rem,13vw,4rem)] font-bold uppercase leading-[.98] sm:mb-6 md:text-7xl lg:text-8xl"
               >
                 Diseña tu <span className="text-accent-purple">Página Web</span>
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto"
+                transition={{ delay: shouldReduceMotion ? 0 : 0.2, duration: shouldReduceMotion ? 0 : 0.5 }}
+                className="mx-auto mb-8 max-w-3xl text-base leading-relaxed text-gray-300 sm:mb-10 sm:text-xl md:mb-12 md:text-2xl"
               >
                 Creamos páginas web profesionales que convierten visitantes en clientes. 
                 Diseño moderno, responsivo y optimizado para resultados.
@@ -95,13 +97,13 @@ const DisenoTuPaginaWeb = () => {
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: shouldReduceMotion ? 0 : 0.4, duration: shouldReduceMotion ? 0 : 0.5 }}
                 className="flex flex-col sm:flex-row gap-4 justify-center"
               >
                 <Button
                   onClick={() => navigate(getLocalizedLink('/contact'))}
                   size="lg"
-                  className="bg-accent-purple hover:bg-accent-purple/90 text-white font-bold px-8 py-6 text-lg rounded-full group"
+                  className="group min-h-12 w-full rounded-full bg-accent-purple px-6 py-5 text-base font-bold text-white active:scale-[.98] motion-reduce:transition-none sm:w-auto sm:px-8 sm:py-6 sm:text-lg md:hover:bg-accent-purple/90"
                 >
                   Solicitar Cotización
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -110,7 +112,7 @@ const DisenoTuPaginaWeb = () => {
                   onClick={() => navigate(getLocalizedLink('/#services'))}
                   size="lg"
                   variant="outline"
-                  className="border-2 border-accent-purple/40 hover:bg-accent-purple/10 text-white px-8 py-6 text-lg rounded-full"
+                  className="min-h-12 w-full rounded-full border-2 border-accent-purple/40 px-6 py-5 text-base text-white active:scale-[.98] motion-reduce:transition-none sm:w-auto sm:px-8 sm:py-6 sm:text-lg md:hover:bg-accent-purple/10"
                 >
                   Ver Servicios
                 </Button>
@@ -121,25 +123,25 @@ const DisenoTuPaginaWeb = () => {
 
         {/* Benefits Section */}
         <SectionAnimator>
-          <section className="py-24 px-6">
+          <section className="px-4 py-16 sm:px-6 sm:py-20 md:py-24">
             <div className="container mx-auto">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-16 uppercase">
+              <h2 className="mb-10 break-words text-center text-[clamp(2rem,10vw,3rem)] font-bold uppercase leading-[1.05] sm:mb-12 md:mb-16 md:text-5xl lg:text-6xl">
                 ¿Por qué elegirnos para <span className="text-accent-purple">diseñar tu página web?</span>
               </h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid gap-5 sm:gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
                 {benefits.map((benefit, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-[#1E1E2A] p-8 rounded-2xl border border-white/10"
+                    transition={{ delay: shouldReduceMotion ? 0 : index * 0.1, duration: shouldReduceMotion ? 0 : 0.4 }}
+                    className="rounded-2xl border border-white/10 bg-[#1E1E2A] p-5 transition-transform active:scale-[.99] motion-reduce:transition-none sm:p-6 md:p-8"
                   >
                     <div className="text-accent-purple mb-4">
                       {benefit.icon}
                     </div>
-                    <h3 className="text-2xl font-bold mb-4">{benefit.title}</h3>
+                    <h3 className="mb-3 text-xl font-bold sm:mb-4 sm:text-2xl">{benefit.title}</h3>
                     <p className="text-gray-400">{benefit.description}</p>
                   </motion.div>
                 ))}
@@ -150,9 +152,9 @@ const DisenoTuPaginaWeb = () => {
 
         {/* Process Section */}
         <SectionAnimator>
-          <section className="py-24 px-6 bg-[#1E1E2A]/50">
+          <section className="bg-[#1E1E2A]/50 px-4 py-16 sm:px-6 sm:py-20 md:py-24">
             <div className="container mx-auto max-w-5xl">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-16 uppercase">
+              <h2 className="mb-10 text-center text-[clamp(2rem,10vw,3rem)] font-bold uppercase sm:mb-12 md:mb-16 md:text-5xl lg:text-6xl">
                 Nuestro <span className="text-accent-purple">Proceso</span>
               </h2>
               <div className="space-y-8">
@@ -162,17 +164,17 @@ const DisenoTuPaginaWeb = () => {
                     initial={{ opacity: 0, x: -30 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.2 }}
-                    className="flex gap-6 items-start"
+                    transition={{ delay: shouldReduceMotion ? 0 : index * 0.2, duration: shouldReduceMotion ? 0 : 0.4 }}
+                    className="flex items-start gap-4 sm:gap-6"
                   >
                     <div className="flex-shrink-0">
-                      <div className="w-16 h-16 rounded-full bg-accent-purple/20 flex items-center justify-center text-accent-purple font-bold text-xl">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent-purple/20 text-base font-bold text-accent-purple sm:h-16 sm:w-16 sm:text-xl">
                         {item.step}
                       </div>
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-2xl font-bold mb-2">{item.title}</h3>
-                      <p className="text-gray-400 text-lg">{item.description}</p>
+                      <h3 className="mb-2 text-xl font-bold sm:text-2xl">{item.title}</h3>
+                      <p className="text-base leading-relaxed text-gray-400 sm:text-lg">{item.description}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -183,9 +185,9 @@ const DisenoTuPaginaWeb = () => {
 
         {/* Services Included */}
         <SectionAnimator>
-          <section className="py-24 px-6">
+          <section className="px-4 py-16 sm:px-6 sm:py-20 md:py-24">
             <div className="container mx-auto max-w-4xl">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-16 uppercase">
+              <h2 className="mb-10 text-center text-[clamp(2rem,10vw,3rem)] font-bold uppercase sm:mb-12 md:mb-16 md:text-5xl lg:text-6xl">
                 Incluido en tu <span className="text-accent-purple">Diseño Web</span>
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
@@ -206,11 +208,11 @@ const DisenoTuPaginaWeb = () => {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
+                    transition={{ delay: shouldReduceMotion ? 0 : index * 0.1, duration: shouldReduceMotion ? 0 : 0.4 }}
                     className="flex items-center gap-3"
                   >
                     <CheckCircle className="w-6 h-6 text-accent-purple flex-shrink-0" />
-                    <span className="text-gray-300 text-lg">{item}</span>
+                    <span className="text-base leading-snug text-gray-300 sm:text-lg">{item}</span>
                   </motion.div>
                 ))}
               </div>
@@ -220,18 +222,19 @@ const DisenoTuPaginaWeb = () => {
 
         {/* CTA Section */}
         <SectionAnimator>
-          <section className="py-24 px-6">
+          <section className="px-4 py-16 sm:px-6 sm:py-20 md:py-24">
             <div className="container mx-auto max-w-4xl text-center">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="bg-gradient-to-r from-accent-purple/20 to-accent-purple/10 rounded-3xl p-12 border border-accent-purple/30"
+                transition={{ duration: shouldReduceMotion ? 0 : 0.4 }}
+                className="rounded-3xl border border-accent-purple/30 bg-gradient-to-r from-accent-purple/20 to-accent-purple/10 p-5 sm:p-8 md:p-12"
               >
-                <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                <h2 className="mb-4 text-2xl font-bold sm:text-4xl md:mb-6 md:text-5xl">
                   ¿Listo para diseñar tu página web?
                 </h2>
-                <p className="text-xl text-gray-300 mb-8">
+                <p className="mb-6 text-base leading-relaxed text-gray-300 sm:mb-8 sm:text-xl">
                   Contáctanos hoy y recibe una cotización personalizada para tu proyecto.
                 </p>
                 <Button
@@ -247,7 +250,7 @@ const DisenoTuPaginaWeb = () => {
                     navigate(getLocalizedLink('/contact'));
                   }}
                   size="lg"
-                  className="bg-accent-purple hover:bg-accent-purple/90 text-white font-bold px-8 py-6 text-lg rounded-full group"
+                  className="group min-h-12 w-full whitespace-normal rounded-full bg-accent-purple px-5 py-5 text-base font-bold text-white active:scale-[.98] motion-reduce:transition-none sm:w-auto sm:px-8 sm:py-6 sm:text-lg md:hover:bg-accent-purple/90"
                 >
                   Solicitar Cotización Gratuita
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />

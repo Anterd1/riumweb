@@ -79,11 +79,15 @@
     background-color: hsl(var(--background));
     font-family: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
     scroll-behavior: smooth;
-    /* Cursor controlado dinámicamente por componente */
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Space Grotesk Variable', 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+  }
+
+  [id] {
+    scroll-margin-top: 6rem;
   }
   
   a, button {
@@ -146,6 +150,16 @@
 .rium-flow {
   stroke-dasharray: 8 12;
   animation: rium-flow 2.4s linear infinite;
+}
+
+@media (max-width: 767px) {
+  .rium-drift {
+    animation-duration: 10s;
+  }
+
+  .rium-flow {
+    animation-duration: 3.4s;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

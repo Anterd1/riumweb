@@ -7,6 +7,7 @@ const About = () => {
   const { i18n } = useTranslation();
   const isSpanish = i18n.language?.startsWith('es');
   const reduceMotion = useReducedMotion();
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches;
   const copy = isSpanish ? {
     kicker: 'Cómo trabajamos contigo',
     title: 'No llegamos con todas las respuestas.',
@@ -30,40 +31,41 @@ const About = () => {
   };
 
   return (
-    <section id="about" className="overflow-hidden bg-[#101114] py-24 text-white md:py-32">
-      <div className="container mx-auto px-6">
-        <div className="grid gap-16 lg:grid-cols-[.8fr_1.2fr]">
+    <section id="about" className="overflow-hidden bg-[#101114] py-16 text-white sm:py-20 md:py-32">
+      <div className="container mx-auto px-5 sm:px-6">
+        <div className="grid gap-8 sm:gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-16">
           <div>
-            <p className="rium-kicker sticky top-32 text-[#DFFF4F]"><span className="h-2 w-2 rounded-full bg-[#DFFF4F]" />{copy.kicker}</p>
+            <p className="rium-kicker text-[#DFFF4F] lg:sticky lg:top-32"><span className="h-2 w-2 rounded-full bg-[#DFFF4F]" />{copy.kicker}</p>
           </div>
           <div>
             <motion.h2
-              initial={{ opacity: 0, y: 24 }}
+              initial={reduceMotion ? false : { opacity: 0, y: isMobile ? 12 : 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-5xl font-semibold leading-[.98] tracking-[-.05em] md:text-7xl"
+              transition={{ duration: isMobile ? .8 : .5 }}
+              className="text-[clamp(2.35rem,11vw,3.5rem)] font-semibold leading-[.98] tracking-[-.05em] md:text-7xl"
             >
               {copy.title}<br /><span className="text-[#5B72FF]">{copy.highlight}</span>
             </motion.h2>
-            <p className="mt-10 max-w-2xl text-xl leading-relaxed text-white/60">{copy.description}</p>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/60 sm:mt-10 sm:text-xl">{copy.description}</p>
 
-            <div className="mt-20 border-t border-white/15">
+            <div className="mt-12 border-t border-white/15 sm:mt-20">
               {copy.principles.map(([number, title, description], index) => (
                 <motion.div
                   key={number}
-                  initial={{ opacity: 0, x: 32 }}
+                  initial={reduceMotion ? false : { opacity: 0, x: isMobile ? 12 : 32 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, amount: .5 }}
-                  transition={{ duration: .55, delay: index * .1, ease: [0.22, 1, 0.36, 1] }}
-                  className="group grid gap-5 border-b border-white/15 py-8 md:grid-cols-[80px_1fr_1fr_40px] md:items-center"
+                  transition={{ duration: isMobile ? .75 : .55, delay: reduceMotion ? 0 : index * .1, ease: [0.22, 1, 0.36, 1] }}
+                  className="group grid grid-cols-[1fr_auto] gap-4 border-b border-white/15 py-6 sm:py-8 md:grid-cols-[80px_1fr_1fr_40px] md:items-center md:gap-5"
                 >
                   <span className="font-mono text-sm text-[#DFFF4F]">{number}</span>
-                  <h3 className="text-2xl font-medium tracking-tight">{title}</h3>
-                  <p className="text-sm leading-relaxed text-white/50">{description}</p>
+                  <h3 className="col-span-2 text-2xl font-medium tracking-tight md:col-span-1">{title}</h3>
+                  <p className="col-span-2 text-sm leading-relaxed text-white/50 md:col-span-1">{description}</p>
                   <motion.div
-                    animate={reduceMotion ? undefined : { rotate: [0, 45, 0], color: ['rgba(255,255,255,.25)', '#DFFF4F', 'rgba(255,255,255,.25)'] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: index * .65 }}
-                    className="hidden md:block"
+                    animate={reduceMotion ? undefined : { rotate: [0, isMobile ? 18 : 45, 0], color: ['rgba(255,255,255,.25)', '#DFFF4F', 'rgba(255,255,255,.25)'] }}
+                    transition={{ duration: isMobile ? 5.5 : 4, repeat: Infinity, ease: 'easeInOut', delay: index * .65 }}
+                    className="col-start-2 row-start-1 md:col-start-4 md:row-auto"
                   >
                     <ArrowDownRight className="h-5 w-5" />
                   </motion.div>

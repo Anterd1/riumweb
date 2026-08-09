@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useBlogPosts } from '@/hooks/useBlogPosts';
 import OptimizedImage from '@/components/OptimizedImage';
 import { Button } from '@/components/ui/button';
 import SectionAnimator from '@/components/SectionAnimator';
+import { useLocalizedLink } from '@/hooks/useLocalizedLink';
 
 const BlogCardsSkeleton = () => (
   <div
@@ -36,6 +37,8 @@ const BlogCardsSkeleton = () => (
 const SectionBlog = React.memo(() => {
   const { t, i18n } = useTranslation();
   const { posts, loading } = useBlogPosts(null, 'article'); // Solo artículos, no noticias
+  const getLocalizedLink = useLocalizedLink();
+  const shouldReduceMotion = useReducedMotion();
   
   // Obtener solo los últimos 3 artículos (memoizado)
   const latestPosts = useMemo(() => posts.slice(0, 3), [posts]);
@@ -62,20 +65,20 @@ const SectionBlog = React.memo(() => {
 
   return (
     <SectionAnimator>
-      <section className="bg-[#F2F0E9] py-24 text-[#101114] md:py-32">
-        <div className="container mx-auto px-6">
+      <section className="bg-[#F2F0E9] py-16 text-[#101114] sm:py-20 md:py-32">
+        <div className="container mx-auto px-4 sm:px-6">
           {/* Header */}
-          <div className="mb-16 grid gap-6 md:grid-cols-[1fr_.7fr] md:items-end">
+          <div className="mb-10 grid gap-4 sm:mb-12 sm:gap-6 md:mb-16 md:grid-cols-[1fr_.7fr] md:items-end">
             <div>
             <div className="rium-kicker mb-6 text-[#5B72FF]">
               <span className="h-2 w-2 rounded-full bg-[#5B72FF]" />
               {t('blog.section.badge')}
             </div>
-            <h2 className="text-5xl font-semibold leading-[.95] tracking-[-.05em] md:text-7xl">
+            <h2 className="text-[clamp(2.25rem,12vw,3rem)] font-semibold leading-[.95] tracking-[-.05em] md:text-7xl">
               {t('blog.section.title')} <span className="text-[#5B72FF]">{t('blog.section.titleHighlight')}</span>
             </h2>
             </div>
-            <p className="max-w-xl text-lg leading-relaxed text-black/55">
+            <p className="max-w-xl text-base leading-relaxed text-black/55 sm:text-lg">
               {t('blog.section.description')}
             </p>
           </div>
@@ -85,27 +88,27 @@ const SectionBlog = React.memo(() => {
 
           {/* Blog Posts Grid */}
           {!loading && latestPosts.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <div className="mb-10 grid grid-cols-1 gap-5 sm:gap-6 md:mb-12 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
               {latestPosts.map((post, index) => {
                 const postTags = parseTags(post.tags);
                 return (
                   <Link
                     key={post.id}
-                    to={`/blog/${post.slug || post.id}`}
+                    to={getLocalizedLink(`/blog/${post.slug || post.id}`)}
                     className="block"
                   >
                     <motion.article
-                      initial={{ opacity: 0, y: 30 }}
+                      initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="group h-full cursor-pointer overflow-hidden rounded-[1.5rem] border border-black/10 bg-white transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+                      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5, delay: index * 0.1 }}
+                      className="group h-full cursor-pointer overflow-hidden rounded-[1.5rem] border border-black/10 bg-white transition-all duration-300 active:scale-[.99] motion-reduce:transition-none md:hover:-translate-y-2 md:hover:shadow-2xl"
                     >
                       {/* Image - Optimizado para móvil con aspect-ratio */}
                       <div className="relative aspect-video overflow-hidden">
                         <OptimizedImage
                           src={post.image}
                           alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          className="h-full w-full object-cover transition-transform duration-500 motion-reduce:transition-none md:group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                         <div className="absolute top-4 left-4">
@@ -116,7 +119,7 @@ const SectionBlog = React.memo(() => {
                       </div>
 
                       {/* Content */}
-                      <div className="p-6">
+                      <div className="p-4 sm:p-6">
                         {/* Tags */}
                         {postTags.length > 0 && (
                           <div className="flex flex-wrap gap-2 mb-4">
@@ -143,8 +146,8 @@ const SectionBlog = React.memo(() => {
                         </p>
 
                         {/* Meta Info */}
-                        <div className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-500 mb-4">
-                          <div className="flex items-center gap-4">
+                        <div className="mb-4 text-xs text-gray-700 dark:text-gray-500 sm:text-sm">
+                          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                             <span className="flex items-center gap-1">
                               <Calendar size={14} />
                               {formatDate(post.created_at || post.date)}
@@ -183,7 +186,7 @@ const SectionBlog = React.memo(() => {
                 variant="outline"
                 className="border-gray-300 dark:border-white/10 text-gray-900 dark:text-white"
               >
-                <Link to="/blog">
+                <Link to={getLocalizedLink('/blog')}>
                   {t('blog.section.viewBlog')}
                   <ArrowRight className="ml-2" size={18} />
                 </Link>
@@ -199,7 +202,7 @@ const SectionBlog = React.memo(() => {
                 size="lg"
                 className="rounded-full bg-[#101114] px-8 py-6 text-lg font-bold text-white hover:bg-[#5B72FF]"
               >
-                <Link to="/blog">
+                <Link to={getLocalizedLink('/blog')}>
                   {t('blog.section.viewAll')}
                   <ArrowRight className="ml-2" size={20} />
                 </Link>

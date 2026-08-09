@@ -53,9 +53,9 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="border-t border-white/10 bg-[#101114] pb-8 pt-16 text-white">
-            <div className="container mx-auto px-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <footer className="border-t border-white/10 bg-[#101114] pb-[calc(7rem+env(safe-area-inset-bottom))] pt-14 text-white md:pb-8 md:pt-16">
+            <div className="container mx-auto px-4 sm:px-6">
+                <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
                     <div className="lg:col-span-1">
                         <p className="mb-3 text-4xl font-semibold tracking-[-.06em]">rium<span className="text-[#DFFF4F]">.</span></p>
                         <p className="max-w-xs text-white/45">{t('footer.tagline')}</p>
@@ -112,7 +112,7 @@ const Footer = () => {
                         <p className="mb-6 text-xs font-bold uppercase tracking-[.16em] text-[#DFFF4F]">{t('footer.connect')}</p>
                         <div className="flex space-x-4">
                             {socialLinks.map((social) => (
-                                <button key={social.name} onClick={handleSocialClick} className="text-white/45 transition-colors duration-300 hover:text-[#DFFF4F]" aria-label={social.name}>
+                                <button key={social.name} onClick={handleSocialClick} className="grid h-11 w-11 place-items-center rounded-full text-white/45 transition-colors duration-300 hover:bg-white/5 hover:text-[#DFFF4F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DFFF4F]" aria-label={social.name}>
                                     {social.icon}
                                 </button>
                             ))}
