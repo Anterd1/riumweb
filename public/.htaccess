@@ -2,6 +2,12 @@
   RewriteEngine On
   RewriteBase /
 
+  # Resolve the default language before React or a cached app shell runs.
+  RewriteRule ^$ /es [R=302,L]
+
+  # Keep one canonical URL for language home pages.
+  RewriteRule ^(es|en)/$ /$1 [R=302,L]
+
   # Serve existing files and directories normally.
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
@@ -23,9 +29,9 @@
     Header always set Cache-Control "public, max-age=31536000, immutable" env=rium_versioned_asset
   </IfModule>
 
-  # Let the CDN reuse the app shell briefly while browsers revalidate it.
+  # HTML must always be revalidated so it never references obsolete chunks.
   <Files "index.html">
-    Header always set Cache-Control "public, max-age=0, s-maxage=600, stale-while-revalidate=86400"
+    Header always set Cache-Control "no-cache, no-store, must-revalidate"
   </Files>
 
   # The service worker must update immediately after each deployment.

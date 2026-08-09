@@ -14,8 +14,9 @@ if ('serviceWorker' in navigator) {
   if (import.meta.env.PROD) {
     window.addEventListener('load', () => {
       navigator.serviceWorker
-        .register('/sw.js')
+        .register('/sw.js', { updateViaCache: 'none' })
         .then((registration) => {
+          registration.update();
           console.log('Service Worker registrado:', registration.scope)
         })
         .catch((error) => {
